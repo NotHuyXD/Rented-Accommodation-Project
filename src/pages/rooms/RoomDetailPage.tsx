@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
+import { useBookingStore } from '../../stores/bookingStore';
 import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
 import { mockReviews } from '../../data/mockData';
 import { amenityLabels } from '../../data/mockData';
@@ -25,6 +26,7 @@ export default function RoomDetailPage() {
   const navigate = useNavigate();
   const { rooms, toggleFavorite, favorites } = useRoomStore();
   const { user, isAuthenticated } = useAuthStore();
+  const { createBooking } = useBookingStore();
   const [currentImage, setCurrentImage] = useState(0);
   const [showPhone, setShowPhone] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -381,7 +383,21 @@ export default function RoomDetailPage() {
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setShowBookingModal(false)}>Hủy</button>
-              <button className="btn btn-primary" onClick={() => { setShowBookingModal(false); alert('Đã gửi yêu cầu xem phòng!'); }}>
+              <button className="btn btn-primary" onClick={async () => {
+                const success = await createBooking({
+                  roomId: room.id,
+                  bookingType: 'viewing',
+                  scheduledDate: document.querySelector<HTMLInputElement>('input[type="date"]')?.value || '',
+                  scheduledTimeStart: document.querySelector<HTMLSelectElement>('select.select-field')?.value || '',
+                  tenantMessage: document.querySelector<HTMLTextAreaElement>('textarea.input-field')?.value || ''
+                });
+                if (success) {
+                  setShowBookingModal(false);
+                  alert('Đã gửi yêu cầu xem phòng thành công!');
+                } else {
+                  alert('Lỗi: Không thể gửi yêu cầu lúc này.');
+                }
+              }}>
                 Xác nhận
               </button>
             </div>

@@ -9,7 +9,7 @@ interface AuthState {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   loginAsRole: (role: UserRole) => void;
-  register: (data: Partial<User>) => Promise<boolean>;
+  register: (data: any) => Promise<boolean>;
   logout: () => void;
   updateProfile: (data: Partial<User>) => void;
 }
@@ -48,7 +48,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  register: async (data: Partial<User>) => {
+  register: async (data: any) => {
     set({ isLoading: true });
     try {
       const response: any = await authApi.register(data);

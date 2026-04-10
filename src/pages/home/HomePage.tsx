@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
@@ -13,10 +13,17 @@ import './HomePage.css';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { rooms } = useRoomStore();
+  const { rooms, fetchRooms, isLoading } = useRoomStore();
   const { loginAsRole } = useAuthStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+
+  useEffect(() => {
+    // Nếu chưa có data thật thì gọi API (mock data có id bắt đầu bằng 'r1')
+    if (rooms.length === 0 || rooms.some(r => r.id === 'r1')) {
+      fetchRooms();
+    }
+  }, [fetchRooms, rooms]);
 
   const featuredRooms = rooms.filter(r => r.isPinned || r.isBoosted).slice(0, 4);
   const latestRooms = [...rooms].sort((a, b) =>

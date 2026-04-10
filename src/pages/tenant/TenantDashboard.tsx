@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
-import { formatCurrency, formatDate } from '../../utils/helpers';
-import { mockBookings, mockContracts, mockInvoices, mockSchedules, mockTickets } from '../../data/mockData';
 import { useRoomStore } from '../../stores/roomStore';
+import { useBookingStore } from '../../stores/bookingStore';
+import { formatCurrency, formatDate } from '../../utils/helpers';
 import {
   Home, FileText, DollarSign, CalendarDays, Wrench, Bell,
   CheckCircle2, Clock, AlertCircle, Settings, Heart, MessageCircle,
@@ -14,6 +15,18 @@ export default function TenantDashboard() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { rooms, favorites } = useRoomStore();
+  const {
+    bookings, contracts, invoices,
+    fetchMyBookings, fetchMyContracts, fetchMyInvoices
+  } = useBookingStore();
+
+  useEffect(() => {
+    if (user?.role === 'tenant') {
+      fetchMyBookings();
+      fetchMyContracts();
+      fetchMyInvoices();
+    }
+  }, [user, fetchMyBookings, fetchMyContracts, fetchMyInvoices]);
 
   if (!user || user.role !== 'tenant') {
     return (
@@ -26,9 +39,9 @@ export default function TenantDashboard() {
     );
   }
 
-  const myBookings = mockBookings.filter(b => b.tenantId === user.id);
-  const myContracts = mockContracts.filter(c => c.tenantId === user.id);
-  const myInvoices = mockInvoices.filter(i => i.tenantId === user.id);
+  const myBookings = bookings.filter(b => b.tenantId === user.id);
+  const myContracts = contracts.filter(c => c.tenantId === user.id);
+  const myInvoices = invoices.filter(i => i.tenantId === user.id);
   const pendingInvoice = myInvoices.find(i => i.status === 'pending');
   const favoriteRooms = rooms.filter(r => favorites.includes(r.id));
 

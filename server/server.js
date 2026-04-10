@@ -1,0 +1,113 @@
+// ============================================================
+// PhongTro Online - Express API Server
+// ============================================================
+require('dotenv').config();
+
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const path = require('path');
+
+const { testConnection } = require('./config/db');
+const errorHandler = require('./middleware/errorHandler');
+
+// Import Routes
+const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/user.routes');
+const roomRoutes = require('./routes/room.routes');
+const bookingRoutes = require('./routes/booking.routes');
+const favoriteRoutes = require('./routes/favorite.routes');
+const reviewRoutes = require('./routes/review.routes');
+const notificationRoutes = require('./routes/notification.routes');
+const contractRoutes = require('./routes/contract.routes');
+const paymentRoutes = require('./routes/payment.routes');
+const locationRoutes = require('./routes/location.routes');
+const amenityRoutes = require('./routes/amenity.routes');
+const uploadRoutes = require('./routes/upload.routes');
+
+// Import additional routes
+const cmsRoutes = require('./routes/cms.routes');
+const promotionRoutes = require('./routes/promotion.routes');
+const chatRoutes = require('./routes/chat.routes');
+const roommateRoutes = require('./routes/roommate.routes');
+const adminRoutes = require('./routes/admin.routes');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// ========================
+// MIDDLEWARE
+// ========================
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(morgan('dev'));
+
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ========================
+// API ROUTES (v1)
+// ========================
+const API_PREFIX = '/api/v1';
+
+app.use(`${API_PREFIX}/auth`, authRoutes);
+app.use(`${API_PREFIX}/users`, userRoutes);
+app.use(`${API_PREFIX}/rooms`, roomRoutes);
+app.use(`${API_PREFIX}/bookings`, bookingRoutes);
+app.use(`${API_PREFIX}/favorites`, favoriteRoutes);
+app.use(`${API_PREFIX}/reviews`, reviewRoutes);
+app.use(`${API_PREFIX}/notifications`, notificationRoutes);
+app.use(`${API_PREFIX}/contracts`, contractRoutes);
+app.use(`${API_PREFIX}/payments`, paymentRoutes);
+app.use(`${API_PREFIX}/locations`, locationRoutes);
+app.use(`${API_PREFIX}/amenities`, amenityRoutes);
+app.use(`${API_PREFIX}/upload`, uploadRoutes);
+
+// New Routes
+app.use(`${API_PREFIX}/cms`, cmsRoutes);
+app.use(`${API_PREFIX}/promotions`, promotionRoutes);
+app.use(`${API_PREFIX}/chat`, chatRoutes);
+app.use(`${API_PREFIX}/roommates`, roommateRoutes);
+app.use(`${API_PREFIX}/admin`, adminRoutes);
+
+// Health check
+app.get(`${API_PREFIX}/health`, (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: `Route ${req.originalUrl} not found` });
+});
+
+// Global error handler
+app.use(errorHandler);
+
+// ========================
+// START SERVER
+// ========================
+async function startServer() {
+  try {
+    // Test DB connection
+    await testConnection();
+    console.log('✅ MySQL connected successfully');
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`📡 API Base: http://localhost:${PORT}${API_PREFIX}`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error.message);
+    process.exit(1);
+  }
+}
+
+startServer();

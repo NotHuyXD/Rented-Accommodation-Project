@@ -40,8 +40,8 @@ interface RoomState {
   clearCompare: () => void;
   applyFilters: () => void;
   fetchRooms: () => Promise<void>;
-  addRoom: (room: Room) => Promise<void>;
-  updateRoom: (id: string, data: Partial<Room>) => Promise<void>;
+  addRoom: (room: any) => Promise<void>;
+  updateRoom: (id: string, data: any) => Promise<void>;
   deleteRoom: (id: string) => Promise<void>;
 }
 

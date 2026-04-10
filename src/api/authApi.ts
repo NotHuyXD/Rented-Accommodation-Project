@@ -1,28 +1,51 @@
 import axiosClient from './axiosClient';
 import type { User } from '../types';
 
+export interface LoginData {
+  email?: string;
+  phone?: string;
+  password: string;
+}
+
+export interface RegisterData {
+  email?: string;
+  phone?: string;
+  password: string;
+  fullName: string;
+  role?: 'tenant' | 'landlord';
+}
+
+export interface AuthResponse {
+  message: string;
+  data: {
+    user: User;
+    token: string;
+    refreshToken: string;
+  };
+}
+
 export const authApi = {
-  // Login Endpoint
-  login(data: any) {
-    const url = '/auth/login';
-    return axiosClient.post(url, data);
+  login(data: LoginData): Promise<AuthResponse> {
+    return axiosClient.post('/auth/login', data);
   },
 
-  // Register Endpoint
-  register(data: any) {
-    const url = '/auth/register';
-    return axiosClient.post(url, data);
+  register(data: RegisterData): Promise<AuthResponse> {
+    return axiosClient.post('/auth/register', data);
   },
 
-  // Get current user profile
-  getProfile() {
-    const url = '/auth/profile';
-    return axiosClient.get(url);
+  getProfile(): Promise<{ data: User }> {
+    return axiosClient.get('/auth/profile');
   },
 
-  // Update profile
-  updateProfile(data: Partial<User>) {
-    const url = '/auth/profile';
-    return axiosClient.put(url, data);
-  }
+  updateProfile(data: Partial<User>): Promise<{ message: string }> {
+    return axiosClient.put('/auth/profile', data);
+  },
+
+  changePassword(data: { currentPassword: string; newPassword: string }): Promise<{ message: string }> {
+    return axiosClient.post('/auth/change-password', data);
+  },
+
+  logout(): Promise<{ message: string }> {
+    return axiosClient.post('/auth/logout');
+  },
 };
