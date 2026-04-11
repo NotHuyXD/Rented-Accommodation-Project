@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
-import { useRoomStore } from '../../stores/roomStore';
-import { mockContracts } from '../../data/mockData';
+import { useBookingStore } from '../../stores/bookingStore';
 import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
 import { FileText, Download, Eye, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 import './ContractsPage.css';
@@ -10,8 +9,14 @@ import './ContractsPage.css';
 export default function ContractsPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { rooms } = useRoomStore();
+  const { contracts, fetchMyContracts, isLoading } = useBookingStore();
   const [activeTab, setActiveTab] = useState('active');
+
+  useEffect(() => {
+    if (user) {
+      fetchMyContracts(user.role === 'landlord' ? 'landlord' : 'tenant');
+    }
+  }, [user]);
 
   if (!user) {
     return (
@@ -22,14 +27,9 @@ export default function ContractsPage() {
     );
   }
 
-  // Filter contracts based on role
-  const myContracts = mockContracts.filter(c => 
-    user.role === 'tenant' ? c.tenantId === user.id : c.landlordId === user.id
-  );
-
-  const filteredContracts = myContracts.filter(c => {
+  const filteredContracts = contracts.filter(c => {
     if (activeTab === 'active') return c.status === 'active';
-    if (activeTab === 'pending') return c.status === 'pending';
+    if (activeTab === 'pending') return c.status === 'pending' || c.status === 'draft' || c.status === 'pending_signature';
     if (activeTab === 'expired') return c.status === 'expired' || c.status === 'terminated';
     return true;
   });
@@ -37,7 +37,7 @@ export default function ContractsPage() {
   const getStatusIcon = (status: string) => {
     switch(status) {
       case 'active': return <CheckCircle2 size={16} color="var(--success-500)" />;
-      case 'pending': return <Clock size={16} color="var(--warning-500)" />;
+      case 'pending': case 'draft': case 'pending_signature': return <Clock size={16} color="var(--warning-500)" />;
       default: return <AlertCircle size={16} color="var(--error-500)" />;
     }
   };
@@ -76,11 +76,17 @@ export default function ContractsPage() {
           </button>
         </div>
 
+        {/* Loading */}
+        {isLoading && (
+          <div style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
+            <p>Đang tải dữ liệu...</p>
+          </div>
+        )}
+
         {/* Contracts List */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-          {filteredContracts.length > 0 ? (
+          {!isLoading && filteredContracts.length > 0 ? (
             filteredContracts.map(contract => {
-              const room = rooms.find(r => r.id === contract.roomId);
               const statusInfo = getStatusLabel(contract.status);
 
               return (
@@ -89,8 +95,8 @@ export default function ContractsPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                       <FileText size={24} color="var(--primary-500)" />
                       <div>
-                        <h3 className="contract-title">Hợp đồng thuê phòng: {room?.title || 'Phòng trọ'}</h3>
-                        <p className="contract-id">Mã HĐ: {contract.id.toUpperCase()}</p>
+                        <h3 className="contract-title">Hợp đồng thuê phòng: {contract.room_title || 'Phòng trọ'}</h3>
+                        <p className="contract-id">Mã HĐ: {(contract.contract_number || contract.id).toUpperCase()}</p>
                       </div>
                     </div>
                     <span className="badge" style={{ background: `${statusInfo.color}15`, color: statusInfo.color }}>
@@ -103,25 +109,25 @@ export default function ContractsPage() {
                     <div className="contract-info-grid">
                       <div className="contract-info-item">
                         <span className="contract-info-label">Bên Mướn (Tenant)</span>
-                        <span className="contract-info-value">{user.role === 'tenant' ? user.fullName : 'Nguyễn Văn Khách'}</span>
+                        <span className="contract-info-value">{contract.tenant_name || 'N/A'}</span>
                       </div>
                       <div className="contract-info-item">
                         <span className="contract-info-label">Bên Cho Thuê (Landlord)</span>
-                        <span className="contract-info-value">{user.role === 'landlord' ? user.fullName : 'Trần Văn Chủ'}</span>
+                        <span className="contract-info-value">{contract.landlord_name || 'N/A'}</span>
                       </div>
                       <div className="contract-info-item">
                         <span className="contract-info-label">Thời gian</span>
-                        <span className="contract-info-value">{formatDate(contract.startDate)} - {formatDate(contract.endDate)}</span>
+                        <span className="contract-info-value">{formatDate(contract.start_date)} - {formatDate(contract.end_date)}</span>
                       </div>
                       <div className="contract-info-item">
                         <span className="contract-info-label">Giá thuê/tháng</span>
                         <span className="contract-info-value" style={{ color: 'var(--primary-700)', fontWeight: 700 }}>
-                          {formatCurrency(contract.monthlyRent)}
+                          {formatCurrency(contract.monthly_rent)}
                         </span>
                       </div>
                       <div className="contract-info-item">
                         <span className="contract-info-label">Tiền cọc</span>
-                        <span className="contract-info-value">{formatCurrency(contract.depositAmount)}</span>
+                        <span className="contract-info-value">{formatCurrency(contract.deposit_amount)}</span>
                       </div>
                     </div>
                   </div>
@@ -137,13 +143,13 @@ export default function ContractsPage() {
                 </div>
               );
             })
-          ) : (
+          ) : !isLoading ? (
             <div style={{ textAlign: 'center', padding: 'var(--space-12)', background: 'var(--bg-card)', borderRadius: 'var(--radius-lg)' }}>
               <FileText size={48} color="var(--text-tertiary)" style={{ margin: '0 auto var(--space-4)' }} />
               <h3>Không có hợp đồng nào</h3>
               <p style={{ color: 'var(--text-secondary)' }}>Bạn chưa có hợp đồng nào trong mục này.</p>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

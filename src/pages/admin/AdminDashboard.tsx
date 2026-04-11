@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
-import { mockUsers } from '../../data/mockData';
+import { adminApi } from '../../api/services';
 import { formatCurrency, formatDate } from '../../utils/helpers';
+import axiosClient from '../../api/axiosClient';
 import {
   Users, Building2, DollarSign, AlertTriangle, Shield,
   UserCheck, UserX, Eye, Ban, CheckCircle2, Search,
@@ -15,8 +16,33 @@ import '../landlord/DashboardPages.css';
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { rooms } = useRoomStore();
+  const { rooms, fetchRooms } = useRoomStore();
   const [activeTab, setActiveTab] = useState('overview');
+  const [dashboardStats, setDashboardStats] = useState<any>(null);
+  const [users, setUsers] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (user && user.role === 'admin') {
+      loadDashboard();
+    }
+  }, [user]);
+
+  const loadDashboard = async () => {
+    setIsLoading(true);
+    try {
+      const [statsRes, usersRes] = await Promise.all([
+        adminApi.getDashboardStats(),
+        axiosClient.get('/users', { params: { limit: 20 } }),
+      ]);
+      if ((statsRes as any)?.data) setDashboardStats((statsRes as any).data);
+      if ((usersRes as any)?.data) setUsers((usersRes as any).data);
+      fetchRooms();
+    } catch (error) {
+      console.error('Failed to load admin dashboard', error);
+    }
+    setIsLoading(false);
+  };
 
   if (!user || user.role !== 'admin') {
     return (
@@ -30,10 +56,10 @@ export default function AdminDashboard() {
   }
 
   const stats = [
-    { icon: Users, label: 'Người dùng', value: mockUsers.length, color: '#06b6d4', trend: '+12%' },
-    { icon: Building2, label: 'Phòng trọ', value: rooms.length, color: '#10b981', trend: '+8%' },
-    { icon: DollarSign, label: 'Giao dịch tháng', value: '₫24.5M', color: '#f97316', trend: '+15%' },
-    { icon: AlertTriangle, label: 'Báo cáo', value: 3, color: '#ef4444', trend: '-20%' }
+    { icon: Users, label: 'Người dùng', value: dashboardStats?.totalUsers || 0, color: '#06b6d4', trend: '+12%' },
+    { icon: Building2, label: 'Phòng trọ', value: dashboardStats?.totalRooms || rooms.length, color: '#10b981', trend: '+8%' },
+    { icon: DollarSign, label: 'Doanh thu', value: formatCurrency(dashboardStats?.totalRevenue || 0), color: '#f97316', trend: '+15%' },
+    { icon: AlertTriangle, label: 'Bookings', value: dashboardStats?.totalBookings || 0, color: '#8b5cf6', trend: '+5%' }
   ];
 
   const tabs = [
@@ -44,6 +70,33 @@ export default function AdminDashboard() {
     { id: 'content', label: 'Nội dung', icon: Image },
     { id: 'settings', label: 'Cấu hình', icon: Settings }
   ];
+
+  const handleBanUser = async (userId: string) => {
+    try {
+      await axiosClient.patch(`/users/${userId}/status`, { status: 'banned', reason: 'Vi phạm quy định' });
+      loadDashboard();
+    } catch (error) {
+      console.error('Ban user failed', error);
+    }
+  };
+
+  const handleApproveRoom = async (roomId: string) => {
+    try {
+      await axiosClient.patch(`/rooms/${roomId}/status`, { status: 'active' });
+      fetchRooms();
+    } catch (error) {
+      console.error('Approve room failed', error);
+    }
+  };
+
+  const handleRejectRoom = async (roomId: string) => {
+    try {
+      await axiosClient.patch(`/rooms/${roomId}/status`, { status: 'rejected', rejectionReason: 'Không đủ điều kiện' });
+      fetchRooms();
+    } catch (error) {
+      console.error('Reject room failed', error);
+    }
+  };
 
   return (
     <div className="dashboard-page">
@@ -113,15 +166,15 @@ export default function AdminDashboard() {
                 <h2>Người dùng mới</h2>
               </div>
               <div className="admin-user-list">
-                {mockUsers.map(u => (
+                {users.slice(0, 5).map(u => (
                   <div key={u.id} className="admin-user-item">
-                    <img src={u.avatar} alt={u.fullName} className="admin-user-avatar" />
+                    <img src={u.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.id}`} alt={u.full_name} className="admin-user-avatar" />
                     <div className="admin-user-info">
-                      <h4>{u.fullName}</h4>
+                      <h4>{u.full_name}</h4>
                       <p>{u.role === 'tenant' ? 'Khách thuê' : u.role === 'landlord' ? 'Chủ trọ' : 'Admin'}</p>
                     </div>
                     <div className="admin-user-actions">
-                      {u.isVerified ? (
+                      {u.identity_verified ? (
                         <span className="badge badge-success">Đã xác thực</span>
                       ) : (
                         <span className="badge badge-warning">Chưa xác thực</span>
@@ -140,16 +193,16 @@ export default function AdminDashboard() {
               <div className="dashboard-room-list">
                 {rooms.slice(0, 4).map(room => (
                   <div key={room.id} className="dashboard-room-item">
-                    <img src={room.images[0]} alt={room.title} className="dashboard-room-thumb" />
+                    <img src={(room as any).cover_image || (room as any).coverImage || (room.images && room.images[0]) || 'https://via.placeholder.com/60x45'} alt={room.title} className="dashboard-room-thumb" />
                     <div className="dashboard-room-info">
                       <h4>{room.title}</h4>
-                      <p>{room.landlordName}</p>
+                      <p>{(room as any).landlord_name || (room as any).landlordName}</p>
                     </div>
                     <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                      <button className="btn btn-sm" style={{ background: 'var(--success-500)', color: 'white' }}>
+                      <button className="btn btn-sm" style={{ background: 'var(--success-500)', color: 'white' }} onClick={() => handleApproveRoom(room.id)}>
                         <CheckCircle2 size={14} />
                       </button>
-                      <button className="btn btn-sm" style={{ background: 'var(--error-500)', color: 'white' }}>
+                      <button className="btn btn-sm" style={{ background: 'var(--error-500)', color: 'white' }} onClick={() => handleRejectRoom(room.id)}>
                         <Ban size={14} />
                       </button>
                     </div>
@@ -182,12 +235,12 @@ export default function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {mockUsers.map(u => (
+                  {users.map(u => (
                     <tr key={u.id}>
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                          <img src={u.avatar} alt="" style={{ width: 32, height: 32, borderRadius: '50%' }} />
-                          <span style={{ fontWeight: 600 }}>{u.fullName}</span>
+                          <img src={u.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.id}`} alt="" style={{ width: 32, height: 32, borderRadius: '50%' }} />
+                          <span style={{ fontWeight: 600 }}>{u.full_name}</span>
                         </div>
                       </td>
                       <td>{u.email}</td>
@@ -197,17 +250,17 @@ export default function AdminDashboard() {
                         </span>
                       </td>
                       <td>
-                        <span className={`badge ${u.isVerified ? 'badge-success' : 'badge-error'}`}>
-                          {u.isVerified ? 'Đã xác thực' : 'Chưa xác thực'}
+                        <span className={`badge ${u.status === 'active' ? 'badge-success' : u.status === 'banned' ? 'badge-error' : 'badge-warning'}`}>
+                          {u.status === 'active' ? 'Hoạt động' : u.status === 'banned' ? 'Đã khóa' : 'Chờ xác thực'}
                         </span>
                       </td>
-                      <td>{formatDate(u.createdAt)}</td>
+                      <td>{formatDate(u.created_at)}</td>
                       <td>
                         <div style={{ display: 'flex', gap: 'var(--space-1)' }}>
-                          <button className="btn btn-ghost btn-icon-sm" title="Xem">
+                          <button className="btn btn-ghost btn-icon-sm" title="Xem" onClick={() => navigate(`/profile?userId=${u.id}`)}>
                             <Eye size={16} />
                           </button>
-                          <button className="btn btn-ghost btn-icon-sm" title="Khóa" style={{ color: 'var(--error-500)' }}>
+                          <button className="btn btn-ghost btn-icon-sm" title="Khóa" style={{ color: 'var(--error-500)' }} onClick={() => handleBanUser(u.id)}>
                             <Ban size={16} />
                           </button>
                         </div>
@@ -242,24 +295,24 @@ export default function AdminDashboard() {
                     <tr key={room.id}>
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                          <img src={room.images[0]} alt="" style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover' }} />
+                          <img src={(room as any).cover_image || (room as any).coverImage || (room.images && room.images[0]) || 'https://via.placeholder.com/48x36'} alt="" style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover' }} />
                           <span style={{ fontWeight: 600, maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{room.title}</span>
                         </div>
                       </td>
-                      <td>{room.landlordName}</td>
+                      <td>{(room as any).landlord_name || (room as any).landlordName}</td>
                       <td>{formatCurrency(room.price)}</td>
                       <td>
-                        <span className={`badge ${room.status === 'available' ? 'badge-success' : 'badge-warning'}`}>
-                          {room.status === 'available' ? 'Trống' : 'Đang thuê'}
+                        <span className={`badge ${room.status === 'active' ? 'badge-success' : room.status === 'pending_approval' ? 'badge-warning' : 'badge-neutral'}`}>
+                          {room.status === 'active' ? 'Hoạt động' : room.status === 'pending_approval' ? 'Chờ duyệt' : room.status === 'rented' ? 'Đang thuê' : room.status}
                         </span>
                       </td>
-                      <td>{room.views}</td>
+                      <td>{(room as any).view_count || (room as any).views || 0}</td>
                       <td>
                         <div style={{ display: 'flex', gap: 'var(--space-1)' }}>
                           <button className="btn btn-ghost btn-icon-sm" onClick={() => navigate(`/rooms/${room.id}`)}>
                             <Eye size={16} />
                           </button>
-                          <button className="btn btn-ghost btn-icon-sm" style={{ color: 'var(--error-500)' }}>
+                          <button className="btn btn-ghost btn-icon-sm" style={{ color: 'var(--error-500)' }} onClick={() => handleRejectRoom(room.id)}>
                             <Ban size={16} />
                           </button>
                         </div>

@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { useAuthStore } from '../../stores/authStore';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { mockChatRooms, mockMessages, mockUsers } from '../../data/mockData';
-import { timeAgo } from '../../utils/helpers';
+import { useAuthStore } from '../../stores/authStore';
+import { useRoomStore } from '../../stores/roomStore';
+import { notificationApi } from '../../api/services';
+import { formatCurrency, formatDate } from '../../utils/helpers';
+import { chatApi } from '../../api/services';
+import { adminApi } from '../../api/services';
 import {
   Search, Send, Image, MapPin, Phone, Video,
   MoreVertical, ArrowLeft, CheckCheck, Smile
@@ -12,9 +15,32 @@ import './ChatPage.css';
 export default function ChatPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const [selectedChat, setSelectedChat] = useState<string | null>('chat-1');
+  const [conversations, setConversations] = useState<any[]>([]);
+  const [selectedChat, setSelectedChat] = useState<string | null>(null);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState(mockMessages);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      loadConversations();
+    }
+  }, [user]);
+
+  const loadConversations = async () => {
+    setIsLoading(true);
+    try {
+      const res: any = await chatApi.getConversations({});
+      if (res && res.data) {
+        setConversations(res.data);
+        if (res.data.length > 0) {
+          setSelectedChat(res.data[0].id);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load conversations', error);
+    }
+    setIsLoading(false);
+  };
 
   if (!user) {
     return (
@@ -27,23 +53,11 @@ export default function ChatPage() {
     );
   }
 
-  const getOtherUser = (chatRoom: typeof mockChatRooms[0]) => {
-    const otherId = chatRoom.participants.find(id => id !== user.id);
-    return mockUsers.find(u => u.id === otherId);
-  };
+  const selectedConversation = conversations.find(c => c.id === selectedChat);
 
   const handleSend = () => {
     if (!message.trim()) return;
-    const newMsg = {
-      id: `msg-${Date.now()}`,
-      senderId: user.id,
-      receiverId: selectedChat === 'chat-1' ? 'user-2' : 'user-4',
-      content: message,
-      type: 'text' as const,
-      createdAt: new Date().toISOString(),
-      read: false
-    };
-    setMessages([...messages, newMsg]);
+    // In a real implementation, this would send via WebSocket or API
     setMessage('');
   };
 
@@ -68,41 +82,51 @@ export default function ChatPage() {
           </div>
 
           <div className="chat-list">
-            {mockChatRooms.map(chatRoom => {
-              const otherUser = getOtherUser(chatRoom);
-              if (!otherUser) return null;
-              return (
+            {isLoading ? (
+              <div style={{ padding: 'var(--space-4)', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                Đang tải...
+              </div>
+            ) : conversations.length === 0 ? (
+              <div style={{ padding: 'var(--space-8)', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                <p>Chưa có cuộc trò chuyện nào</p>
+              </div>
+            ) : (
+              conversations.map(conv => (
                 <div
-                  key={chatRoom.id}
-                  className={`chat-list-item ${selectedChat === chatRoom.id ? 'active' : ''}`}
-                  onClick={() => setSelectedChat(chatRoom.id)}
+                  key={conv.id}
+                  className={`chat-list-item ${selectedChat === conv.id ? 'active' : ''}`}
+                  onClick={() => setSelectedChat(conv.id)}
                 >
                   <div className="chat-list-avatar-wrapper">
-                    <img src={otherUser.avatar} alt={otherUser.fullName} className="chat-list-avatar" />
+                    <img
+                      src={conv.other_user_avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${conv.id}`}
+                      alt={conv.other_user_name || 'User'}
+                      className="chat-list-avatar"
+                    />
                     <span className="chat-list-online"></span>
                   </div>
                   <div className="chat-list-info">
                     <div className="chat-list-name-row">
-                      <h4>{otherUser.fullName}</h4>
+                      <h4>{conv.other_user_name || 'Người dùng'}</h4>
                       <span className="chat-list-time">
-                        {chatRoom.lastMessage ? timeAgo(chatRoom.lastMessage.createdAt) : ''}
+                        {conv.last_message_at ? formatDate(conv.last_message_at) : ''}
                       </span>
                     </div>
                     <p className="chat-list-preview">
-                      {chatRoom.lastMessage?.content || ''}
+                      {conv.last_message || ''}
                     </p>
                   </div>
-                  {chatRoom.unreadCount > 0 && (
-                    <span className="chat-list-unread">{chatRoom.unreadCount}</span>
+                  {(conv.unread_count || 0) > 0 && (
+                    <span className="chat-list-unread">{conv.unread_count}</span>
                   )}
                 </div>
-              );
-            })}
+              ))
+            )}
           </div>
         </div>
 
         {/* Chat Window */}
-        {selectedChat ? (
+        {selectedChat && selectedConversation ? (
           <div className="chat-main">
             {/* Chat Header */}
             <div className="chat-header">
@@ -111,12 +135,12 @@ export default function ChatPage() {
               </button>
               <div className="chat-header-user">
                 <img
-                  src={getOtherUser(mockChatRooms.find(c => c.id === selectedChat)!)?.avatar}
+                  src={selectedConversation.other_user_avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedChat}`}
                   alt=""
                   className="chat-header-avatar"
                 />
                 <div>
-                  <h3>{getOtherUser(mockChatRooms.find(c => c.id === selectedChat)!)?.fullName}</h3>
+                  <h3>{selectedConversation.other_user_name || 'Người dùng'}</h3>
                   <span className="chat-header-status">Đang hoạt động</span>
                 </div>
               </div>
@@ -133,22 +157,12 @@ export default function ChatPage() {
               </div>
             </div>
 
-            {/* Messages */}
+            {/* Messages - placeholder for real-time messages */}
             <div className="chat-messages">
-              {messages.map(msg => (
-                <div
-                  key={msg.id}
-                  className={`chat-message ${msg.senderId === user.id ? 'chat-message-sent' : 'chat-message-received'}`}
-                >
-                  <div className="chat-bubble">
-                    <p>{msg.content}</p>
-                    <span className="chat-message-time">
-                      {new Date(msg.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
-                      {msg.senderId === user.id && <CheckCheck size={14} />}
-                    </span>
-                  </div>
-                </div>
-              ))}
+              <div style={{ textAlign: 'center', padding: 'var(--space-8)', color: 'var(--text-secondary)' }}>
+                <p>Tin nhắn sẽ hiển thị ở đây</p>
+                <p style={{ fontSize: 'var(--font-size-sm)' }}>Tính năng nhắn tin real-time đang được phát triển</p>
+              </div>
             </div>
 
             {/* Quick Replies */}
