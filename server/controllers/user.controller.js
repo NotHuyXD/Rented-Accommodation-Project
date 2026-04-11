@@ -24,10 +24,10 @@ async function listUsers(req, res, next) {
     }
 
     const countParams = [...params];
-    const [countResult] = await query(
+    const countResult = await query(
       `SELECT COUNT(*) as total FROM users u ${whereClause}`, countParams
     );
-    const total = countResult?.total || 0;
+    const total = countResult[0]?.total || 0;
 
     params.push(parseInt(limit), offset);
     const users = await query(

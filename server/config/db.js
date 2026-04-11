@@ -35,21 +35,30 @@ async function testConnection() {
 
 /**
  * Execute a query with parameters
+ * Uses pool.query() instead of pool.execute() to avoid
+ * mysql2 prepared statement issues with LIMIT/OFFSET params
  * @param {string} sql - SQL query
  * @param {Array} params - Query parameters
  * @returns {Promise<Array>} Query results
  */
 async function query(sql, params = []) {
-  const [rows] = await pool.execute(sql, params);
+  const [rows] = await pool.query(sql, params);
   return rows;
 }
 
 /**
  * Get a connection from the pool (for transactions)
+ * Wraps the connection to use .query() instead of .execute()
+ * to avoid prepared statement issues across the entire app.
  * @returns {Promise<mysql.PoolConnection>}
  */
 async function getConnection() {
-  return pool.getConnection();
+  const conn = await pool.getConnection();
+  // Save original execute as _execute, override execute with query
+  // This ensures all conn.execute() calls in controllers use query() internally
+  conn._execute = conn.execute.bind(conn);
+  conn.execute = conn.query.bind(conn);
+  return conn;
 }
 
 module.exports = {

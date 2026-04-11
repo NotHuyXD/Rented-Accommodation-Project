@@ -232,6 +232,9 @@ async function createRoom(req, res, next) {
       if (loc.length > 0) computedFullAddress = `${address}, ${loc[0].addr}`;
     }
 
+    const lat = latitude || 0;
+    const lng = longitude || 0;
+
     await conn.execute(
       `INSERT INTO rooms 
        (id, landlord_id, building_id, title, slug, description, room_type, listing_type,
@@ -239,17 +242,17 @@ async function createRoom(req, res, next) {
         area, floor, num_bedrooms, num_bathrooms, max_occupants,
         furniture_level, gender_preference,
         address, ward_id, district_id, province_id, full_address,
-        latitude, longitude,
+        latitude, longitude, location,
         available_from, min_stay_months,
         status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_approval')`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?, 4326), ?, ?, 'pending_approval')`,
       [roomId, req.user.id, buildingId || null, title, slug, description, roomType, listingType,
        price, deposit, electricityPrice || null, waterPrice || null, internetPrice || null,
        parkingPrice || null, serviceFee || 0,
        area || null, floor || null, numBedrooms, numBathrooms, maxOccupants,
        furnitureLevel, genderPreference,
        address, wardId || null, districtId || null, provinceId || null, computedFullAddress,
-       latitude || null, longitude || null,
+       lat, lng, `POINT(${lng} ${lat})`,
        availableFrom || null, minStayMonths]
     );
 
