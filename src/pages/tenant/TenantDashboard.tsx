@@ -1,32 +1,31 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
-import { useRoomStore } from '../../stores/roomStore';
-import { useBookingStore } from '../../stores/bookingStore';
-import { formatCurrency, formatDate } from '../../utils/helpers';
+import { useAppStore } from '../../stores/appStore';
+import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
 import {
-  Home, FileText, DollarSign, CalendarDays, Wrench, Bell,
-  CheckCircle2, Clock, AlertCircle, Settings, Heart, MessageCircle,
-  Star, Eye, CreditCard, Receipt
+  Home, FileText, DollarSign, Heart, MessageCircle,
+  CheckCircle2, Clock, AlertCircle, Settings,
+  CreditCard, Receipt, Search
 } from 'lucide-react';
 import '../landlord/DashboardPages.css';
 
 export default function TenantDashboard() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { rooms, favorites } = useRoomStore();
   const {
-    bookings, contracts, invoices,
-    fetchMyBookings, fetchMyContracts, fetchMyInvoices
-  } = useBookingStore();
+    contracts, invoices, rentalRequests, bookmarks,
+    fetchContracts, fetchInvoices, fetchRentalRequests, fetchBookmarks
+  } = useAppStore();
 
   useEffect(() => {
     if (user?.role === 'tenant') {
-      fetchMyBookings();
-      fetchMyContracts();
-      fetchMyInvoices();
+      fetchContracts();
+      fetchInvoices();
+      fetchRentalRequests();
+      fetchBookmarks();
     }
-  }, [user, fetchMyBookings, fetchMyContracts, fetchMyInvoices]);
+  }, [user]);
 
   if (!user || user.role !== 'tenant') {
     return (
@@ -39,17 +38,15 @@ export default function TenantDashboard() {
     );
   }
 
-  const myBookings = bookings.filter(b => b.tenantId === user.id);
-  const myContracts = contracts.filter(c => c.tenantId === user.id);
-  const myInvoices = invoices.filter(i => i.tenantId === user.id);
-  const pendingInvoice = myInvoices.find(i => i.status === 'pending');
-  const favoriteRooms = rooms.filter(r => favorites.includes(r.id));
+  const activeContracts = contracts.filter(c => c.status === 'active');
+  const unpaidInvoices = invoices.filter(i => i.status === 'unpaid' || i.status === 'overdue');
+  const pendingRequests = rentalRequests.filter(r => r.status === 'pending');
 
   const stats = [
-    { icon: Home, label: 'Phòng đang thuê', value: myBookings.filter(b => b.status === 'confirmed').length, color: '#06b6d4' },
-    { icon: FileText, label: 'Hợp đồng', value: myContracts.length, color: '#10b981' },
-    { icon: DollarSign, label: 'Chưa thanh toán', value: pendingInvoice ? formatCurrency(pendingInvoice.total) : '0đ', color: '#f59e0b' },
-    { icon: Heart, label: 'Yêu thích', value: favorites.length, color: '#ef4444' }
+    { icon: Home, label: 'Hợp đồng hiện tại', value: activeContracts.length, color: '#06b6d4' },
+    { icon: FileText, label: 'Yêu cầu chờ', value: pendingRequests.length, color: '#f59e0b' },
+    { icon: DollarSign, label: 'Chưa thanh toán', value: unpaidInvoices.length, color: '#ef4444' },
+    { icon: Heart, label: 'Yêu thích', value: bookmarks.length, color: '#ec4899' },
   ];
 
   return (
@@ -78,19 +75,20 @@ export default function TenantDashboard() {
         </div>
 
         <div className="dashboard-grid">
-          {/* Pending Payment */}
-          {pendingInvoice && (
+          {/* Unpaid Invoices Alert */}
+          {unpaidInvoices.length > 0 && (
             <div className="dashboard-card dashboard-card-full">
               <div className="dashboard-payment-alert">
                 <div className="dashboard-payment-info">
                   <AlertCircle size={24} />
                   <div>
-                    <h3>Hóa đơn tháng {pendingInvoice.month} cần thanh toán</h3>
-                    <p>Tiền phòng {formatCurrency(pendingInvoice.rent)} + Điện {formatCurrency(pendingInvoice.electricity)} + Nước {formatCurrency(pendingInvoice.water)} + DV {formatCurrency(pendingInvoice.service)}</p>
+                    <h3>Bạn có {unpaidInvoices.length} hóa đơn chưa thanh toán</h3>
+                    <p>
+                      Tổng: {formatCurrency(unpaidInvoices.reduce((s, i) => s + parseFloat(String(i.total)), 0))}
+                    </p>
                   </div>
                 </div>
                 <div className="dashboard-payment-total">
-                  <span className="dashboard-payment-amount">{formatCurrency(pendingInvoice.total)}</span>
                   <button className="btn btn-accent" onClick={() => navigate('/payments')}>
                     <CreditCard size={16} />
                     Thanh toán
@@ -107,12 +105,12 @@ export default function TenantDashboard() {
             </div>
             <div className="dashboard-quick-actions">
               <button className="dashboard-action-btn" onClick={() => navigate('/rooms')}>
-                <Home size={20} />
+                <Search size={20} />
                 <span>Tìm phòng</span>
               </button>
               <button className="dashboard-action-btn" onClick={() => navigate('/payments')}>
                 <Receipt size={20} />
-                <span>Thanh toán</span>
+                <span>Hóa đơn</span>
               </button>
               <button className="dashboard-action-btn" onClick={() => navigate('/contracts')}>
                 <FileText size={20} />
@@ -122,83 +120,74 @@ export default function TenantDashboard() {
                 <MessageCircle size={20} />
                 <span>Tin nhắn</span>
               </button>
-              <button className="dashboard-action-btn" onClick={() => navigate('/tickets')}>
-                <Wrench size={20} />
-                <span>Báo sự cố</span>
-              </button>
               <button className="dashboard-action-btn" onClick={() => navigate('/favorites')}>
                 <Heart size={20} />
                 <span>Yêu thích</span>
               </button>
+              <button className="dashboard-action-btn" onClick={() => navigate('/profile')}>
+                <Settings size={20} />
+                <span>Hồ sơ</span>
+              </button>
             </div>
           </div>
 
-          {/* Contracts */}
+          {/* Active Contracts */}
           <div className="dashboard-card">
             <div className="dashboard-card-header">
-              <h2>Hợp đồng</h2>
+              <h2>Hợp đồng đang hiệu lực</h2>
             </div>
-            {myContracts.length > 0 ? (
+            {activeContracts.length > 0 ? (
               <div className="dashboard-contracts">
-                {myContracts.map(contract => {
-                  const contractRoom = rooms.find(r => r.id === contract.roomId);
+                {activeContracts.map(contract => {
+                  const status = getStatusLabel(contract.status);
                   return (
-                    <div key={contract.id} className="dashboard-contract-item">
+                    <div key={contract.id} className="dashboard-contract-item" onClick={() => navigate('/contracts')}>
                       <div className="dashboard-contract-info">
-                        <h4>{contractRoom?.title || 'Phòng trọ'}</h4>
-                        <p>{formatDate(contract.startDate)} — {formatDate(contract.endDate)}</p>
-                        <p>{formatCurrency(contract.monthlyRent)}/tháng</p>
+                        <h4>{contract.room_title || 'Phòng trọ'}</h4>
+                        <p>{formatDate(contract.start_date)} — {formatDate(contract.end_date)}</p>
+                        <p>{formatCurrency(contract.monthly_rent)}/tháng</p>
                       </div>
-                      <span className="badge badge-success">Đang hiệu lực</span>
+                      <span className="badge" style={{ background: `${status.color}20`, color: status.color }}>
+                        {status.label}
+                      </span>
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <p style={{ color: 'var(--text-tertiary)', padding: 'var(--space-4)' }}>Chưa có hợp đồng</p>
+              <p style={{ color: 'var(--text-tertiary)', padding: '24px' }}>Chưa có hợp đồng đang hiệu lực</p>
             )}
           </div>
 
-          {/* Payment History */}
+          {/* Rental Requests */}
           <div className="dashboard-card">
             <div className="dashboard-card-header">
-              <h2>Lịch sử thanh toán</h2>
+              <h2>Yêu cầu thuê phòng</h2>
             </div>
-            <div className="dashboard-invoices">
-              {myInvoices.map(invoice => (
-                <div key={invoice.id} className="dashboard-invoice-item">
-                  <div className="dashboard-invoice-info">
-                    <h4>Tháng {invoice.month}</h4>
-                    <p>{formatCurrency(invoice.total)}</p>
-                  </div>
-                  <span className={`badge ${invoice.status === 'completed' ? 'badge-success' : 'badge-warning'}`}>
-                    {invoice.status === 'completed' ? 'Đã thanh toán' : 'Chờ thanh toán'}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Favorites */}
-          {favoriteRooms.length > 0 && (
-            <div className="dashboard-card dashboard-card-full">
-              <div className="dashboard-card-header">
-                <h2>Phòng yêu thích</h2>
-                <button className="btn btn-ghost btn-sm" onClick={() => navigate('/favorites')}>Xem tất cả</button>
-              </div>
-              <div className="dashboard-favorites-grid">
-                {favoriteRooms.slice(0, 4).map(room => (
-                  <div key={room.id} className="dashboard-fav-card" onClick={() => navigate(`/rooms/${room.id}`)}>
-                    <img src={room.images[0]} alt={room.title} />
-                    <div className="dashboard-fav-info">
-                      <h4>{room.title}</h4>
-                      <p>{formatCurrency(room.price)}/tháng</p>
+            {rentalRequests.length > 0 ? (
+              <div className="dashboard-tickets">
+                {rentalRequests.slice(0, 5).map(req => {
+                  const status = getStatusLabel(req.status);
+                  return (
+                    <div key={req.id} className="dashboard-ticket-item">
+                      <div className="dashboard-ticket-icon" style={{ background: `${status.color}20`, color: status.color }}>
+                        {req.status === 'pending' ? <Clock size={18} /> : <CheckCircle2 size={18} />}
+                      </div>
+                      <div className="dashboard-ticket-info">
+                        <h4>{req.room_title || 'Phòng trọ'}</h4>
+                        <p>Dọn vào: {formatDate(req.move_in_date)}</p>
+                      </div>
+                      <span className="badge" style={{ background: `${status.color}20`, color: status.color }}>
+                        {status.label}
+                      </span>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
-            </div>
-          )}
+            ) : (
+              <p style={{ color: 'var(--text-tertiary)', padding: '24px' }}>Chưa gửi yêu cầu thuê nào</p>
+            )}
+          </div>
         </div>
       </div>
     </div>

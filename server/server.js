@@ -1,5 +1,5 @@
 // ============================================================
-// PhongTro Online - Express API Server
+// PhongTro Online - Express API Server v2.0
 // ============================================================
 require('dotenv').config();
 
@@ -15,22 +15,18 @@ const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const roomRoutes = require('./routes/room.routes');
-const bookingRoutes = require('./routes/booking.routes');
-const favoriteRoutes = require('./routes/favorite.routes');
-const reviewRoutes = require('./routes/review.routes');
-const notificationRoutes = require('./routes/notification.routes');
+const rentalRequestRoutes = require('./routes/rentalRequest.routes');
 const contractRoutes = require('./routes/contract.routes');
 const paymentRoutes = require('./routes/payment.routes');
+const bookmarkRoutes = require('./routes/bookmark.routes');
+const reviewRoutes = require('./routes/review.routes');
+const notificationRoutes = require('./routes/notification.routes');
 const locationRoutes = require('./routes/location.routes');
 const amenityRoutes = require('./routes/amenity.routes');
-const uploadRoutes = require('./routes/upload.routes');
-
-// Import additional routes
-const cmsRoutes = require('./routes/cms.routes');
-const promotionRoutes = require('./routes/promotion.routes');
 const chatRoutes = require('./routes/chat.routes');
-const roommateRoutes = require('./routes/roommate.routes');
+const reportRoutes = require('./routes/report.routes');
 const adminRoutes = require('./routes/admin.routes');
+const uploadRoutes = require('./routes/upload.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -60,26 +56,22 @@ const API_PREFIX = '/api/v1';
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/users`, userRoutes);
 app.use(`${API_PREFIX}/rooms`, roomRoutes);
-app.use(`${API_PREFIX}/bookings`, bookingRoutes);
-app.use(`${API_PREFIX}/favorites`, favoriteRoutes);
-app.use(`${API_PREFIX}/reviews`, reviewRoutes);
-app.use(`${API_PREFIX}/notifications`, notificationRoutes);
+app.use(`${API_PREFIX}/rental-requests`, rentalRequestRoutes);
 app.use(`${API_PREFIX}/contracts`, contractRoutes);
 app.use(`${API_PREFIX}/payments`, paymentRoutes);
+app.use(`${API_PREFIX}/bookmarks`, bookmarkRoutes);
+app.use(`${API_PREFIX}/reviews`, reviewRoutes);
+app.use(`${API_PREFIX}/notifications`, notificationRoutes);
 app.use(`${API_PREFIX}/locations`, locationRoutes);
 app.use(`${API_PREFIX}/amenities`, amenityRoutes);
-app.use(`${API_PREFIX}/upload`, uploadRoutes);
-
-// New Routes
-app.use(`${API_PREFIX}/cms`, cmsRoutes);
-app.use(`${API_PREFIX}/promotions`, promotionRoutes);
 app.use(`${API_PREFIX}/chat`, chatRoutes);
-app.use(`${API_PREFIX}/roommates`, roommateRoutes);
+app.use(`${API_PREFIX}/reports`, reportRoutes);
 app.use(`${API_PREFIX}/admin`, adminRoutes);
+app.use(`${API_PREFIX}/upload`, uploadRoutes);
 
 // Health check
 app.get(`${API_PREFIX}/health`, (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', version: '2.0', timestamp: new Date().toISOString() });
 });
 
 // 404 handler
@@ -97,7 +89,7 @@ async function startServer() {
   try {
     // Test DB connection
     await testConnection();
-    console.log('✅ MySQL connected successfully');
+    console.log('✅ MySQL connected successfully (room_rental)');
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);

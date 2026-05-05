@@ -1,8 +1,8 @@
 // ============================================================
-// Room Controller - CRUD, Search, Images, Amenities
+// Room Controller - CRUD, Search (v2.0 schema)
 // ============================================================
 const { query, getConnection } = require('../config/db');
-const { generateUUID, generateSlug, paginate, buildWhereClause, toCamelCase } = require('../utils/helpers');
+const { generateUUID, generateSlug, paginate } = require('../utils/helpers');
 
 /**
  * GET /rooms - Search/List rooms with filters
@@ -10,41 +10,45 @@ const { generateUUID, generateSlug, paginate, buildWhereClause, toCamelCase } = 
 async function listRooms(req, res, next) {
   try {
     const {
-      page = 1, limit = 20, search, roomType, listingType,
-      priceMin, priceMax, areaMin, areaMax,
-      provinceId, districtId, wardId,
-      numBedrooms, numBathrooms, maxOccupants,
-      furnitureLevel, genderPreference,
-      amenities, // comma-separated amenity names
-      sortBy = 'newest', // newest, price_asc, price_desc, rating, popular
-      lat, lng, radius, // for geo search (meters)
+      page = 1, limit = 20, search,
+      roomTypeId, priceMin, priceMax, areaMin, areaMax,
+      wardId, districtId, provinceId,
+      maxOccupants, allowPet, allowCooking,
+      amenities, // comma-separated amenity IDs
+      sortBy = 'newest', // newest, price_asc, price_desc
     } = req.query;
 
-    const offset = (page - 1) * limit;
-    let conditions = ['r.is_deleted = 0', "r.status = 'active'"];
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+    let conditions = ["r.status = 'available'"];
     const params = [];
 
-    // Text search
+    // Fulltext search
     if (search) {
-      conditions.push('MATCH(r.title, r.description, r.full_address) AGAINST(? IN BOOLEAN MODE)');
+      conditions.push('MATCH(r.title, r.address) AGAINST(? IN BOOLEAN MODE)');
       params.push(search);
     }
 
     // Filters
-    if (roomType) { conditions.push('r.room_type = ?'); params.push(roomType); }
-    if (listingType) { conditions.push('r.listing_type = ?'); params.push(listingType); }
+    if (roomTypeId) { conditions.push('r.room_type_id = ?'); params.push(roomTypeId); }
     if (priceMin) { conditions.push('r.price >= ?'); params.push(parseFloat(priceMin)); }
     if (priceMax) { conditions.push('r.price <= ?'); params.push(parseFloat(priceMax)); }
     if (areaMin) { conditions.push('r.area >= ?'); params.push(parseFloat(areaMin)); }
     if (areaMax) { conditions.push('r.area <= ?'); params.push(parseFloat(areaMax)); }
-    if (provinceId) { conditions.push('r.province_id = ?'); params.push(parseInt(provinceId)); }
-    if (districtId) { conditions.push('r.district_id = ?'); params.push(parseInt(districtId)); }
-    if (wardId) { conditions.push('r.ward_id = ?'); params.push(parseInt(wardId)); }
-    if (numBedrooms) { conditions.push('r.num_bedrooms >= ?'); params.push(parseInt(numBedrooms)); }
-    if (numBathrooms) { conditions.push('r.num_bathrooms >= ?'); params.push(parseInt(numBathrooms)); }
     if (maxOccupants) { conditions.push('r.max_occupants >= ?'); params.push(parseInt(maxOccupants)); }
-    if (furnitureLevel) { conditions.push('r.furniture_level = ?'); params.push(furnitureLevel); }
-    if (genderPreference) { conditions.push('r.gender_preference = ?'); params.push(genderPreference); }
+    if (allowPet === '1') { conditions.push('r.allow_pet = 1'); }
+    if (allowCooking === '1') { conditions.push('r.allow_cooking = 1'); }
+
+    // Location filter via ward chain
+    if (wardId) {
+      conditions.push('r.ward_id = ?');
+      params.push(wardId);
+    } else if (districtId) {
+      conditions.push('r.ward_id IN (SELECT id FROM wards WHERE district_id = ?)');
+      params.push(districtId);
+    } else if (provinceId) {
+      conditions.push('r.ward_id IN (SELECT w.id FROM wards w JOIN districts d ON w.district_id = d.id WHERE d.province_id = ?)');
+      params.push(provinceId);
+    }
 
     // Amenity filter
     if (amenities) {
@@ -52,9 +56,8 @@ async function listRooms(req, res, next) {
       conditions.push(`
         r.id IN (
           SELECT ra.room_id FROM room_amenities ra
-          JOIN amenities a ON ra.amenity_id = a.id
-          WHERE a.name IN (${amenityList.map(() => '?').join(',')})
-          GROUP BY ra.room_id HAVING COUNT(DISTINCT a.name) = ?
+          WHERE ra.amenity_id IN (${amenityList.map(() => '?').join(',')})
+          GROUP BY ra.room_id HAVING COUNT(DISTINCT ra.amenity_id) = ?
         )
       `);
       params.push(...amenityList, amenityList.length);
@@ -63,57 +66,67 @@ async function listRooms(req, res, next) {
     const whereClause = 'WHERE ' + conditions.join(' AND ');
 
     // Sorting
-    let orderClause = 'ORDER BY r.is_vip DESC, r.vip_level DESC, ';
+    let orderClause;
     switch (sortBy) {
-      case 'price_asc': orderClause += 'r.price ASC'; break;
-      case 'price_desc': orderClause += 'r.price DESC'; break;
-      case 'rating': orderClause += 'r.avg_rating DESC'; break;
-      case 'popular': orderClause += 'r.view_count DESC'; break;
-      default: orderClause += 'r.published_at DESC, r.created_at DESC';
+      case 'price_asc': orderClause = 'ORDER BY r.price ASC'; break;
+      case 'price_desc': orderClause = 'ORDER BY r.price DESC'; break;
+      default: orderClause = 'ORDER BY r.created_at DESC';
     }
 
     // Count total
-    const countParams = [...params];
     const countResult = await query(
-      `SELECT COUNT(*) as total FROM rooms r ${whereClause}`, countParams
+      `SELECT COUNT(*) as total FROM rooms r ${whereClause}`, [...params]
     );
     const total = countResult[0]?.total || 0;
 
     // Main query
     params.push(parseInt(limit), offset);
     const rooms = await query(
-      `SELECT r.id, r.title, r.slug, r.room_type, r.listing_type,
-              r.price, r.deposit, r.area, r.floor,
-              r.num_bedrooms, r.num_bathrooms, r.max_occupants,
-              r.furniture_level, r.gender_preference,
-              r.address, r.full_address,
-              r.latitude, r.longitude,
-              r.status, r.view_count, r.favorite_count, r.avg_rating, r.total_reviews,
-              r.is_vip, r.vip_level,
-              r.published_at, r.created_at,
-              r.electricity_price, r.water_price, r.internet_price, r.parking_price,
+      `SELECT r.id, r.title, r.slug, r.price, r.deposit, r.area, r.max_occupants,
+              r.address, r.latitude, r.longitude,
+              r.allow_pet, r.allow_cooking, r.live_with_owner,
+              r.available_from, r.status, r.created_at,
+              rt.name as room_type_name, rt.slug as room_type_slug,
               u.id as landlord_id, u.full_name as landlord_name, u.avatar_url as landlord_avatar,
-              u.phone as landlord_phone, u.identity_verified as landlord_verified,
-              p.name as province_name, d.name as district_name, w.name as ward_name,
+              u.phone as landlord_phone, u.is_verified as landlord_verified,
+              w.name as ward_name, d.name as district_name, p.name as province_name,
               (SELECT url FROM room_images ri WHERE ri.room_id = r.id AND ri.is_cover = 1 LIMIT 1) as cover_image
        FROM rooms r
        JOIN users u ON r.landlord_id = u.id
-       LEFT JOIN provinces p ON r.province_id = p.id
-       LEFT JOIN districts d ON r.district_id = d.id
-       LEFT JOIN wards w ON r.ward_id = w.id
+       JOIN room_types rt ON r.room_type_id = rt.id
+       JOIN wards w ON r.ward_id = w.id
+       JOIN districts d ON w.district_id = d.id
+       JOIN provinces p ON d.province_id = p.id
        ${whereClause}
        ${orderClause}
        LIMIT ? OFFSET ?`, params
     );
 
-    // Get images for each room (first 5)
+    // Get images for each room
     for (const room of rooms) {
       const images = await query(
-        'SELECT url, thumbnail_url, is_cover FROM room_images WHERE room_id = ? ORDER BY sort_order LIMIT 5',
+        'SELECT url, is_cover FROM room_images WHERE room_id = ? ORDER BY sort_order LIMIT 5',
         [room.id]
       );
       room.images = images.map(img => img.url);
-      room.coverImage = room.cover_image || (images[0] && images[0].url) || null;
+      if (!room.cover_image && images.length > 0) {
+        room.cover_image = images[0].url;
+      }
+
+      // Get amenities
+      const roomAmenities = await query(
+        `SELECT a.id, a.name, a.icon FROM room_amenities ra JOIN amenities a ON ra.amenity_id = a.id WHERE ra.room_id = ?`,
+        [room.id]
+      );
+      room.amenities = roomAmenities;
+
+      // Get avg rating
+      const ratingResult = await query(
+        'SELECT AVG(rating) as avg_rating, COUNT(*) as review_count FROM reviews WHERE room_id = ?',
+        [room.id]
+      );
+      room.avgRating = ratingResult[0]?.avg_rating ? parseFloat(ratingResult[0].avg_rating).toFixed(1) : 0;
+      room.reviewCount = ratingResult[0]?.review_count || 0;
     }
 
     res.json(paginate(rooms, page, limit, total));
@@ -129,17 +142,17 @@ async function getRoomById(req, res, next) {
   try {
     const rooms = await query(
       `SELECT r.*,
-              u.full_name as landlord_name, u.avatar_url as landlord_avatar,
-              u.phone as landlord_phone, u.email as landlord_email,
-              u.identity_verified as landlord_verified, u.avg_rating as landlord_rating,
-              u.total_reviews_received as landlord_reviews,
-              p.name as province_name, d.name as district_name, w.name as ward_name
+              rt.name as room_type_name, rt.slug as room_type_slug,
+              u.id as landlord_id_u, u.full_name as landlord_name, u.avatar_url as landlord_avatar,
+              u.phone as landlord_phone, u.email as landlord_email, u.is_verified as landlord_verified,
+              w.name as ward_name, d.name as district_name, p.name as province_name
        FROM rooms r
        JOIN users u ON r.landlord_id = u.id
-       LEFT JOIN provinces p ON r.province_id = p.id
-       LEFT JOIN districts d ON r.district_id = d.id
-       LEFT JOIN wards w ON r.ward_id = w.id
-       WHERE r.id = ? AND r.is_deleted = 0`, [req.params.id]
+       JOIN room_types rt ON r.room_type_id = rt.id
+       JOIN wards w ON r.ward_id = w.id
+       JOIN districts d ON w.district_id = d.id
+       JOIN provinces p ON d.province_id = p.id
+       WHERE r.id = ?`, [req.params.id]
     );
 
     if (rooms.length === 0) {
@@ -150,48 +163,77 @@ async function getRoomById(req, res, next) {
 
     // Get images
     const images = await query(
-      'SELECT id, url, thumbnail_url, medium_url, is_cover, caption, sort_order FROM room_images WHERE room_id = ? ORDER BY sort_order',
-      [room.id]
-    );
-
-    // Get videos
-    const videos = await query(
-      'SELECT id, url, thumbnail_url, duration, is_360 FROM room_videos WHERE room_id = ? ORDER BY sort_order',
+      'SELECT id, url, is_cover, sort_order FROM room_images WHERE room_id = ? ORDER BY sort_order',
       [room.id]
     );
 
     // Get amenities
     const amenities = await query(
-      `SELECT a.id, a.name, a.name_vi, a.icon, a.category, ra.note
-       FROM room_amenities ra JOIN amenities a ON ra.amenity_id = a.id
-       WHERE ra.room_id = ? ORDER BY a.sort_order`, [room.id]
-    );
-
-    // Get nearby places
-    const nearbyPlaces = await query(
-      'SELECT name, category, distance_meters, latitude, longitude FROM nearby_places WHERE room_id = ? ORDER BY distance_meters',
+      `SELECT a.id, a.name, a.icon FROM room_amenities ra JOIN amenities a ON ra.amenity_id = a.id WHERE ra.room_id = ?`,
       [room.id]
     );
 
-    // Increment view count
-    await query('UPDATE rooms SET view_count = view_count + 1 WHERE id = ?', [room.id]);
+    // Get prices/services
+    const prices = await query(
+      'SELECT id, label, price, unit, is_metered, meter_type FROM room_prices WHERE room_id = ?',
+      [room.id]
+    );
 
-    // Track view if user is logged in
-    if (req.user) {
-      await query(
-        `INSERT INTO room_views (id, room_id, user_id, ip_address, user_agent, source)
-         VALUES (?, ?, ?, ?, ?, 'detail')`,
-        [generateUUID(), room.id, req.user.id, req.ip, req.headers['user-agent']]
-      );
-    }
+    // Get reviews
+    const reviews = await query(
+      `SELECT rv.id, rv.rating, rv.comment, rv.created_at,
+              u.full_name as tenant_name, u.avatar_url as tenant_avatar
+       FROM reviews rv JOIN users u ON rv.tenant_id = u.id
+       WHERE rv.room_id = ? ORDER BY rv.created_at DESC LIMIT 10`,
+      [room.id]
+    );
+
+    // Get avg rating
+    const ratingResult = await query(
+      'SELECT AVG(rating) as avg_rating, COUNT(*) as review_count FROM reviews WHERE room_id = ?',
+      [room.id]
+    );
 
     res.json({
       data: {
-        ...toCamelCase(room),
+        id: room.id,
+        title: room.title,
+        slug: room.slug,
+        description: room.description,
+        address: room.address,
+        latitude: room.latitude,
+        longitude: room.longitude,
+        area: parseFloat(room.area),
+        price: parseFloat(room.price),
+        deposit: parseFloat(room.deposit),
+        maxOccupants: room.max_occupants,
+        availableFrom: room.available_from,
+        allowPet: !!room.allow_pet,
+        allowCooking: !!room.allow_cooking,
+        liveWithOwner: !!room.live_with_owner,
+        curfewTime: room.curfew_time,
+        extraRules: room.extra_rules,
+        status: room.status,
+        createdAt: room.created_at,
+        updatedAt: room.updated_at,
+        roomType: { name: room.room_type_name, slug: room.room_type_slug },
+        ward: room.ward_name,
+        district: room.district_name,
+        province: room.province_name,
+        landlord: {
+          id: room.landlord_id,
+          fullName: room.landlord_name,
+          avatar: room.landlord_avatar,
+          phone: room.landlord_phone,
+          email: room.landlord_email,
+          isVerified: !!room.landlord_verified,
+        },
         images,
-        videos,
         amenities,
-        nearbyPlaces: toCamelCase(nearbyPlaces),
+        prices,
+        reviews,
+        avgRating: ratingResult[0]?.avg_rating ? parseFloat(ratingResult[0].avg_rating).toFixed(1) : 0,
+        reviewCount: ratingResult[0]?.review_count || 0,
       }
     });
   } catch (error) {
@@ -208,52 +250,31 @@ async function createRoom(req, res, next) {
     await conn.beginTransaction();
 
     const {
-      title, description, roomType = 'phong_tro', listingType = 'cho_thue',
-      price, deposit = 0, electricityPrice, waterPrice, internetPrice, parkingPrice, serviceFee,
-      area, floor, numBedrooms = 1, numBathrooms = 1, maxOccupants = 2,
-      furnitureLevel = 'empty', genderPreference = 'any',
-      address, wardId, districtId, provinceId, fullAddress,
-      latitude, longitude,
-      availableFrom, minStayMonths = 1,
-      buildingId, amenityIds = [], images = [],
+      title, description, roomTypeId, wardId,
+      address, latitude, longitude,
+      area, price, deposit = 0, maxOccupants = 1,
+      availableFrom, allowPet = false, allowCooking = false,
+      liveWithOwner = false, curfewTime, extraRules,
+      amenityIds = [], images = [], prices = [],
     } = req.body;
+
+    if (!title || !roomTypeId || !wardId || !address || !area || !price) {
+      return res.status(400).json({ message: 'Thiếu thông tin bắt buộc' });
+    }
 
     const roomId = generateUUID();
     const slug = generateSlug(title);
 
-    // Build full address
-    let computedFullAddress = fullAddress || address;
-    if (!computedFullAddress && wardId && districtId && provinceId) {
-      const [loc] = await conn.execute(
-        `SELECT CONCAT(w.name, ', ', d.name, ', ', p.name) as addr
-         FROM wards w JOIN districts d ON w.district_id = d.id JOIN provinces p ON d.province_id = p.id
-         WHERE w.id = ?`, [wardId]
-      );
-      if (loc.length > 0) computedFullAddress = `${address}, ${loc[0].addr}`;
-    }
-
-    const lat = latitude || 0;
-    const lng = longitude || 0;
-
     await conn.execute(
-      `INSERT INTO rooms 
-       (id, landlord_id, building_id, title, slug, description, room_type, listing_type,
-        price, deposit, electricity_price, water_price, internet_price, parking_price, service_fee,
-        area, floor, num_bedrooms, num_bathrooms, max_occupants,
-        furniture_level, gender_preference,
-        address, ward_id, district_id, province_id, full_address,
-        latitude, longitude, location,
-        available_from, min_stay_months,
-        status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?, 4326), ?, ?, 'pending_approval')`,
-      [roomId, req.user.id, buildingId || null, title, slug, description, roomType, listingType,
-       price, deposit, electricityPrice || null, waterPrice || null, internetPrice || null,
-       parkingPrice || null, serviceFee || 0,
-       area || null, floor || null, numBedrooms, numBathrooms, maxOccupants,
-       furnitureLevel, genderPreference,
-       address, wardId || null, districtId || null, provinceId || null, computedFullAddress,
-       lat, lng, `POINT(${lng} ${lat})`,
-       availableFrom || null, minStayMonths]
+      `INSERT INTO rooms
+       (id, landlord_id, ward_id, room_type_id, title, slug, description, address,
+        latitude, longitude, area, price, deposit, max_occupants,
+        available_from, allow_pet, allow_cooking, live_with_owner, curfew_time, extra_rules)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [roomId, req.user.id, wardId, roomTypeId, title, slug, description || null, address,
+       latitude || null, longitude || null, area, price, deposit, maxOccupants,
+       availableFrom || null, allowPet ? 1 : 0, allowCooking ? 1 : 0,
+       liveWithOwner ? 1 : 0, curfewTime || null, extraRules || null]
     );
 
     // Insert amenities
@@ -268,16 +289,24 @@ async function createRoom(req, res, next) {
     for (let i = 0; i < images.length; i++) {
       const img = images[i];
       await conn.execute(
-        `INSERT INTO room_images (id, room_id, url, thumbnail_url, sort_order, is_cover, caption)
+        'INSERT INTO room_images (id, room_id, url, is_cover, sort_order) VALUES (?, ?, ?, ?, ?)',
+        [generateUUID(), roomId, typeof img === 'string' ? img : img.url, i === 0 ? 1 : 0, i]
+      );
+    }
+
+    // Insert prices (services)
+    for (const p of prices) {
+      await conn.execute(
+        `INSERT INTO room_prices (id, room_id, label, price, unit, is_metered, meter_type)
          VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [generateUUID(), roomId, img.url || img, img.thumbnailUrl || null, i, i === 0 ? 1 : 0, img.caption || null]
+        [generateUUID(), roomId, p.label, p.price, p.unit, p.isMetered ? 1 : 0, p.meterType || null]
       );
     }
 
     await conn.commit();
 
     res.status(201).json({
-      message: 'Đăng phòng thành công, đang chờ duyệt',
+      message: 'Đăng phòng thành công',
       data: { id: roomId, slug }
     });
   } catch (error) {
@@ -298,7 +327,7 @@ async function updateRoom(req, res, next) {
 
     // Verify ownership
     const [existing] = await conn.execute(
-      'SELECT landlord_id, status FROM rooms WHERE id = ? AND is_deleted = 0', [req.params.id]
+      'SELECT landlord_id FROM rooms WHERE id = ?', [req.params.id]
     );
     if (existing.length === 0) {
       return res.status(404).json({ message: 'Không tìm thấy phòng' });
@@ -308,46 +337,35 @@ async function updateRoom(req, res, next) {
     }
 
     const {
-      title, description, roomType, listingType,
-      price, deposit, electricityPrice, waterPrice, internetPrice, parkingPrice, serviceFee,
-      area, floor, numBedrooms, numBathrooms, maxOccupants,
-      furnitureLevel, genderPreference,
-      address, wardId, districtId, provinceId, fullAddress,
-      latitude, longitude,
-      availableFrom, minStayMonths,
-      amenityIds, images,
+      title, description, roomTypeId, wardId,
+      address, latitude, longitude,
+      area, price, deposit, maxOccupants,
+      availableFrom, allowPet, allowCooking,
+      liveWithOwner, curfewTime, extraRules, status,
+      amenityIds, images, prices,
     } = req.body;
 
     const fields = [];
     const params = [];
 
-    if (title !== undefined) { fields.push('title = ?'); params.push(title); fields.push('slug = ?'); params.push(generateSlug(title)); }
+    if (title !== undefined) { fields.push('title = ?', 'slug = ?'); params.push(title, generateSlug(title)); }
     if (description !== undefined) { fields.push('description = ?'); params.push(description); }
-    if (roomType !== undefined) { fields.push('room_type = ?'); params.push(roomType); }
-    if (listingType !== undefined) { fields.push('listing_type = ?'); params.push(listingType); }
-    if (price !== undefined) { fields.push('price = ?'); params.push(price); }
-    if (deposit !== undefined) { fields.push('deposit = ?'); params.push(deposit); }
-    if (electricityPrice !== undefined) { fields.push('electricity_price = ?'); params.push(electricityPrice); }
-    if (waterPrice !== undefined) { fields.push('water_price = ?'); params.push(waterPrice); }
-    if (internetPrice !== undefined) { fields.push('internet_price = ?'); params.push(internetPrice); }
-    if (parkingPrice !== undefined) { fields.push('parking_price = ?'); params.push(parkingPrice); }
-    if (serviceFee !== undefined) { fields.push('service_fee = ?'); params.push(serviceFee); }
-    if (area !== undefined) { fields.push('area = ?'); params.push(area); }
-    if (floor !== undefined) { fields.push('floor = ?'); params.push(floor); }
-    if (numBedrooms !== undefined) { fields.push('num_bedrooms = ?'); params.push(numBedrooms); }
-    if (numBathrooms !== undefined) { fields.push('num_bathrooms = ?'); params.push(numBathrooms); }
-    if (maxOccupants !== undefined) { fields.push('max_occupants = ?'); params.push(maxOccupants); }
-    if (furnitureLevel !== undefined) { fields.push('furniture_level = ?'); params.push(furnitureLevel); }
-    if (genderPreference !== undefined) { fields.push('gender_preference = ?'); params.push(genderPreference); }
-    if (address !== undefined) { fields.push('address = ?'); params.push(address); }
+    if (roomTypeId !== undefined) { fields.push('room_type_id = ?'); params.push(roomTypeId); }
     if (wardId !== undefined) { fields.push('ward_id = ?'); params.push(wardId); }
-    if (districtId !== undefined) { fields.push('district_id = ?'); params.push(districtId); }
-    if (provinceId !== undefined) { fields.push('province_id = ?'); params.push(provinceId); }
-    if (fullAddress !== undefined) { fields.push('full_address = ?'); params.push(fullAddress); }
+    if (address !== undefined) { fields.push('address = ?'); params.push(address); }
     if (latitude !== undefined) { fields.push('latitude = ?'); params.push(latitude); }
     if (longitude !== undefined) { fields.push('longitude = ?'); params.push(longitude); }
+    if (area !== undefined) { fields.push('area = ?'); params.push(area); }
+    if (price !== undefined) { fields.push('price = ?'); params.push(price); }
+    if (deposit !== undefined) { fields.push('deposit = ?'); params.push(deposit); }
+    if (maxOccupants !== undefined) { fields.push('max_occupants = ?'); params.push(maxOccupants); }
     if (availableFrom !== undefined) { fields.push('available_from = ?'); params.push(availableFrom); }
-    if (minStayMonths !== undefined) { fields.push('min_stay_months = ?'); params.push(minStayMonths); }
+    if (allowPet !== undefined) { fields.push('allow_pet = ?'); params.push(allowPet ? 1 : 0); }
+    if (allowCooking !== undefined) { fields.push('allow_cooking = ?'); params.push(allowCooking ? 1 : 0); }
+    if (liveWithOwner !== undefined) { fields.push('live_with_owner = ?'); params.push(liveWithOwner ? 1 : 0); }
+    if (curfewTime !== undefined) { fields.push('curfew_time = ?'); params.push(curfewTime); }
+    if (extraRules !== undefined) { fields.push('extra_rules = ?'); params.push(extraRules); }
+    if (status !== undefined) { fields.push('status = ?'); params.push(status); }
 
     if (fields.length > 0) {
       params.push(req.params.id);
@@ -371,9 +389,19 @@ async function updateRoom(req, res, next) {
       for (let i = 0; i < images.length; i++) {
         const img = images[i];
         await conn.execute(
-          `INSERT INTO room_images (id, room_id, url, thumbnail_url, sort_order, is_cover, caption)
-           VALUES (?, ?, ?, ?, ?, ?, ?)`,
-          [generateUUID(), req.params.id, img.url || img, img.thumbnailUrl || null, i, i === 0 ? 1 : 0, img.caption || null]
+          'INSERT INTO room_images (id, room_id, url, is_cover, sort_order) VALUES (?, ?, ?, ?, ?)',
+          [generateUUID(), req.params.id, typeof img === 'string' ? img : img.url, i === 0 ? 1 : 0, i]
+        );
+      }
+    }
+
+    // Update prices
+    if (prices !== undefined) {
+      await conn.execute('DELETE FROM room_prices WHERE room_id = ?', [req.params.id]);
+      for (const p of prices) {
+        await conn.execute(
+          `INSERT INTO room_prices (id, room_id, label, price, unit, is_metered, meter_type) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          [generateUUID(), req.params.id, p.label, p.price, p.unit, p.isMetered ? 1 : 0, p.meterType || null]
         );
       }
     }
@@ -393,9 +421,7 @@ async function updateRoom(req, res, next) {
  */
 async function deleteRoom(req, res, next) {
   try {
-    const rooms = await query(
-      'SELECT landlord_id FROM rooms WHERE id = ? AND is_deleted = 0', [req.params.id]
-    );
+    const rooms = await query('SELECT landlord_id FROM rooms WHERE id = ?', [req.params.id]);
     if (rooms.length === 0) {
       return res.status(404).json({ message: 'Không tìm thấy phòng' });
     }
@@ -403,11 +429,7 @@ async function deleteRoom(req, res, next) {
       return res.status(403).json({ message: 'Bạn không có quyền xóa phòng này' });
     }
 
-    await query(
-      'UPDATE rooms SET is_deleted = 1, deleted_at = NOW(), status = ? WHERE id = ?',
-      ['hidden', req.params.id]
-    );
-
+    await query('UPDATE rooms SET status = ? WHERE id = ?', ['hidden', req.params.id]);
     res.json({ message: 'Xóa phòng thành công' });
   } catch (error) {
     next(error);
@@ -415,28 +437,13 @@ async function deleteRoom(req, res, next) {
 }
 
 /**
- * PATCH /rooms/:id/status - Approve/Reject room (admin)
+ * PATCH /rooms/:id/status - Change room status (admin/landlord)
  */
 async function updateRoomStatus(req, res, next) {
   try {
-    const { status, rejectionReason } = req.body;
-
-    const updates = ['status = ?'];
-    const params = [status];
-
-    if (status === 'active') {
-      updates.push('approved_by = ?', 'approved_at = NOW()', 'published_at = NOW()');
-      params.push(req.user.id);
-    }
-    if (status === 'rejected' && rejectionReason) {
-      updates.push('rejection_reason = ?');
-      params.push(rejectionReason);
-    }
-
-    params.push(req.params.id);
-    await query(`UPDATE rooms SET ${updates.join(', ')} WHERE id = ?`, params);
-
-    res.json({ message: `Phòng đã được ${status === 'active' ? 'duyệt' : 'cập nhật'}` });
+    const { status } = req.body;
+    await query('UPDATE rooms SET status = ? WHERE id = ?', [status, req.params.id]);
+    res.json({ message: 'Cập nhật trạng thái phòng thành công' });
   } catch (error) {
     next(error);
   }
@@ -448,9 +455,9 @@ async function updateRoomStatus(req, res, next) {
 async function getMyRooms(req, res, next) {
   try {
     const { page = 1, limit = 20, status } = req.query;
-    const offset = (page - 1) * limit;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
 
-    let whereClause = 'WHERE r.landlord_id = ? AND r.is_deleted = 0';
+    let whereClause = 'WHERE r.landlord_id = ?';
     const params = [req.user.id];
 
     if (status) { whereClause += ' AND r.status = ?'; params.push(status); }
@@ -462,11 +469,12 @@ async function getMyRooms(req, res, next) {
 
     params.push(parseInt(limit), offset);
     const rooms = await query(
-      `SELECT r.id, r.title, r.slug, r.room_type, r.price, r.area, r.address,
-              r.status, r.view_count, r.favorite_count, r.avg_rating, r.total_reviews,
-              r.is_vip, r.vip_level, r.published_at, r.created_at,
+      `SELECT r.id, r.title, r.slug, r.price, r.area, r.address, r.status, r.created_at,
+              rt.name as room_type_name,
               (SELECT url FROM room_images ri WHERE ri.room_id = r.id AND ri.is_cover = 1 LIMIT 1) as cover_image
-       FROM rooms r ${whereClause}
+       FROM rooms r
+       JOIN room_types rt ON r.room_type_id = rt.id
+       ${whereClause}
        ORDER BY r.created_at DESC LIMIT ? OFFSET ?`, params
     );
 

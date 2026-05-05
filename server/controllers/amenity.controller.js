@@ -1,41 +1,51 @@
 // ============================================================
-// Amenity Controller - List amenities
+// Amenity Controller (v2.0 schema)
 // ============================================================
 const { query } = require('../config/db');
+const { generateUUID } = require('../utils/helpers');
 
+/**
+ * GET /amenities - List all amenities
+ */
 async function listAmenities(req, res, next) {
   try {
-    const { category } = req.query;
-
-    let whereClause = 'WHERE is_active = 1';
-    const params = [];
-
-    if (category) { whereClause += ' AND category = ?'; params.push(category); }
-
-    const amenities = await query(
-      `SELECT id, name, name_vi, icon, category, sort_order
-       FROM amenities ${whereClause} ORDER BY sort_order, category`, params
-    );
-
-    // Group by category
-    const grouped = {};
-    for (const amenity of amenities) {
-      if (!grouped[amenity.category]) grouped[amenity.category] = [];
-      grouped[amenity.category].push(amenity);
-    }
-
-    res.json({ data: amenities, grouped });
-  } catch (error) { next(error); }
+    const amenities = await query('SELECT id, name, icon FROM amenities ORDER BY name');
+    res.json({ data: amenities });
+  } catch (error) {
+    next(error);
+  }
 }
 
-async function getAmenityById(req, res, next) {
+/**
+ * GET /amenities/room-types - List all room types
+ */
+async function listRoomTypes(req, res, next) {
   try {
-    const amenities = await query(
-      'SELECT * FROM amenities WHERE id = ?', [req.params.id]
-    );
-    if (amenities.length === 0) return res.status(404).json({ message: 'Không tìm thấy tiện ích' });
-    res.json({ data: amenities[0] });
-  } catch (error) { next(error); }
+    const roomTypes = await query('SELECT id, name, slug, icon, description FROM room_types ORDER BY name');
+    res.json({ data: roomTypes });
+  } catch (error) {
+    next(error);
+  }
 }
 
-module.exports = { listAmenities, getAmenityById };
+/**
+ * POST /amenities - Create amenity (admin)
+ */
+async function createAmenity(req, res, next) {
+  try {
+    const { name, icon } = req.body;
+    if (!name) return res.status(400).json({ message: 'Thiếu tên tiện nghi' });
+
+    await query('INSERT INTO amenities (id, name, icon) VALUES (?, ?, ?)',
+      [generateUUID(), name, icon || null]);
+    res.status(201).json({ message: 'Tạo tiện nghi thành công' });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = {
+  listAmenities,
+  listRoomTypes,
+  createAmenity,
+};

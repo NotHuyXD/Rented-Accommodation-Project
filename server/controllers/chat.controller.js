@@ -1,75 +1,146 @@
 // ============================================================
-// Chat Controller - Conversations and Quick Replies
+// Chat Controller - Conversations & Messages (v2.0 schema)
 // ============================================================
 const { query } = require('../config/db');
-const { generateUUID, paginate } = require('../utils/helpers');
+const { generateUUID } = require('../utils/helpers');
 
-async function listConversations(req, res, next) {
-  try {
-    const { page = 1, limit = 20 } = req.query;
-    const offset = (page - 1) * limit;
-
-    const countResult = await query(
-      `SELECT COUNT(*) as total FROM conversations WHERE participant_1_id = ? OR participant_2_id = ?`,
-      [req.user.id, req.user.id]
-    );
-    const total = countResult[0]?.total || 0;
-
-    const conversations = await query(
-      `SELECT c.*, 
-              CASE WHEN c.participant_1_id = ? THEN u2.full_name ELSE u1.full_name END as other_user_name,
-              CASE WHEN c.participant_1_id = ? THEN u2.avatar_url ELSE u1.avatar_url END as other_user_avatar,
-              CASE WHEN c.participant_1_id = ? THEN c.unread_count_1 ELSE c.unread_count_2 END as unread_count
-       FROM conversations c
-       JOIN users u1 ON c.participant_1_id = u1.id
-       JOIN users u2 ON c.participant_2_id = u2.id
-       WHERE c.participant_1_id = ? OR c.participant_2_id = ?
-       ORDER BY c.last_message_at DESC LIMIT ? OFFSET ?`,
-      [req.user.id, req.user.id, req.user.id, req.user.id, req.user.id, parseInt(limit), offset]
-    );
-
-    res.json(paginate(conversations, page, limit, total));
-  } catch (error) { next(error); }
-}
-
+/**
+ * POST /chat/conversations - Create or get conversation
+ */
 async function getOrCreateConversation(req, res, next) {
   try {
-    const { otherUserId, roomId } = req.body;
-    
-    // Sort to ensure p1 < p2
-    const p1 = req.user.id < otherUserId ? req.user.id : otherUserId;
-    const p2 = req.user.id < otherUserId ? otherUserId : req.user.id;
-
-    let sql = 'SELECT * FROM conversations WHERE participant_1_id = ? AND participant_2_id = ?';
-    const params = [p1, p2];
-
-    if (roomId) {
-      sql += ' AND room_id = ?';
-      params.push(roomId);
+    const { landlordId, roomId } = req.body;
+    if (!landlordId) {
+      return res.status(400).json({ message: 'Thiếu landlordId' });
     }
 
-    let existing = await query(sql, params);
-
-    if (existing.length === 0) {
-      const id = generateUUID();
-      await query(
-        `INSERT INTO conversations (id, participant_1_id, participant_2_id, room_id) VALUES (?, ?, ?, ?)`,
-        [id, p1, p2, roomId || null]
-      );
-      existing = await query(`SELECT * FROM conversations WHERE id = ?`, [id]);
-    }
-
-    res.json({ data: existing[0] });
-  } catch (error) { next(error); }
-}
-
-async function listQuickReplies(req, res, next) {
-  try {
-    const replies = await query(
-      'SELECT * FROM quick_replies WHERE user_id = ? ORDER BY sort_order ASC', [req.user.id]
+    // Check existing
+    const existing = await query(
+      'SELECT id FROM conversations WHERE tenant_id = ? AND landlord_id = ? AND (room_id = ? OR (room_id IS NULL AND ? IS NULL))',
+      [req.user.id, landlordId, roomId || null, roomId || null]
     );
-    res.json({ data: replies });
-  } catch (error) { next(error); }
+
+    if (existing.length > 0) {
+      return res.json({ data: { id: existing[0].id } });
+    }
+
+    const convId = generateUUID();
+    await query(
+      'INSERT INTO conversations (id, room_id, tenant_id, landlord_id) VALUES (?, ?, ?, ?)',
+      [convId, roomId || null, req.user.id, landlordId]
+    );
+
+    res.status(201).json({ data: { id: convId } });
+  } catch (error) {
+    next(error);
+  }
 }
 
-module.exports = { listConversations, getOrCreateConversation, listQuickReplies };
+/**
+ * GET /chat/conversations - List conversations
+ */
+async function listConversations(req, res, next) {
+  try {
+    const conversations = await query(
+      `SELECT c.id, c.room_id, c.created_at,
+              t.id as tenant_id, t.full_name as tenant_name, t.avatar_url as tenant_avatar,
+              l.id as landlord_id, l.full_name as landlord_name, l.avatar_url as landlord_avatar,
+              r.title as room_title,
+              (SELECT content FROM messages m WHERE m.conversation_id = c.id ORDER BY m.created_at DESC LIMIT 1) as last_message,
+              (SELECT created_at FROM messages m WHERE m.conversation_id = c.id ORDER BY m.created_at DESC LIMIT 1) as last_message_at,
+              (SELECT COUNT(*) FROM messages m WHERE m.conversation_id = c.id AND m.is_read = 0 AND m.sender_id != ?) as unread_count
+       FROM conversations c
+       JOIN users t ON c.tenant_id = t.id
+       JOIN users l ON c.landlord_id = l.id
+       LEFT JOIN rooms r ON c.room_id = r.id
+       WHERE c.tenant_id = ? OR c.landlord_id = ?
+       ORDER BY last_message_at DESC`,
+      [req.user.id, req.user.id, req.user.id]
+    );
+
+    res.json({ data: conversations });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * GET /chat/conversations/:id/messages - Get messages
+ */
+async function getMessages(req, res, next) {
+  try {
+    const { page = 1, limit = 50 } = req.query;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+
+    const messages = await query(
+      `SELECT m.id, m.sender_id, m.content, m.is_read, m.created_at,
+              u.full_name as sender_name, u.avatar_url as sender_avatar
+       FROM messages m
+       JOIN users u ON m.sender_id = u.id
+       WHERE m.conversation_id = ?
+       ORDER BY m.created_at DESC LIMIT ? OFFSET ?`,
+      [req.params.id, parseInt(limit), offset]
+    );
+
+    // Mark as read
+    await query(
+      'UPDATE messages SET is_read = 1 WHERE conversation_id = ? AND sender_id != ?',
+      [req.params.id, req.user.id]
+    );
+
+    res.json({ data: messages.reverse() });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * POST /chat/conversations/:id/messages - Send message
+ */
+async function sendMessage(req, res, next) {
+  try {
+    const { content } = req.body;
+    if (!content) {
+      return res.status(400).json({ message: 'Nội dung không được trống' });
+    }
+
+    // Verify user is part of conversation
+    const convs = await query(
+      'SELECT tenant_id, landlord_id FROM conversations WHERE id = ?',
+      [req.params.id]
+    );
+    if (convs.length === 0) {
+      return res.status(404).json({ message: 'Không tìm thấy cuộc hội thoại' });
+    }
+    if (convs[0].tenant_id !== req.user.id && convs[0].landlord_id !== req.user.id) {
+      return res.status(403).json({ message: 'Bạn không thuộc cuộc hội thoại này' });
+    }
+
+    const messageId = generateUUID();
+    await query(
+      'INSERT INTO messages (id, conversation_id, sender_id, content) VALUES (?, ?, ?, ?)',
+      [messageId, req.params.id, req.user.id, content]
+    );
+
+    // Notify the other party
+    const recipientId = convs[0].tenant_id === req.user.id ? convs[0].landlord_id : convs[0].tenant_id;
+    await query(
+      `INSERT INTO notifications (id, user_id, type, title, body, ref_id)
+       VALUES (?, ?, 'new_message', 'Tin nhắn mới', ?, ?)`,
+      [generateUUID(), recipientId, content.substring(0, 100), req.params.id]
+    );
+
+    res.status(201).json({
+      data: { id: messageId, senderId: req.user.id, content, createdAt: new Date().toISOString() }
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = {
+  getOrCreateConversation,
+  listConversations,
+  getMessages,
+  sendMessage,
+};

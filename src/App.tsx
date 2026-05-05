@@ -11,11 +11,9 @@ import TenantDashboard from './pages/tenant/TenantDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ChatPage from './pages/chat/ChatPage';
 import FavoritesPage from './pages/favorites/FavoritesPage';
-import ComparePage from './pages/compare/ComparePage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ContractsPage from './pages/contracts/ContractsPage';
 import PaymentsPage from './pages/payments/PaymentsPage';
-import TicketsPage from './pages/tickets/TicketsPage';
 import PostRoomPage from './pages/landlord/PostRoomPage';
 
 function App() {
@@ -38,11 +36,9 @@ function App() {
             <Route path="/admin/*" element={<AdminDashboard />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/favorites" element={<FavoritesPage />} />
-            <Route path="/compare" element={<ComparePage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/contracts" element={<ContractsPage />} />
             <Route path="/payments" element={<PaymentsPage />} />
-            <Route path="/tickets" element={<TicketsPage />} />
             <Route path="/landlord/rooms/new" element={<PostRoomPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

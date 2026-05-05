@@ -24,8 +24,6 @@ export default function ProfilePage() {
     fullName: user.fullName,
     email: user.email,
     phone: user.phone,
-    bio: user.bio || '',
-    cccd: user.cccd || ''
   });
 
   const handleSave = () => {
@@ -82,7 +80,7 @@ export default function ProfilePage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)', marginBottom: 'var(--space-6)' }}>
                   <div style={{ position: 'relative' }}>
                     <img
-                      src={user.avatar}
+                      src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}`}
                       alt={user.fullName}
                       style={{ width: 80, height: 80, borderRadius: '50%', border: '3px solid var(--primary-200)' }}
                     />
@@ -107,8 +105,10 @@ export default function ProfilePage() {
                       ) : (
                         <span className="badge badge-warning">Chưa xác thực</span>
                       )}
-                      {user.isEKYC && (
-                        <span className="badge badge-primary">eKYC</span>
+                      {user.kycStatus !== 'none' && (
+                        <span className={`badge ${user.kycStatus === 'approved' ? 'badge-primary' : user.kycStatus === 'pending' ? 'badge-warning' : 'badge-neutral'}`}>
+                          KYC: {user.kycStatus}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -143,25 +143,7 @@ export default function ProfilePage() {
                       />
                     </div>
                   </div>
-                  <div className="input-group">
-                    <label className="input-label">CCCD (tùy chọn)</label>
-                    <input
-                      className="input-field"
-                      value={formData.cccd}
-                      onChange={(e) => setFormData({ ...formData, cccd: e.target.value })}
-                      placeholder="Nhập số CCCD để xác thực"
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label className="input-label">Tiểu sử</label>
-                    <textarea
-                      className="input-field"
-                      rows={4}
-                      value={formData.bio}
-                      onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                      placeholder="Giới thiệu về bản thân..."
-                    />
-                  </div>
+
 
                   <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
                     <button className="btn btn-primary" onClick={handleSave}>

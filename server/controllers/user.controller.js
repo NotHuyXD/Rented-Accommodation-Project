@@ -1,194 +1,152 @@
 // ============================================================
-// User Controller - CRUD, KYC, Badges
+// User Controller - User management, KYC (v2.0 schema)
 // ============================================================
-const { query, getConnection } = require('../config/db');
-const { generateUUID, paginate } = require('../utils/helpers');
+const { query } = require('../config/db');
+const { generateUUID } = require('../utils/helpers');
 
 /**
  * GET /users - List users (admin)
  */
 async function listUsers(req, res, next) {
   try {
-    const { page = 1, limit = 20, role, status, search } = req.query;
-    const offset = (page - 1) * limit;
-
-    let whereClause = 'WHERE u.is_deleted = 0';
+    const { page = 1, limit = 20, role, search } = req.query;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+    let conditions = [];
     const params = [];
 
-    if (role) { whereClause += ' AND u.role = ?'; params.push(role); }
-    if (status) { whereClause += ' AND u.status = ?'; params.push(status); }
+    if (role) { conditions.push('role = ?'); params.push(role); }
     if (search) {
-      whereClause += ' AND (u.full_name LIKE ? OR u.email LIKE ? OR u.phone LIKE ?)';
+      conditions.push('(full_name LIKE ? OR email LIKE ? OR phone LIKE ?)');
       const s = `%${search}%`;
       params.push(s, s, s);
     }
 
-    const countParams = [...params];
-    const countResult = await query(
-      `SELECT COUNT(*) as total FROM users u ${whereClause}`, countParams
-    );
+    const whereClause = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
+    const countResult = await query(`SELECT COUNT(*) as total FROM users ${whereClause}`, [...params]);
     const total = countResult[0]?.total || 0;
 
     params.push(parseInt(limit), offset);
     const users = await query(
-      `SELECT u.id, u.email, u.phone, u.full_name, u.avatar_url, u.role, u.status,
-              u.email_verified, u.phone_verified, u.identity_verified,
-              u.trust_score, u.avg_rating, u.total_reviews_received,
-              u.login_count, u.last_login_at, u.created_at
-       FROM users u ${whereClause}
-       ORDER BY u.created_at DESC LIMIT ? OFFSET ?`, params
+      `SELECT id, full_name, email, phone, avatar_url, role, is_verified, kyc_status, created_at
+       FROM users ${whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?`, params
     );
 
-    res.json(paginate(users, page, limit, total));
+    res.json({
+      data: users.map(u => ({
+        id: u.id, fullName: u.full_name, email: u.email, phone: u.phone,
+        avatar: u.avatar_url, role: u.role, isVerified: !!u.is_verified,
+        kycStatus: u.kyc_status, createdAt: u.created_at,
+      })),
+      pagination: {
+        page: parseInt(page), limit: parseInt(limit), total,
+        totalPages: Math.ceil(total / parseInt(limit)),
+      },
+    });
   } catch (error) {
     next(error);
   }
 }
 
 /**
- * GET /users/:id
+ * GET /users/:id - Get user by ID
  */
 async function getUserById(req, res, next) {
   try {
     const users = await query(
-      `SELECT u.id, u.email, u.phone, u.full_name, u.avatar_url, u.cover_photo_url,
-              u.gender, u.date_of_birth, u.role, u.status,
-              u.email_verified, u.phone_verified, u.identity_verified,
-              u.trust_score, u.avg_rating, u.total_reviews_received, u.referral_code,
-              u.created_at,
-              up.bio, up.occupation, up.company, up.school,
-              up.address, up.ward, up.district, up.city
-       FROM users u
-       LEFT JOIN user_profiles up ON u.id = up.user_id
-       WHERE u.id = ? AND u.is_deleted = 0`, [req.params.id]
+      'SELECT id, full_name, email, phone, avatar_url, role, is_verified, kyc_status, created_at FROM users WHERE id = ?',
+      [req.params.id]
     );
-
     if (users.length === 0) {
       return res.status(404).json({ message: 'Không tìm thấy người dùng' });
     }
-
-    // Get badges
-    const badges = await query(
-      `SELECT b.name, b.display_name, b.icon_url, b.color, ub.earned_at
-       FROM user_badges ub JOIN badges b ON ub.badge_id = b.id
-       WHERE ub.user_id = ?`, [req.params.id]
-    );
-
-    res.json({ data: { ...users[0], badges } });
+    const u = users[0];
+    res.json({
+      data: {
+        id: u.id, fullName: u.full_name, email: u.email, phone: u.phone,
+        avatar: u.avatar_url, role: u.role, isVerified: !!u.is_verified,
+        kycStatus: u.kyc_status, createdAt: u.created_at,
+      }
+    });
   } catch (error) {
     next(error);
   }
 }
 
 /**
- * PATCH /users/:id/status - Ban/Unban user (admin)
- */
-async function updateUserStatus(req, res, next) {
-  try {
-    const { status, reason } = req.body;
-    await query(
-      'UPDATE users SET status = ? WHERE id = ?', [status, req.params.id]
-    );
-
-    // Audit log
-    await query(
-      `INSERT INTO audit_logs (id, admin_id, action, entity_type, entity_id, new_values, reason, ip_address)
-       VALUES (?, ?, 'update_status', 'user', ?, ?, ?, ?)`,
-      [generateUUID(), req.user.id, req.params.id, JSON.stringify({ status }), reason || null, req.ip]
-    );
-
-    res.json({ message: 'Cập nhật trạng thái thành công' });
-  } catch (error) {
-    next(error);
-  }
-}
-
-/**
- * POST /users/:id/verify-identity - Submit KYC
+ * POST /users/kyc - Submit KYC verification
  */
 async function submitKYC(req, res, next) {
   try {
-    const { documentType, documentNumber, documentFrontUrl, documentBackUrl,
-            selfieUrl, fullNameOnDoc, dateOfBirthOnDoc, addressOnDoc } = req.body;
-
-    await query(
-      `INSERT INTO identity_verifications 
-       (id, user_id, document_type, document_number, document_front_url, document_back_url,
-        selfie_url, full_name_on_doc, date_of_birth_on_doc, address_on_doc, status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
-      [generateUUID(), req.params.id, documentType, documentNumber,
-       documentFrontUrl, documentBackUrl, selfieUrl, fullNameOnDoc,
-       dateOfBirthOnDoc || null, addressOnDoc || null]
-    );
-
-    res.status(201).json({ message: 'Yêu cầu xác minh đã được gửi' });
-  } catch (error) {
-    next(error);
-  }
-}
-
-/**
- * PATCH /users/:id/verify-identity/:verificationId - Approve/Reject KYC (admin)
- */
-async function processKYC(req, res, next) {
-  const conn = await getConnection();
-  try {
-    await conn.beginTransaction();
-    const { status, rejectionReason } = req.body;
-
-    await conn.execute(
-      `UPDATE identity_verifications SET status = ?, verified_by = ?, verified_at = NOW(),
-       rejection_reason = ? WHERE id = ? AND user_id = ?`,
-      [status, req.user.id, rejectionReason || null, req.params.verificationId, req.params.id]
-    );
-
-    if (status === 'approved') {
-      await conn.execute(
-        'UPDATE users SET identity_verified = 1 WHERE id = ?', [req.params.id]
-      );
+    const { idCardFront, idCardBack, selfieUrl } = req.body;
+    if (!idCardFront || !idCardBack) {
+      return res.status(400).json({ message: 'Vui lòng cung cấp ảnh CCCD mặt trước và mặt sau' });
     }
 
-    await conn.commit();
-    res.json({ message: `Xác minh ${status === 'approved' ? 'đã duyệt' : 'đã từ chối'}` });
-  } catch (error) {
-    await conn.rollback();
-    next(error);
-  } finally {
-    conn.release();
-  }
-}
+    // Check if already submitted
+    const existing = await query('SELECT id FROM user_verifications WHERE user_id = ?', [req.user.id]);
+    if (existing.length > 0) {
+      return res.status(409).json({ message: 'Bạn đã gửi yêu cầu xác thực trước đó' });
+    }
 
-/**
- * GET /users/:id/activity
- */
-async function getUserActivity(req, res, next) {
-  try {
-    const { page = 1, limit = 20 } = req.query;
-    const offset = (page - 1) * limit;
-
-    const activities = await query(
-      `SELECT action, entity_type, entity_id, metadata, ip_address, created_at
-       FROM activity_logs WHERE user_id = ?
-       ORDER BY created_at DESC LIMIT ? OFFSET ?`,
-      [req.params.id, parseInt(limit), offset]
-    );
-
-    res.json({ data: activities });
-  } catch (error) {
-    next(error);
-  }
-}
-
-/**
- * DELETE /users/:id - Soft delete
- */
-async function deleteUser(req, res, next) {
-  try {
     await query(
-      'UPDATE users SET is_deleted = 1, deleted_at = NOW(), status = ? WHERE id = ?',
-      ['deactivated', req.params.id]
+      `INSERT INTO user_verifications (id, user_id, id_card_front, id_card_back, selfie_url)
+       VALUES (?, ?, ?, ?, ?)`,
+      [generateUUID(), req.user.id, idCardFront, idCardBack, selfieUrl || null]
     );
-    res.json({ message: 'Xóa tài khoản thành công' });
+
+    await query('UPDATE users SET kyc_status = ? WHERE id = ?', ['pending', req.user.id]);
+
+    res.status(201).json({ message: 'Gửi yêu cầu xác thực thành công' });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * GET /users/kyc/pending - List pending KYC (admin)
+ */
+async function listPendingKYC(req, res, next) {
+  try {
+    const verifications = await query(
+      `SELECT uv.*, u.full_name, u.email, u.phone, u.role
+       FROM user_verifications uv
+       JOIN users u ON uv.user_id = u.id
+       WHERE uv.status = 'pending'
+       ORDER BY uv.created_at ASC`
+    );
+    res.json({ data: verifications });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * PATCH /users/kyc/:id/review - Review KYC (admin)
+ */
+async function reviewKYC(req, res, next) {
+  try {
+    const { status } = req.body; // 'approved' or 'rejected'
+    if (!['approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ message: 'Trạng thái không hợp lệ' });
+    }
+
+    const verifications = await query('SELECT user_id FROM user_verifications WHERE id = ?', [req.params.id]);
+    if (verifications.length === 0) {
+      return res.status(404).json({ message: 'Không tìm thấy yêu cầu xác thực' });
+    }
+
+    await query(
+      'UPDATE user_verifications SET status = ?, reviewed_by = ?, reviewed_at = NOW() WHERE id = ?',
+      [status, req.user.id, req.params.id]
+    );
+
+    const userId = verifications[0].user_id;
+    await query(
+      'UPDATE users SET kyc_status = ?, is_verified = ? WHERE id = ?',
+      [status, status === 'approved' ? 1 : 0, userId]
+    );
+
+    res.json({ message: `Xác thực đã được ${status === 'approved' ? 'phê duyệt' : 'từ chối'}` });
   } catch (error) {
     next(error);
   }
@@ -197,9 +155,7 @@ async function deleteUser(req, res, next) {
 module.exports = {
   listUsers,
   getUserById,
-  updateUserStatus,
   submitKYC,
-  processKYC,
-  getUserActivity,
-  deleteUser,
+  listPendingKYC,
+  reviewKYC,
 };

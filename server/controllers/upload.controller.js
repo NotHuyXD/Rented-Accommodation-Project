@@ -1,16 +1,21 @@
 // ============================================================
-// Upload Controller - File upload for images/docs
+// Upload Controller - File upload for images/docs (v2.0 schema)
 // ============================================================
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const { generateUUID } = require('../utils/helpers');
-const { query } = require('../config/db');
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '..', process.env.UPLOAD_DIR || 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // Multer configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = path.join(__dirname, '..', process.env.UPLOAD_DIR || 'uploads');
-    cb(null, uploadDir);
+    cb(null, uploadsDir);
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -59,13 +64,6 @@ async function uploadFile(req, res, next) {
     const fileType = req.file.mimetype.startsWith('image/') ? 'image' :
                      req.file.mimetype.startsWith('video/') ? 'video' : 'document';
 
-    // Save to media library
-    query(
-      `INSERT INTO media_library (id, uploaded_by, original_filename, file_url, file_size, mime_type, file_type)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [generateUUID(), req.user.id, req.file.originalname, fileUrl, req.file.size, req.file.mimetype, fileType]
-    ).catch(console.error);
-
     res.json({
       message: 'Upload thành công',
       data: {
@@ -99,13 +97,6 @@ async function uploadFiles(req, res, next) {
       const fileType = file.mimetype.startsWith('image/') ? 'image' :
                        file.mimetype.startsWith('video/') ? 'video' : 'document';
 
-      // Save to media library async
-      query(
-        `INSERT INTO media_library (id, uploaded_by, original_filename, file_url, file_size, mime_type, file_type)
-         VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [generateUUID(), req.user.id, file.originalname, fileUrl, file.size, file.mimetype, fileType]
-      ).catch(console.error);
-
       return {
         url: fileUrl,
         originalFilename: file.originalname,
@@ -119,25 +110,4 @@ async function uploadFiles(req, res, next) {
   });
 }
 
-async function listMedia(req, res, next) {
-  try {
-    const { page = 1, limit = 20, fileType, folder } = req.query;
-    const offset = (page - 1) * limit;
-
-    let whereClause = 'WHERE uploaded_by = ?';
-    const params = [req.user.id];
-
-    if (fileType) { whereClause += ' AND file_type = ?'; params.push(fileType); }
-    if (folder) { whereClause += ' AND folder = ?'; params.push(folder); }
-
-    params.push(parseInt(limit), offset);
-    const media = await query(
-      `SELECT id, original_filename, file_url, thumbnail_url, file_size, mime_type, file_type, created_at
-       FROM media_library ${whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?`, params
-    );
-
-    res.json({ data: media });
-  } catch (error) { next(error); }
-}
-
-module.exports = { uploadFile, uploadFiles, listMedia };
+module.exports = { uploadFile, uploadFiles };

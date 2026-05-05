@@ -1,12 +1,10 @@
-// ============================================================
-// Amenity Routes
-// ============================================================
 const express = require('express');
 const router = express.Router();
-const amenityController = require('../controllers/amenity.controller');
+const { listAmenities, listRoomTypes, createAmenity } = require('../controllers/amenity.controller');
+const { authenticate, authorize } = require('../middleware/auth');
 
-// All public
-router.get('/', amenityController.listAmenities);
-router.get('/:id', amenityController.getAmenityById);
+router.get('/', listAmenities);
+router.get('/room-types', listRoomTypes);
+router.post('/', authenticate, authorize('admin'), createAmenity);
 
 module.exports = router;

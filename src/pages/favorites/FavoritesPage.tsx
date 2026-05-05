@@ -1,13 +1,19 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
+import { useAppStore } from '../../stores/appStore';
 import { formatCurrency } from '../../utils/helpers';
-import { MapPin, Star, Heart, Eye, Wifi, Snowflake, Car, Trash2 } from 'lucide-react';
+import { MapPin, Star, Heart, Trash2 } from 'lucide-react';
+import type { Bookmark } from '../../types';
 
 export default function FavoritesPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { rooms, favorites, toggleFavorite } = useRoomStore();
+  const { bookmarks, fetchBookmarks, toggleBookmark } = useAppStore();
+
+  useEffect(() => {
+    if (user) fetchBookmarks();
+  }, [user]);
 
   if (!user) {
     return (
@@ -18,53 +24,48 @@ export default function FavoritesPage() {
     );
   }
 
-  const favoriteRooms = rooms.filter(r => favorites.includes(r.id));
-
   return (
     <div style={{ paddingTop: '68px', minHeight: '100vh', background: 'var(--bg-secondary)' }}>
-      <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-16)' }}>
-        <h1 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 800, marginBottom: 'var(--space-6)' }}>
-          Phòng yêu thích ({favoriteRooms.length})
+      <div className="container" style={{ paddingTop: '32px', paddingBottom: '64px' }}>
+        <h1 style={{ fontSize: '1.875rem', fontWeight: 800, marginBottom: '24px' }}>
+          Phòng yêu thích ({bookmarks.length})
         </h1>
 
-        {favoriteRooms.length > 0 ? (
+        {bookmarks.length > 0 ? (
           <div className="room-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-            {favoriteRooms.map(room => (
-              <div key={room.id} className="room-card" onClick={() => navigate(`/rooms/${room.id}`)}>
+            {bookmarks.map((bm: Bookmark) => (
+              <div key={bm.id} className="room-card" onClick={() => navigate(`/rooms/${bm.room_id}`)}>
                 <div className="room-card-image">
-                  <img src={room.images[0]} alt={room.title} />
+                  <img src={bm.cover_image || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'} alt={bm.title} />
                   <div className="room-card-overlay">
                     <span></span>
                     <button
                       className="room-card-fav active"
-                      onClick={(e) => { e.stopPropagation(); toggleFavorite(room.id); }}
+                      onClick={(e) => { e.stopPropagation(); toggleBookmark(bm.room_id); }}
                     >
                       <Heart size={18} fill="#ef4444" color="#ef4444" />
                     </button>
                   </div>
                   <div className="room-card-price-tag">
-                    {formatCurrency(room.price)}<span>/tháng</span>
+                    {formatCurrency(bm.price)}<span>/tháng</span>
                   </div>
                 </div>
                 <div className="room-card-body">
-                  <h3 className="room-card-title">{room.title}</h3>
+                  <h3 className="room-card-title">{bm.title}</h3>
                   <div className="room-card-location">
                     <MapPin size={14} />
-                    <span>{room.address}, {room.district}</span>
+                    <span>{bm.ward_name}, {bm.district_name}</span>
                   </div>
                   <div className="room-card-amenities">
-                    <span className="room-card-area">{room.area}m²</span>
+                    <span className="room-card-area">{bm.area}m²</span>
                     <span className="room-card-dot">•</span>
-                    <span>{room.maxOccupants} người</span>
+                    <span>{bm.room_type_name}</span>
                   </div>
                   <div className="room-card-footer">
-                    <div className="room-card-rating">
-                      <Star size={14} fill="#f59e0b" color="#f59e0b" />
-                      <span>{room.rating}</span>
-                    </div>
+                    <span className="badge badge-secondary">{bm.province_name}</span>
                     <button
                       className="btn btn-ghost btn-sm"
-                      onClick={(e) => { e.stopPropagation(); toggleFavorite(room.id); }}
+                      onClick={(e) => { e.stopPropagation(); toggleBookmark(bm.room_id); }}
                       style={{ color: 'var(--error-500)' }}
                     >
                       <Trash2 size={14} /> Bỏ
@@ -75,11 +76,11 @@ export default function FavoritesPage() {
             ))}
           </div>
         ) : (
-          <div style={{ textAlign: 'center', padding: 'var(--space-16)', color: 'var(--text-tertiary)' }}>
-            <Heart size={48} style={{ marginBottom: 'var(--space-4)' }} />
-            <h3 style={{ color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>Chưa có phòng yêu thích</h3>
+          <div style={{ textAlign: 'center', padding: '64px', color: 'var(--text-tertiary)' }}>
+            <Heart size={48} style={{ marginBottom: '16px' }} />
+            <h3 style={{ color: 'var(--text-primary)', marginBottom: '8px' }}>Chưa có phòng yêu thích</h3>
             <p>Nhấn vào biểu tượng ♥ để lưu phòng yêu thích</p>
-            <button className="btn btn-primary" style={{ marginTop: 'var(--space-4)' }} onClick={() => navigate('/rooms')}>
+            <button className="btn btn-primary" style={{ marginTop: '16px' }} onClick={() => navigate('/rooms')}>
               Tìm phòng ngay
             </button>
           </div>

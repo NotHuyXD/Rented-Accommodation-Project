@@ -1,3 +1,7 @@
+// ============================================================
+// Utility Helper Functions - v2.0
+// ============================================================
+
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -7,6 +11,7 @@ export function formatCurrency(amount: number): string {
 }
 
 export function formatDate(dateStr: string): string {
+  if (!dateStr) return '';
   const date = new Date(dateStr);
   return new Intl.DateTimeFormat('vi-VN', {
     day: '2-digit',
@@ -16,6 +21,7 @@ export function formatDate(dateStr: string): string {
 }
 
 export function formatDateTime(dateStr: string): string {
+  if (!dateStr) return '';
   const date = new Date(dateStr);
   return new Intl.DateTimeFormat('vi-VN', {
     day: '2-digit',
@@ -27,6 +33,7 @@ export function formatDateTime(dateStr: string): string {
 }
 
 export function timeAgo(dateStr: string): string {
+  if (!dateStr) return '';
   const now = new Date();
   const date = new Date(dateStr);
   const diff = now.getTime() - date.getTime();
@@ -44,32 +51,52 @@ export function timeAgo(dateStr: string): string {
 
 export function getStatusLabel(status: string): { label: string; color: string } {
   const statusMap: Record<string, { label: string; color: string }> = {
+    // Room statuses
     available: { label: 'Đang trống', color: '#10b981' },
-    deposited: { label: 'Đã đặt cọc', color: '#f59e0b' },
     rented: { label: 'Đang thuê', color: '#3b82f6' },
-    maintenance: { label: 'Đang sửa chữa', color: '#ef4444' },
+    maintenance: { label: 'Đang sửa chữa', color: '#f59e0b' },
+    hidden: { label: 'Đã ẩn', color: '#6b7280' },
+    // Rental request statuses
     pending: { label: 'Chờ xử lý', color: '#f59e0b' },
-    confirmed: { label: 'Đã xác nhận', color: '#10b981' },
-    cancelled: { label: 'Đã hủy', color: '#ef4444' },
-    completed: { label: 'Hoàn thành', color: '#6366f1' },
-    draft: { label: 'Nháp', color: '#6b7280' },
+    accepted: { label: 'Đã chấp nhận', color: '#10b981' },
+    rejected: { label: 'Đã từ chối', color: '#ef4444' },
+    cancelled: { label: 'Đã hủy', color: '#6b7280' },
+    // Contract statuses
+    pending_sign: { label: 'Chờ ký', color: '#f59e0b' },
     active: { label: 'Đang hiệu lực', color: '#10b981' },
     expired: { label: 'Đã hết hạn', color: '#ef4444' },
-    open: { label: 'Mở', color: '#f59e0b' },
-    in_progress: { label: 'Đang xử lý', color: '#3b82f6' },
-    fixing: { label: 'Đang sửa', color: '#8b5cf6' },
-    resolved: { label: 'Đã giải quyết', color: '#10b981' },
+    terminated: { label: 'Đã chấm dứt', color: '#ef4444' },
+    // Invoice statuses
+    unpaid: { label: 'Chưa thanh toán', color: '#ef4444' },
+    paid: { label: 'Đã thanh toán', color: '#10b981' },
+    overdue: { label: 'Quá hạn', color: '#dc2626' },
+    disputed: { label: 'Đang tranh chấp', color: '#f59e0b' },
+    // Payment statuses
+    success: { label: 'Thành công', color: '#10b981' },
     failed: { label: 'Thất bại', color: '#ef4444' },
-    refunded: { label: 'Đã hoàn tiền', color: '#6366f1' }
+    // KYC statuses
+    none: { label: 'Chưa xác thực', color: '#6b7280' },
+    approved: { label: 'Đã duyệt', color: '#10b981' },
+    // Report statuses
+    resolved: { label: 'Đã giải quyết', color: '#10b981' },
+    dismissed: { label: 'Đã bác', color: '#6b7280' },
   };
   return statusMap[status] || { label: status, color: '#6b7280' };
 }
 
 export function truncateText(text: string, maxLength: number): string {
+  if (!text) return '';
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength) + '...';
 }
 
-export function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+export function getPaymentMethodLabel(method: string): string {
+  const map: Record<string, string> = {
+    cash: 'Tiền mặt',
+    bank_transfer: 'Chuyển khoản',
+    momo: 'MoMo',
+    vnpay: 'VNPay',
+    zalopay: 'ZaloPay',
+  };
+  return map[method] || method;
 }

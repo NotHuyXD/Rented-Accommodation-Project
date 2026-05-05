@@ -2,27 +2,25 @@ import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
-import { useBookingStore } from '../../stores/bookingStore';
-import { formatCurrency } from '../../utils/helpers';
-import { roomApi } from '../../api/roomApi';
+import { useAppStore } from '../../stores/appStore';
+import { formatCurrency, getStatusLabel } from '../../utils/helpers';
 import {
-  Building2, Plus, Eye, Star, TrendingUp, Users, DollarSign,
-  FileText, Settings, Bell, Home, Wrench, CheckCircle2,
-  Clock, AlertTriangle, Edit, Trash2, EyeOff, MoreVertical
+  Building2, Plus, CheckCircle2, DollarSign,
+  FileText, Settings, Users, Clock,
+  Wrench, MessageCircle
 } from 'lucide-react';
 import './DashboardPages.css';
 
 export default function LandlordDashboard() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { rooms, fetchRooms, isLoading: roomsLoading } = useRoomStore();
-  const { bookings, fetchMyBookings } = useBookingStore();
+  const { myRooms, fetchMyRooms, isLoading: roomsLoading } = useRoomStore();
+  const { rentalRequests, fetchRentalRequests } = useAppStore();
 
   useEffect(() => {
     if (user && user.role === 'landlord') {
-      // Fetch landlord's own rooms
-      fetchRooms();
-      fetchMyBookings('landlord');
+      fetchMyRooms();
+      fetchRentalRequests();
     }
   }, [user]);
 
@@ -37,21 +35,17 @@ export default function LandlordDashboard() {
     );
   }
 
-  // Filter rooms for this landlord (API might already do this with /my-rooms but rooms store uses /rooms)
-  const myRooms = rooms;
-  const availableRooms = myRooms.filter(r => r.status === 'active' || r.status === 'available').length;
-  const totalViews = myRooms.reduce((sum, r) => sum + ((r as any).view_count || (r as any).views || 0), 0);
-  const rentedRooms = myRooms.filter(r => r.status === 'rented');
-  const totalRevenue = rentedRooms.reduce((sum, r) => sum + r.price, 0);
+  const availableRooms = myRooms.filter(r => r.status === 'available').length;
+  const rentedRooms = myRooms.filter(r => r.status === 'rented').length;
+  const totalRevenue = myRooms.filter(r => r.status === 'rented').reduce((sum, r) => sum + (r.price || 0), 0);
+  const pendingRequests = rentalRequests.filter(r => r.status === 'pending');
 
   const stats = [
     { icon: Building2, label: 'Tổng phòng', value: myRooms.length, color: '#06b6d4' },
     { icon: CheckCircle2, label: 'Phòng trống', value: availableRooms, color: '#10b981' },
-    { icon: Eye, label: 'Lượt xem', value: totalViews.toLocaleString(), color: '#8b5cf6' },
+    { icon: Users, label: 'Đang thuê', value: rentedRooms, color: '#8b5cf6' },
     { icon: DollarSign, label: 'Doanh thu/tháng', value: formatCurrency(totalRevenue), color: '#f97316' }
   ];
-
-  const pendingBookings = bookings.filter(b => b.status === 'pending');
 
   return (
     <div className="dashboard-page">
@@ -91,38 +85,34 @@ export default function LandlordDashboard() {
           <div className="dashboard-card">
             <div className="dashboard-card-header">
               <h2>Phòng của tôi</h2>
-              <Link to="/landlord/rooms" className="btn btn-ghost btn-sm">Xem tất cả</Link>
             </div>
             {roomsLoading ? (
-              <div style={{ padding: 'var(--space-6)', textAlign: 'center', color: 'var(--text-secondary)' }}>
+              <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
                 Đang tải...
               </div>
             ) : (
               <div className="dashboard-room-list">
-                {myRooms.slice(0, 5).map(room => (
-                  <div key={room.id} className="dashboard-room-item" onClick={() => navigate(`/rooms/${room.id}`)}>
-                    <img
-                      src={(room as any).cover_image || (room as any).coverImage || (room.images && room.images[0]) || 'https://via.placeholder.com/60x45'}
-                      alt={room.title}
-                      className="dashboard-room-thumb"
-                    />
-                    <div className="dashboard-room-info">
-                      <h4>{room.title}</h4>
-                      <p>{formatCurrency(room.price)}/tháng</p>
+                {myRooms.slice(0, 5).map(room => {
+                  const status = getStatusLabel(room.status);
+                  return (
+                    <div key={room.id} className="dashboard-room-item" onClick={() => navigate(`/rooms/${room.id}`)}>
+                      <img
+                        src={room.cover_image || 'https://placehold.co/60x45/e2e8f0/64748b?text=Room'}
+                        alt={room.title}
+                        className="dashboard-room-thumb"
+                      />
+                      <div className="dashboard-room-info">
+                        <h4>{room.title}</h4>
+                        <p>{formatCurrency(room.price)}/tháng</p>
+                      </div>
+                      <span className="badge" style={{ background: `${status.color}20`, color: status.color }}>
+                        {status.label}
+                      </span>
                     </div>
-                    <span
-                      className="badge"
-                      style={{
-                        background: room.status === 'active' ? 'var(--success-100)' : room.status === 'rented' ? 'var(--warning-100)' : 'var(--neutral-100)',
-                        color: room.status === 'active' ? 'var(--success-700)' : room.status === 'rented' ? 'var(--warning-600)' : 'var(--text-secondary)'
-                      }}
-                    >
-                      {room.status === 'active' ? 'Trống' : room.status === 'rented' ? 'Đang thuê' : room.status === 'pending_approval' ? 'Chờ duyệt' : room.status}
-                    </span>
-                  </div>
-                ))}
+                  );
+                })}
                 {myRooms.length === 0 && (
-                  <div style={{ padding: 'var(--space-6)', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                  <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
                     Chưa có phòng nào. Hãy đăng phòng mới!
                   </div>
                 )}
@@ -146,15 +136,11 @@ export default function LandlordDashboard() {
               </button>
               <button className="dashboard-action-btn" onClick={() => navigate('/payments')}>
                 <DollarSign size={20} />
-                <span>Thanh toán</span>
+                <span>Hóa đơn</span>
               </button>
               <button className="dashboard-action-btn" onClick={() => navigate('/chat')}>
-                <Users size={20} />
+                <MessageCircle size={20} />
                 <span>Tin nhắn</span>
-              </button>
-              <button className="dashboard-action-btn" onClick={() => navigate('/tickets')}>
-                <Wrench size={20} />
-                <span>Sự cố</span>
               </button>
               <button className="dashboard-action-btn" onClick={() => navigate('/profile')}>
                 <Settings size={20} />
@@ -163,54 +149,29 @@ export default function LandlordDashboard() {
             </div>
           </div>
 
-          {/* Revenue Chart Placeholder */}
+          {/* Pending Rental Requests */}
           <div className="dashboard-card dashboard-card-full">
             <div className="dashboard-card-header">
-              <h2>Biểu đồ doanh thu</h2>
-              <select className="select-field" style={{ width: 'auto' }}>
-                <option>6 tháng gần nhất</option>
-                <option>12 tháng</option>
-                <option>Năm nay</option>
-              </select>
-            </div>
-            <div className="dashboard-chart-placeholder">
-              <div className="chart-bars">
-                {[65, 45, 80, 55, 90, 70].map((h, i) => (
-                  <div key={i} className="chart-bar-group">
-                    <div className="chart-bar" style={{ height: `${h}%` }}></div>
-                    <span className="chart-bar-label">T{i + 1}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Recent Bookings */}
-          <div className="dashboard-card">
-            <div className="dashboard-card-header">
-              <h2>Yêu cầu đặt phòng ({pendingBookings.length})</h2>
+              <h2>Yêu cầu thuê phòng ({pendingRequests.length} chờ duyệt)</h2>
             </div>
             <div className="dashboard-tickets">
-              {pendingBookings.length > 0 ? (
-                pendingBookings.slice(0, 5).map(booking => (
-                  <div key={booking.id} className="dashboard-ticket-item">
-                    <div className="dashboard-ticket-icon" style={{
-                      background: booking.status === 'confirmed' ? 'var(--success-100)' : 'var(--warning-100)',
-                      color: booking.status === 'confirmed' ? 'var(--success-600)' : 'var(--warning-600)'
-                    }}>
-                      {booking.status === 'confirmed' ? <CheckCircle2 size={18} /> : <Clock size={18} />}
+              {pendingRequests.length > 0 ? (
+                pendingRequests.slice(0, 5).map(req => (
+                  <div key={req.id} className="dashboard-ticket-item">
+                    <div className="dashboard-ticket-icon" style={{ background: 'var(--warning-100)', color: 'var(--warning-600)' }}>
+                      <Clock size={18} />
                     </div>
                     <div className="dashboard-ticket-info">
-                      <h4>{booking.room_title || 'Phòng trọ'}</h4>
-                      <p>{booking.tenant_name || 'Khách thuê'} - {booking.booking_type === 'viewing' ? 'Xem phòng' : 'Đặt cọc'}</p>
+                      <h4>{req.room_title || 'Phòng trọ'}</h4>
+                      <p>{req.tenant_name} - Dọn vào {req.move_in_date} ({req.num_people} người)</p>
                     </div>
-                    <span className={`badge ${booking.status === 'confirmed' ? 'badge-success' : 'badge-warning'}`}>
-                      {booking.status === 'pending' ? 'Chờ duyệt' : booking.status === 'confirmed' ? 'Đã xác nhận' : booking.status}
+                    <span className="badge" style={{ background: 'var(--warning-100)', color: 'var(--warning-600)' }}>
+                      Chờ duyệt
                     </span>
                   </div>
                 ))
               ) : (
-                <div style={{ padding: 'var(--space-6)', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
                   Không có yêu cầu nào đang chờ
                 </div>
               )}

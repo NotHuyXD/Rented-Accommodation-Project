@@ -1,18 +1,10 @@
-// ============================================================
-// Notification Routes
-// ============================================================
 const express = require('express');
 const router = express.Router();
-const notificationController = require('../controllers/notification.controller');
-const { authenticate, authorize } = require('../middleware/auth');
+const { listNotifications, markAsRead, markAllAsRead } = require('../controllers/notification.controller');
+const { authenticate } = require('../middleware/auth');
 
-router.get('/', authenticate, notificationController.listNotifications);
-router.get('/unread-count', authenticate, notificationController.getUnreadCount);
-router.post('/mark-read', authenticate, notificationController.markAsRead);
-router.post('/mark-all-read', authenticate, notificationController.markAllAsRead);
-router.delete('/:id', authenticate, notificationController.deleteNotification);
-
-// Admin: send notification
-router.post('/send', authenticate, authorize('admin', 'super_admin'), notificationController.sendNotification);
+router.get('/', authenticate, listNotifications);
+router.patch('/:id/read', authenticate, markAsRead);
+router.patch('/read-all', authenticate, markAllAsRead);
 
 module.exports = router;

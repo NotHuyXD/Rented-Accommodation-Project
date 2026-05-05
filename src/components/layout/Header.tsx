@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
+import { useAppStore } from '../../stores/appStore';
 import {
   Home, Search, Heart, MessageCircle, User, Menu, X, Bell,
   LogIn, UserPlus, ChevronDown, Building2, LayoutDashboard,
@@ -9,13 +10,16 @@ import {
 import './Header.css';
 
 export default function Header() {
-  const { user, isAuthenticated, logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
+  const { unreadCount } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  const isAuthenticated = !!user;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -65,6 +69,8 @@ export default function Header() {
       default: return '';
     }
   };
+
+  const defaultAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.fullName || 'U') + '&background=06b6d4&color=fff';
 
   return (
     <header className={`header ${scrolled ? 'header-scrolled' : ''} ${isHomePage && !scrolled ? 'header-transparent' : ''}`}>
@@ -116,9 +122,11 @@ export default function Header() {
               )}
 
               {/* Notification Bell */}
-              <button className="header-icon-btn" onClick={() => navigate('/notifications')}>
+              <button className="header-icon-btn" onClick={() => navigate('/tenant')}>
                 <Bell size={20} />
-                <span className="header-notification-badge">2</span>
+                {unreadCount > 0 && (
+                  <span className="header-notification-badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
+                )}
               </button>
 
               {/* User Menu */}
@@ -128,9 +136,10 @@ export default function Header() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                 >
                   <img
-                    src={user.avatar}
+                    src={user.avatar || defaultAvatar}
                     alt={user.fullName}
                     className="header-user-avatar"
+                    onError={(e) => { (e.target as HTMLImageElement).src = defaultAvatar; }}
                   />
                   <div className="header-user-info hide-mobile">
                     <span className="header-user-name">{user.fullName}</span>
@@ -142,7 +151,8 @@ export default function Header() {
                 {userMenuOpen && (
                   <div className="header-dropdown animate-slideDown">
                     <div className="header-dropdown-header">
-                      <img src={user.avatar} alt={user.fullName} className="header-dropdown-avatar" />
+                      <img src={user.avatar || defaultAvatar} alt={user.fullName} className="header-dropdown-avatar"
+                        onError={(e) => { (e.target as HTMLImageElement).src = defaultAvatar; }} />
                       <div>
                         <div className="header-dropdown-name">{user.fullName}</div>
                         <div className="header-dropdown-email">{user.email}</div>
@@ -159,7 +169,7 @@ export default function Header() {
                     </Link>
                     {user.role === 'landlord' && (
                       <>
-                        <Link to="/landlord/rooms" className="header-dropdown-item">
+                        <Link to="/landlord" className="header-dropdown-item">
                           <Building2 size={18} />
                           Quản lý phòng
                         </Link>
@@ -167,9 +177,9 @@ export default function Header() {
                           <FileText size={18} />
                           Hợp đồng
                         </Link>
-                        <Link to="/landlord/analytics" className="header-dropdown-item">
+                        <Link to="/payments" className="header-dropdown-item">
                           <BarChart3 size={18} />
-                          Thống kê
+                          Thanh toán
                         </Link>
                       </>
                     )}
@@ -179,7 +189,7 @@ export default function Header() {
                         Quản trị
                       </Link>
                     )}
-                    <Link to="/settings" className="header-dropdown-item">
+                    <Link to="/profile" className="header-dropdown-item">
                       <Settings size={18} />
                       Cài đặt
                     </Link>
@@ -237,11 +247,11 @@ export default function Header() {
                   <MessageCircle size={20} />
                   Tin nhắn
                 </Link>
-                <Link to={getRoleDashboard()} className={`header-mobile-link`}>
+                <Link to={getRoleDashboard()} className="header-mobile-link">
                   <LayoutDashboard size={20} />
                   Dashboard
                 </Link>
-                <Link to="/profile" className={`header-mobile-link`}>
+                <Link to="/profile" className="header-mobile-link">
                   <User size={20} />
                   Hồ sơ cá nhân
                 </Link>

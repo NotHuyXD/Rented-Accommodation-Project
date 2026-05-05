@@ -2,46 +2,36 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
+import { useAppStore } from '../../stores/appStore';
 import { formatCurrency } from '../../utils/helpers';
 import {
   Search, MapPin, Shield, Zap, Users, Star, ArrowRight,
-  Building2, Heart, Eye, ChevronRight, Wifi, Snowflake,
-  Car, Sofa, PawPrint, CheckCircle2, TrendingUp, Clock,
+  Building2, Heart, ChevronRight,
+  PawPrint, CheckCircle2, Clock,
   Phone, MessageCircle
 } from 'lucide-react';
 import './HomePage.css';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { rooms, fetchRooms, isLoading } = useRoomStore();
-  const { loginAsRole } = useAuthStore();
+  const { rooms, fetchRooms, provinces, fetchProvinces } = useRoomStore();
+  const { user } = useAuthStore();
+  const { toggleBookmark, isBookmarked } = useAppStore();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedProvinceId, setSelectedProvinceId] = useState('');
 
   useEffect(() => {
-    // Nếu chưa có data thật thì gọi API (mock data có id bắt đầu bằng 'r1')
-    if (rooms.length === 0 || rooms.some(r => r.id === 'r1')) {
-      fetchRooms();
-    }
-  }, [fetchRooms, rooms]);
+    fetchRooms({ limit: 8 });
+    fetchProvinces();
+  }, []);
 
-  const featuredRooms = rooms.filter(r => r.isPinned || r.isBoosted).slice(0, 4);
-  const latestRooms = [...rooms].sort((a, b) =>
-    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  ).slice(0, 4);
+  const latestRooms = rooms.slice(0, 8);
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (searchQuery) params.set('q', searchQuery);
-    if (selectedCity) params.set('city', selectedCity);
+    if (searchQuery) params.set('search', searchQuery);
+    if (selectedProvinceId) params.set('provinceId', selectedProvinceId);
     navigate(`/rooms?${params.toString()}`);
-  };
-
-  const handleQuickLogin = (role: 'tenant' | 'landlord' | 'admin') => {
-    loginAsRole(role);
-    if (role === 'admin') navigate('/admin');
-    else if (role === 'landlord') navigate('/landlord');
-    else navigate('/');
   };
 
   const stats = [
@@ -55,25 +45,25 @@ export default function HomePage() {
     {
       icon: Search,
       title: 'Tìm kiếm thông minh',
-      description: 'Bộ lọc chi tiết, tìm kiếm bản đồ, gợi ý AI phù hợp nhu cầu của bạn.',
+      description: 'Bộ lọc chi tiết theo giá, diện tích, tiện nghi, nội quy phòng.',
       color: '#06b6d4'
     },
     {
       icon: Shield,
       title: 'An toàn & Tin cậy',
-      description: 'Xác thực eKYC, đánh giá hai chiều, hợp đồng điện tử bảo vệ quyền lợi.',
+      description: 'Xác thực KYC, đánh giá phòng thật, hợp đồng điện tử bảo vệ quyền lợi.',
       color: '#10b981'
     },
     {
       icon: Zap,
       title: 'Thanh toán tiện lợi',
-      description: 'Hỗ trợ VNPay, MoMo, ZaloPay. Hóa đơn tự động, quản lý điện nước.',
+      description: 'Hỗ trợ VNPay, MoMo, ZaloPay. Hóa đơn tự động, ghi chỉ số điện nước.',
       color: '#f97316'
     },
     {
       icon: MessageCircle,
       title: 'Kết nối trực tiếp',
-      description: 'Chat realtime, gọi điện, đặt lịch xem phòng nhanh chóng.',
+      description: 'Chat trực tiếp với chủ trọ, gửi yêu cầu thuê phòng nhanh chóng.',
       color: '#8b5cf6'
     }
   ];
@@ -116,14 +106,14 @@ export default function HomePage() {
               <div className="hero-search-field">
                 <MapPin size={20} className="hero-search-icon" />
                 <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
+                  value={selectedProvinceId}
+                  onChange={(e) => setSelectedProvinceId(e.target.value)}
                   className="hero-search-select"
                 >
-                  <option value="">Tất cả thành phố</option>
-                  <option value="Hồ Chí Minh">TP. Hồ Chí Minh</option>
-                  <option value="Hà Nội">Hà Nội</option>
-                  <option value="Đà Nẵng">Đà Nẵng</option>
+                  <option value="">Tất cả tỉnh/thành</option>
+                  {provinces.map(p => (
+                    <option key={p.id} value={p.id}>{p.name}</option>
+                  ))}
                 </select>
               </div>
               <div className="hero-search-divider"></div>
@@ -153,15 +143,12 @@ export default function HomePage() {
               <button className="hero-quick-tag" onClick={() => { setSearchQuery('Bình Thạnh'); handleSearch(); }}>
                 Bình Thạnh
               </button>
-              <button className="hero-quick-tag" onClick={() => { setSearchQuery('Thủ Đức'); handleSearch(); }}>
-                Thủ Đức
-              </button>
-              <button className="hero-quick-tag" onClick={() => navigate('/rooms?maxPrice=3000000')}>
+              <button className="hero-quick-tag" onClick={() => navigate('/rooms?priceMax=3000000')}>
                 Dưới 3 triệu
               </button>
-              <button className="hero-quick-tag" onClick={() => navigate('/rooms?furniture=true')}>
-                <Sofa size={14} />
-                Full nội thất
+              <button className="hero-quick-tag" onClick={() => navigate('/rooms?allowPet=1')}>
+                <PawPrint size={14} />
+                Được nuôi pet
               </button>
             </div>
           </div>
@@ -181,34 +168,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ==================== QUICK LOGIN (Demo) ==================== */}
-      <section className="quick-login-section">
-        <div className="container">
-          <div className="quick-login-bar">
-            <span className="quick-login-label">🚀 Demo nhanh:</span>
-            <button className="btn btn-secondary btn-sm" onClick={() => handleQuickLogin('tenant')}>
-              <Users size={16} />
-              Đăng nhập Khách thuê
-            </button>
-            <button className="btn btn-secondary btn-sm" onClick={() => handleQuickLogin('landlord')}>
-              <Building2 size={16} />
-              Đăng nhập Chủ trọ
-            </button>
-            <button className="btn btn-secondary btn-sm" onClick={() => handleQuickLogin('admin')}>
-              <Shield size={16} />
-              Đăng nhập Admin
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== FEATURED ROOMS ==================== */}
+      {/* ==================== LATEST ROOMS ==================== */}
       <section className="section">
         <div className="container">
           <div className="section-header">
             <div>
-              <h2 className="section-title">Phòng nổi bật</h2>
-              <p className="section-subtitle">Những phòng trọ được đánh giá cao nhất</p>
+              <h2 className="section-title">Phòng mới đăng</h2>
+              <p className="section-subtitle">Cập nhật liên tục từ chủ trọ</p>
             </div>
             <Link to="/rooms" className="btn btn-secondary">
               Xem tất cả
@@ -217,7 +183,12 @@ export default function HomePage() {
           </div>
 
           <div className="room-grid">
-            {featuredRooms.map((room, index) => (
+            {latestRooms.length === 0 ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '60px 0', color: 'var(--text-tertiary)' }}>
+                <Building2 size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                <p>Chưa có phòng nào. Hãy thử seed dữ liệu location và đăng phòng mới.</p>
+              </div>
+            ) : latestRooms.map((room, index) => (
               <div
                 key={room.id}
                 className="room-card animate-slideUp"
@@ -225,20 +196,20 @@ export default function HomePage() {
                 onClick={() => navigate(`/rooms/${room.id}`)}
               >
                 <div className="room-card-image">
-                  <img src={room.images[0]} alt={room.title} loading="lazy" />
+                  <img src={room.cover_image || room.images?.[0] || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'} alt={room.title} loading="lazy" />
                   <div className="room-card-overlay">
-                    {room.isPinned && (
-                      <span className="room-card-badge room-card-badge-pin">
-                        <TrendingUp size={12} />
-                        Nổi bật
-                      </span>
+                    <span className="room-card-badge room-card-badge-new">
+                      <Clock size={12} />
+                      {room.room_type_name}
+                    </span>
+                    {user && (
+                      <button
+                        className={`room-card-fav ${isBookmarked(room.id) ? 'active' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); toggleBookmark(room.id); }}
+                      >
+                        <Heart size={18} fill={isBookmarked(room.id) ? '#ef4444' : 'none'} />
+                      </button>
                     )}
-                    <button
-                      className="room-card-fav"
-                      onClick={(e) => { e.stopPropagation(); }}
-                    >
-                      <Heart size={18} />
-                    </button>
                   </div>
                   <div className="room-card-price-tag">
                     {formatCurrency(room.price)}<span>/tháng</span>
@@ -249,28 +220,24 @@ export default function HomePage() {
                   <h3 className="room-card-title">{room.title}</h3>
                   <div className="room-card-location">
                     <MapPin size={14} />
-                    <span>{room.address}, {room.district}</span>
+                    <span>{room.ward_name}, {room.district_name}</span>
                   </div>
 
                   <div className="room-card-amenities">
                     <span className="room-card-area">{room.area}m²</span>
                     <span className="room-card-dot">•</span>
-                    <span>{room.maxOccupants} người</span>
-                    {room.hasWifi && <Wifi size={14} className="room-card-amenity-icon" />}
-                    {room.hasAC && <Snowflake size={14} className="room-card-amenity-icon" />}
-                    {room.hasParking && <Car size={14} className="room-card-amenity-icon" />}
-                    {room.allowPets && <PawPrint size={14} className="room-card-amenity-icon" />}
+                    <span>{room.max_occupants} người</span>
+                    {room.allow_pet && <PawPrint size={14} className="room-card-amenity-icon" />}
                   </div>
 
                   <div className="room-card-footer">
                     <div className="room-card-rating">
                       <Star size={14} fill="#f59e0b" color="#f59e0b" />
-                      <span>{room.rating}</span>
-                      <span className="room-card-reviews">({room.reviewCount})</span>
+                      <span>{room.avgRating || '—'}</span>
+                      <span className="room-card-reviews">({room.reviewCount || 0})</span>
                     </div>
-                    <div className="room-card-views">
-                      <Eye size={14} />
-                      <span>{room.views}</span>
+                    <div className="room-card-landlord">
+                      <span>{room.landlord_name}</span>
                     </div>
                   </div>
                 </div>
@@ -320,7 +287,7 @@ export default function HomePage() {
             {cities.map((city, index) => (
               <Link
                 key={index}
-                to={`/rooms?city=${encodeURIComponent(city.name === 'TP. Hồ Chí Minh' ? 'Hồ Chí Minh' : city.name)}`}
+                to={`/rooms?search=${encodeURIComponent(city.name)}`}
                 className="city-card animate-slideUp"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -335,123 +302,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ==================== LATEST ROOMS ==================== */}
-      <section className="section section-alt">
-        <div className="container">
-          <div className="section-header">
-            <div>
-              <h2 className="section-title">Mới đăng gần đây</h2>
-              <p className="section-subtitle">Phòng trọ mới nhất, cập nhật liên tục</p>
-            </div>
-            <Link to="/rooms?sort=newest" className="btn btn-secondary">
-              Xem tất cả
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-
-          <div className="room-grid">
-            {latestRooms.map((room, index) => (
-              <div
-                key={room.id}
-                className="room-card animate-slideUp"
-                style={{ animationDelay: `${index * 0.1}s` }}
-                onClick={() => navigate(`/rooms/${room.id}`)}
-              >
-                <div className="room-card-image">
-                  <img src={room.images[0]} alt={room.title} loading="lazy" />
-                  <div className="room-card-overlay">
-                    <span className="room-card-badge room-card-badge-new">
-                      <Clock size={12} />
-                      Mới
-                    </span>
-                    <button
-                      className="room-card-fav"
-                      onClick={(e) => { e.stopPropagation(); }}
-                    >
-                      <Heart size={18} />
-                    </button>
-                  </div>
-                  <div className="room-card-price-tag">
-                    {formatCurrency(room.price)}<span>/tháng</span>
-                  </div>
-                </div>
-
-                <div className="room-card-body">
-                  <h3 className="room-card-title">{room.title}</h3>
-                  <div className="room-card-location">
-                    <MapPin size={14} />
-                    <span>{room.address}, {room.district}</span>
-                  </div>
-
-                  <div className="room-card-amenities">
-                    <span className="room-card-area">{room.area}m²</span>
-                    <span className="room-card-dot">•</span>
-                    <span>{room.maxOccupants} người</span>
-                    {room.hasWifi && <Wifi size={14} className="room-card-amenity-icon" />}
-                    {room.hasAC && <Snowflake size={14} className="room-card-amenity-icon" />}
-                    {room.hasParking && <Car size={14} className="room-card-amenity-icon" />}
-                  </div>
-
-                  <div className="room-card-footer">
-                    <div className="room-card-rating">
-                      <Star size={14} fill="#f59e0b" color="#f59e0b" />
-                      <span>{room.rating}</span>
-                      <span className="room-card-reviews">({room.reviewCount})</span>
-                    </div>
-                    <div className="room-card-views">
-                      <Eye size={14} />
-                      <span>{room.views}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ==================== HOW IT WORKS ==================== */}
-      <section className="section">
+      <section className="section section-alt">
         <div className="container">
           <div className="section-header section-header-center">
             <h2 className="section-title">Cách thức hoạt động</h2>
-            <p className="section-subtitle">3 bước đơn giản để tìm phòng trọ phù hợp</p>
+            <p className="section-subtitle">3 bước đơn giản để thuê phòng trọ</p>
           </div>
 
           <div className="steps-grid">
             <div className="step-card animate-slideUp">
               <div className="step-number">1</div>
-              <div className="step-icon">
-                <Search size={32} />
-              </div>
+              <div className="step-icon"><Search size={32} /></div>
               <h3 className="step-title">Tìm kiếm</h3>
               <p className="step-desc">Sử dụng bộ lọc thông minh để tìm phòng phù hợp với nhu cầu và ngân sách</p>
             </div>
-
-            <div className="step-connector">
-              <ChevronRight size={24} />
-            </div>
-
+            <div className="step-connector"><ChevronRight size={24} /></div>
             <div className="step-card animate-slideUp" style={{ animationDelay: '0.15s' }}>
               <div className="step-number">2</div>
-              <div className="step-icon">
-                <Phone size={32} />
-              </div>
-              <h3 className="step-title">Liên hệ</h3>
-              <p className="step-desc">Chat trực tiếp với chủ trọ, đặt lịch xem phòng và thỏa thuận</p>
+              <div className="step-icon"><Phone size={32} /></div>
+              <h3 className="step-title">Gửi yêu cầu</h3>
+              <p className="step-desc">Gửi yêu cầu thuê phòng, chat trực tiếp với chủ trọ để thỏa thuận</p>
             </div>
-
-            <div className="step-connector">
-              <ChevronRight size={24} />
-            </div>
-
+            <div className="step-connector"><ChevronRight size={24} /></div>
             <div className="step-card animate-slideUp" style={{ animationDelay: '0.3s' }}>
               <div className="step-number">3</div>
-              <div className="step-icon">
-                <CheckCircle2 size={32} />
-              </div>
+              <div className="step-icon"><CheckCircle2 size={32} /></div>
               <h3 className="step-title">Ký hợp đồng</h3>
-              <p className="step-desc">Ký hợp đồng điện tử, đặt cọc online và chuyển vào ở ngay</p>
+              <p className="step-desc">Chủ trọ chấp nhận, ký hợp đồng điện tử và chuyển vào ở</p>
             </div>
           </div>
         </div>
@@ -465,25 +343,13 @@ export default function HomePage() {
               <h2 className="cta-title">Bạn là chủ trọ?</h2>
               <p className="cta-desc">
                 Đăng tin miễn phí, tiếp cận hàng ngàn người thuê tiềm năng. 
-                Quản lý phòng, hợp đồng, thanh toán trên một nền tảng.
+                Quản lý phòng, hợp đồng, hóa đơn điện nước trên một nền tảng.
               </p>
               <div className="cta-features">
-                <div className="cta-feature">
-                  <CheckCircle2 size={18} />
-                  <span>Đăng tin miễn phí</span>
-                </div>
-                <div className="cta-feature">
-                  <CheckCircle2 size={18} />
-                  <span>Quản lý hợp đồng</span>
-                </div>
-                <div className="cta-feature">
-                  <CheckCircle2 size={18} />
-                  <span>Báo cáo thống kê</span>
-                </div>
-                <div className="cta-feature">
-                  <CheckCircle2 size={18} />
-                  <span>Thu tiền online</span>
-                </div>
+                <div className="cta-feature"><CheckCircle2 size={18} /><span>Đăng tin miễn phí</span></div>
+                <div className="cta-feature"><CheckCircle2 size={18} /><span>Quản lý hợp đồng</span></div>
+                <div className="cta-feature"><CheckCircle2 size={18} /><span>Ghi chỉ số điện nước</span></div>
+                <div className="cta-feature"><CheckCircle2 size={18} /><span>Tạo hóa đơn tự động</span></div>
               </div>
             </div>
             <div className="cta-actions">

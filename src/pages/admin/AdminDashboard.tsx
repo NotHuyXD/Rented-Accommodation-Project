@@ -32,7 +32,7 @@ export default function AdminDashboard() {
     setIsLoading(true);
     try {
       const [statsRes, usersRes] = await Promise.all([
-        adminApi.getDashboardStats(),
+        adminApi.getStats(),
         axiosClient.get('/users', { params: { limit: 20 } }),
       ]);
       if ((statsRes as any)?.data) setDashboardStats((statsRes as any).data);

@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const adminController = require('../controllers/admin.controller');
+const { getStats, listAllRooms, listAllUsers } = require('../controllers/admin.controller');
 const { authenticate, authorize } = require('../middleware/auth');
 
-router.use(authenticate, authorize('admin', 'super_admin'));
-
-router.get('/dashboard', adminController.getDashboardStats);
-router.get('/configs', adminController.listSystemConfigs);
-router.put('/configs/:id', adminController.updateSystemConfig);
-router.get('/audit', adminController.listAuditLogs);
+router.get('/stats', authenticate, authorize('admin'), getStats);
+router.get('/rooms', authenticate, authorize('admin'), listAllRooms);
+router.get('/users', authenticate, authorize('admin'), listAllUsers);
 
 module.exports = router;

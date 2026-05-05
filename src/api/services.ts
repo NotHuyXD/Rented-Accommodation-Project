@@ -1,217 +1,155 @@
+// ============================================================
+// API Services - v2.0 Schema
+// ============================================================
 import axiosClient from './axiosClient';
 
-export const reviewApi = {
-  getAll(params?: {
-    page?: number; limit?: number;
-    roomId?: string; targetUserId?: string; targetType?: string;
-    status?: string; sortBy?: string;
-  }) {
-    return axiosClient.get('/reviews', { params });
-  },
-
-  create(data: {
-    targetType: 'room' | 'landlord' | 'tenant';
-    targetUserId?: string;
-    roomId?: string;
-    contractId?: string;
-    overallRating: number;
-    title?: string;
-    content?: string;
-    pros?: string;
-    cons?: string;
-    stayDurationMonths?: number;
-    criteriaRatings?: Array<{ criteriaId: string; rating: number }>;
-    images?: Array<{ url: string; caption?: string }>;
-  }) {
-    return axiosClient.post('/reviews', data);
-  },
-
-  reply(reviewId: string, content: string) {
-    return axiosClient.post(`/reviews/${reviewId}/reply`, { content });
-  },
-
-  voteHelpful(reviewId: string) {
-    return axiosClient.post(`/reviews/${reviewId}/helpful`);
-  },
-
-  delete(reviewId: string) {
-    return axiosClient.delete(`/reviews/${reviewId}`);
-  },
+// ==================== AUTH ====================
+export const authApi = {
+  register: (data: { email: string; phone: string; password: string; fullName: string; role?: string }) =>
+    axiosClient.post('/auth/register', data),
+  login: (data: { email: string; password: string }) =>
+    axiosClient.post('/auth/login', data),
+  getProfile: () => axiosClient.get('/auth/profile'),
+  updateProfile: (data: Record<string, unknown>) => axiosClient.put('/auth/profile', data),
+  changePassword: (data: { currentPassword: string; newPassword: string }) =>
+    axiosClient.post('/auth/change-password', data),
+  logout: () => axiosClient.post('/auth/logout'),
 };
 
-export const favoriteApi = {
-  getAll(params?: { page?: number; limit?: number }) {
-    return axiosClient.get('/favorites', { params });
-  },
-
-  toggle(roomId: string) {
-    return axiosClient.post('/favorites/toggle', { roomId });
-  },
-
-  check(roomId: string) {
-    return axiosClient.get(`/favorites/check/${roomId}`);
-  },
-
-  remove(roomId: string) {
-    return axiosClient.delete(`/favorites/${roomId}`);
-  },
-
-  // Wishlist Collections
-  getCollections() {
-    return axiosClient.get('/favorites/collections');
-  },
-
-  createCollection(data: { name: string; description?: string; isPublic?: boolean }) {
-    return axiosClient.post('/favorites/collections', data);
-  },
-
-  addToCollection(collectionId: string, roomId: string, note?: string) {
-    return axiosClient.post(`/favorites/collections/${collectionId}/items`, { roomId, note });
-  },
-
-  removeFromCollection(collectionId: string, roomId: string) {
-    return axiosClient.delete(`/favorites/collections/${collectionId}/items/${roomId}`);
-  },
+// ==================== ROOMS ====================
+export const roomApi = {
+  list: (params?: Record<string, unknown>) => axiosClient.get('/rooms', { params }),
+  getById: (id: string) => axiosClient.get(`/rooms/${id}`),
+  create: (data: Record<string, unknown>) => axiosClient.post('/rooms', data),
+  update: (id: string, data: Record<string, unknown>) => axiosClient.put(`/rooms/${id}`, data),
+  delete: (id: string) => axiosClient.delete(`/rooms/${id}`),
+  updateStatus: (id: string, status: string) => axiosClient.patch(`/rooms/${id}/status`, { status }),
+  getMyRooms: (params?: Record<string, unknown>) => axiosClient.get('/rooms/my-rooms', { params }),
 };
 
-export const notificationApi = {
-  getAll(params?: { page?: number; limit?: number; type?: string; isRead?: number }) {
-    return axiosClient.get('/notifications', { params });
-  },
-
-  getUnreadCount() {
-    return axiosClient.get('/notifications/unread-count');
-  },
-
-  markAsRead(notificationIds: string[]) {
-    return axiosClient.post('/notifications/mark-read', { notificationIds });
-  },
-
-  markAllAsRead() {
-    return axiosClient.post('/notifications/mark-all-read');
-  },
-
-  delete(id: string) {
-    return axiosClient.delete(`/notifications/${id}`);
-  },
-};
-
+// ==================== LOCATIONS ====================
 export const locationApi = {
-  getProvinces() {
-    return axiosClient.get('/locations/provinces');
-  },
-
-  getDistricts(provinceId: number) {
-    return axiosClient.get(`/locations/provinces/${provinceId}/districts`);
-  },
-
-  getWards(districtId: number) {
-    return axiosClient.get(`/locations/districts/${districtId}/wards`);
-  },
-
-  getAll() {
-    return axiosClient.get('/locations/all');
-  },
+  getProvinces: () => axiosClient.get('/locations/provinces'),
+  getDistricts: (provinceId: string) => axiosClient.get('/locations/districts', { params: { provinceId } }),
+  getWards: (districtId: string) => axiosClient.get('/locations/wards', { params: { districtId } }),
+  seed: () => axiosClient.post('/locations/seed'),
 };
 
+// ==================== AMENITIES & ROOM TYPES ====================
 export const amenityApi = {
-  getAll(category?: string) {
-    return axiosClient.get('/amenities', { params: { category } });
-  },
+  list: () => axiosClient.get('/amenities'),
+  listRoomTypes: () => axiosClient.get('/amenities/room-types'),
+  create: (data: { name: string; icon?: string }) => axiosClient.post('/amenities', data),
 };
 
+// ==================== RENTAL REQUESTS ====================
+export const rentalRequestApi = {
+  create: (data: { roomId: string; message?: string; moveInDate: string; numPeople?: number }) =>
+    axiosClient.post('/rental-requests', data),
+  list: (params?: Record<string, unknown>) => axiosClient.get('/rental-requests', { params }),
+  accept: (id: string, data: { startDate: string; endDate: string; terms?: string }) =>
+    axiosClient.patch(`/rental-requests/${id}/accept`, data),
+  reject: (id: string) => axiosClient.patch(`/rental-requests/${id}/reject`),
+  cancel: (id: string) => axiosClient.patch(`/rental-requests/${id}/cancel`),
+};
+
+// ==================== CONTRACTS ====================
+export const contractApi = {
+  list: (params?: Record<string, unknown>) => axiosClient.get('/contracts', { params }),
+  getById: (id: string) => axiosClient.get(`/contracts/${id}`),
+  sign: (id: string) => axiosClient.patch(`/contracts/${id}/sign`),
+  terminate: (id: string) => axiosClient.patch(`/contracts/${id}/terminate`),
+};
+
+// ==================== INVOICES & PAYMENTS ====================
+export const invoiceApi = {
+  create: (data: Record<string, unknown>) => axiosClient.post('/payments/invoices', data),
+  list: (params?: Record<string, unknown>) => axiosClient.get('/payments/invoices', { params }),
+  getById: (id: string) => axiosClient.get(`/payments/invoices/${id}`),
+};
+
+export const paymentApi = {
+  create: (data: { invoiceId: string; amount: number; method: string }) => axiosClient.post('/payments', data),
+  list: (params?: Record<string, unknown>) => axiosClient.get('/payments', { params }),
+};
+
+export const utilityReadingApi = {
+  create: (data: Record<string, unknown>) => axiosClient.post('/payments/utility-readings', data),
+  list: (contractId: string) => axiosClient.get('/payments/utility-readings', { params: { contractId } }),
+};
+
+// ==================== BOOKMARKS ====================
+export const bookmarkApi = {
+  add: (roomId: string) => axiosClient.post('/bookmarks', { roomId }),
+  remove: (roomId: string) => axiosClient.delete(`/bookmarks/${roomId}`),
+  list: () => axiosClient.get('/bookmarks'),
+  check: (roomId: string) => axiosClient.get(`/bookmarks/check/${roomId}`),
+};
+
+// ==================== REVIEWS ====================
+export const reviewApi = {
+  create: (data: { roomId: string; rating: number; comment?: string }) => axiosClient.post('/reviews', data),
+  list: (roomId: string, params?: Record<string, unknown>) =>
+    axiosClient.get('/reviews', { params: { roomId, ...params } }),
+  delete: (id: string) => axiosClient.delete(`/reviews/${id}`),
+};
+
+// ==================== CHAT ====================
+export const chatApi = {
+  getOrCreateConversation: (data: { landlordId: string; roomId?: string }) =>
+    axiosClient.post('/chat/conversations', data),
+  listConversations: () => axiosClient.get('/chat/conversations'),
+  getMessages: (conversationId: string, params?: Record<string, unknown>) =>
+    axiosClient.get(`/chat/conversations/${conversationId}/messages`, { params }),
+  sendMessage: (conversationId: string, content: string) =>
+    axiosClient.post(`/chat/conversations/${conversationId}/messages`, { content }),
+};
+
+// ==================== NOTIFICATIONS ====================
+export const notificationApi = {
+  list: (params?: Record<string, unknown>) => axiosClient.get('/notifications', { params }),
+  markAsRead: (id: string) => axiosClient.patch(`/notifications/${id}/read`),
+  markAllAsRead: () => axiosClient.patch('/notifications/read-all'),
+};
+
+// ==================== USERS (Admin) ====================
+export const userApi = {
+  list: (params?: Record<string, unknown>) => axiosClient.get('/users', { params }),
+  getById: (id: string) => axiosClient.get(`/users/${id}`),
+  submitKYC: (data: { idCardFront: string; idCardBack: string; selfieUrl?: string }) =>
+    axiosClient.post('/users/kyc', data),
+  listPendingKYC: () => axiosClient.get('/users/kyc/pending'),
+  reviewKYC: (id: string, status: string) => axiosClient.patch(`/users/kyc/${id}/review`, { status }),
+};
+
+// ==================== REPORTS ====================
+export const reportApi = {
+  create: (data: { targetType: string; targetId: string; reason: string; description?: string }) =>
+    axiosClient.post('/reports', data),
+  list: (params?: Record<string, unknown>) => axiosClient.get('/reports', { params }),
+  updateStatus: (id: string, status: string) => axiosClient.patch(`/reports/${id}`, { status }),
+};
+
+// ==================== ADMIN ====================
+export const adminApi = {
+  getStats: () => axiosClient.get('/admin/stats'),
+  listAllRooms: (params?: Record<string, unknown>) => axiosClient.get('/admin/rooms', { params }),
+};
+
+// ==================== UPLOAD ====================
 export const uploadApi = {
-  uploadSingle(file: File) {
+  uploadFile: (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
     return axiosClient.post('/upload/single', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },
-
-  uploadMultiple(files: File[]) {
+  uploadMultiple: (files: File[]) => {
     const formData = new FormData();
-    files.forEach(file => formData.append('files', file));
+    files.forEach(f => formData.append('files', f));
     return axiosClient.post('/upload/multiple', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
-  },
-
-  getMedia(params?: { page?: number; limit?: number; fileType?: string }) {
-    return axiosClient.get('/upload/media', { params });
-  },
-};
-
-export const cmsApi = {
-  getArticles(params?: { page?: number; limit?: number; categoryId?: string; search?: string }) {
-    return axiosClient.get('/cms/articles', { params });
-  },
-
-  getArticle(slug: string) {
-    return axiosClient.get(`/cms/articles/${slug}`);
-  },
-
-  getFaqs(category?: string) {
-    return axiosClient.get('/cms/faqs', { params: { category } });
-  },
-};
-
-export const promotionApi = {
-  getBanners(position?: string) {
-    return axiosClient.get('/promotions/banners', { params: { position } });
-  },
-
-  getVipPackages() {
-    return axiosClient.get('/promotions/vip-packages');
-  },
-
-  getCoupons() {
-    return axiosClient.get('/promotions/coupons');
-  },
-};
-
-export const chatApi = {
-  getConversations(params?: { page?: number; limit?: number }) {
-    return axiosClient.get('/chat/conversations', { params });
-  },
-
-  getOrCreateConversation(otherUserId: string, roomId?: string) {
-    return axiosClient.post('/chat/conversations', { otherUserId, roomId });
-  },
-
-  getQuickReplies() {
-    return axiosClient.get('/chat/quick-replies');
-  },
-};
-
-export const roommateApi = {
-  getProfile() {
-    return axiosClient.get('/roommates/profile');
-  },
-
-  updateProfile(data: any) {
-    return axiosClient.put('/roommates/profile', data);
-  },
-
-  getMatches(params?: { page?: number; limit?: number }) {
-    return axiosClient.get('/roommates/match', { params });
-  },
-};
-
-export const adminApi = {
-  getDashboardStats() {
-    return axiosClient.get('/admin/dashboard');
-  },
-
-  getConfigs() {
-    return axiosClient.get('/admin/configs');
-  },
-
-  updateConfig(id: string, value: string) {
-    return axiosClient.put(`/admin/configs/${id}`, { value });
-  },
-
-  getAuditLogs() {
-    return axiosClient.get('/admin/audit');
   },
 };

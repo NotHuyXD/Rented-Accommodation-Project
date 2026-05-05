@@ -2,72 +2,45 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
-import { useBookingStore } from '../../stores/bookingStore';
-import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
-import { reviewApi } from '../../api/services';
+import { useAppStore } from '../../stores/appStore';
+import { formatCurrency, formatDate, getStatusLabel, timeAgo } from '../../utils/helpers';
+import { rentalRequestApi, chatApi, reportApi, reviewApi } from '../../api/services';
+import type { Room } from '../../types';
 import {
-  MapPin, Star, Heart, Share2, Eye, Phone, MessageCircle,
-  CalendarDays, ChevronLeft, ChevronRight, User, Shield,
-  Wifi, Snowflake, Car, Sofa, Waves, Dumbbell, ArrowUpDown,
-  Sun, Trees, Warehouse, PawPrint, Flag, Clock, CheckCircle2,
-  ArrowLeft, ExternalLink, Copy
+  MapPin, Star, Heart, Share2, Phone, MessageCircle,
+  CalendarDays, ChevronLeft, ChevronRight, Shield,
+  PawPrint, Flag, Clock, CheckCircle2,
+  ArrowLeft, Utensils, Home, Zap, Droplets, Wifi
 } from 'lucide-react';
 import './RoomDetailPage.css';
-
-// Static amenity labels for client-side display
-const amenityLabels: Record<string, { label: string; icon: string }> = {
-  wifi: { label: 'WiFi', icon: 'Wifi' },
-  ac: { label: 'Máy lạnh', icon: 'Snowflake' },
-  parking: { label: 'Chỗ để xe', icon: 'Car' },
-  furniture: { label: 'Nội thất', icon: 'Sofa' },
-  washing_machine: { label: 'Máy giặt', icon: 'Sofa' },
-  fridge: { label: 'Tủ lạnh', icon: 'Sofa' },
-  balcony: { label: 'Ban công', icon: 'Sun' },
-  pool: { label: 'Hồ bơi', icon: 'Waves' },
-  gym: { label: 'Phòng gym', icon: 'Dumbbell' },
-  elevator: { label: 'Thang máy', icon: 'ArrowUpDown' },
-  security: { label: 'An ninh 24/7', icon: 'Shield' },
-  garden: { label: 'Sân vườn', icon: 'Trees' },
-  garage: { label: 'Garage ô tô', icon: 'Warehouse' }
-};
 
 export default function RoomDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { fetchRoomById, currentRoom, toggleFavorite, favorites, rooms, isLoading } = useRoomStore();
-  const { user, isAuthenticated } = useAuthStore();
-  const { createBooking } = useBookingStore();
+  const { fetchRoomById, currentRoom, isLoading } = useRoomStore();
+  const { user } = useAuthStore();
+  const { toggleBookmark, isBookmarked, fetchBookmarks } = useAppStore();
   const [currentImage, setCurrentImage] = useState(0);
   const [showPhone, setShowPhone] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showRentalModal, setShowRentalModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
-  const [reviews, setReviews] = useState<any[]>([]);
-  const [reviewSummary, setReviewSummary] = useState<any>(null);
+  const [rentalForm, setRentalForm] = useState({ moveInDate: '', numPeople: 1, message: '' });
+  const [reportForm, setReportForm] = useState({ reason: 'Thông tin sai sự thật', description: '' });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (id) {
       fetchRoomById(id);
-      loadReviews(id);
+      if (user) fetchBookmarks();
     }
   }, [id]);
 
-  const loadReviews = async (roomId: string) => {
-    try {
-      const res: any = await reviewApi.getAll({ roomId, status: 'approved' });
-      if (res && res.data) {
-        setReviews(res.data);
-        if (res.summary) setReviewSummary(res.summary);
-      }
-    } catch (error) {
-      console.error('Failed to load reviews', error);
-    }
-  };
-
-  const room = currentRoom;
+  const room = currentRoom as Room | null;
 
   if (isLoading) {
     return (
-      <div className="room-detail-page" style={{ paddingTop: '120px', textAlign: 'center' }}>
+      <div className="room-detail-page" style={{ paddingTop: '120px', textAlign: 'center', minHeight: '60vh' }}>
+        <div style={{ fontSize: '2rem', color: 'var(--primary-500)' }}>⟳</div>
         <p>Đang tải thông tin phòng...</p>
       </div>
     );
@@ -75,49 +48,68 @@ export default function RoomDetailPage() {
 
   if (!room) {
     return (
-      <div className="room-detail-page" style={{ paddingTop: '120px', textAlign: 'center' }}>
+      <div className="room-detail-page" style={{ paddingTop: '120px', textAlign: 'center', minHeight: '60vh' }}>
         <h2>Không tìm thấy phòng</h2>
-        <button className="btn btn-primary" onClick={() => navigate('/rooms')}>Quay lại</button>
+        <button className="btn btn-primary" onClick={() => navigate('/rooms')}>Quay lại danh sách</button>
       </div>
     );
   }
 
-  // Normalize room data (handles both camelCase and snake_case from API)
-  const roomImages = room.images || [];
-  const imageUrls = roomImages.map((img: any) => typeof img === 'string' ? img : img.url);
-  const roomAmenities = room.amenities || [];
-  const roomTitle = room.title || '';
-  const roomAddress = room.address || room.full_address || room.fullAddress || '';
-  const roomWard = room.ward_name || room.ward || '';
-  const roomDistrict = room.district_name || room.district || '';
-  const roomCity = room.province_name || room.city || '';
-  const roomPrice = room.price || 0;
-  const roomArea = room.area || 0;
-  const roomMaxOccupants = room.max_occupants || room.maxOccupants || 0;
-  const roomStatus = room.status || 'active';
-  const roomRating = room.avg_rating || room.rating || 0;
-  const roomReviewCount = room.total_reviews || room.reviewCount || 0;
-  const roomViews = room.view_count || room.views || 0;
-  const roomCreatedAt = room.created_at || room.createdAt || '';
-  const roomDescription = room.description || '';
-  const roomIsVip = room.is_vip || room.isPinned || false;
-  const landlordName = room.landlord_name || room.landlordName || '';
-  const landlordAvatar = room.landlord_avatar || room.landlordAvatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${room.landlord_id}`;
-  const landlordPhone = room.landlord_phone || room.landlordPhone || '';
-  const landlordVerified = room.landlord_verified || false;
-  const electricityPrice = room.electricity_price || room.electricityPrice || null;
-  const waterPrice = room.water_price || room.waterPrice || null;
-  const internetPrice = room.internet_price || room.internetPrice || null;
-  const parkingPrice = room.parking_price || room.parkingPrice || null;
-
-  const isFavorited = favorites.includes(room.id);
-  const statusInfo = getStatusLabel(roomStatus);
+  const imageUrls = (room.images || []).map((img: any) => typeof img === 'string' ? img : img.url);
+  const statusInfo = getStatusLabel(room.status);
 
   const nextImage = () => setCurrentImage((prev) => (prev + 1) % (imageUrls.length || 1));
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + (imageUrls.length || 1)) % (imageUrls.length || 1));
 
-  // Find similar rooms from store
-  const similarRooms = rooms.filter(r => r.id !== id && (r as any).district_name === roomDistrict).slice(0, 3);
+  const handleRentalRequest = async () => {
+    if (!rentalForm.moveInDate) return alert('Vui lòng chọn ngày dọn vào');
+    setSubmitting(true);
+    try {
+      await rentalRequestApi.create({
+        roomId: room.id,
+        moveInDate: rentalForm.moveInDate,
+        numPeople: rentalForm.numPeople,
+        message: rentalForm.message || undefined,
+      });
+      setShowRentalModal(false);
+      alert('Gửi yêu cầu thuê phòng thành công! Chủ trọ sẽ phản hồi sớm.');
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi gửi yêu cầu');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleReport = async () => {
+    setSubmitting(true);
+    try {
+      await reportApi.create({
+        targetType: 'room',
+        targetId: room.id,
+        reason: reportForm.reason,
+        description: reportForm.description || undefined,
+      });
+      setShowReportModal(false);
+      alert('Đã gửi báo cáo thành công!');
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi gửi báo cáo');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleChat = async () => {
+    if (!user) return navigate('/login');
+    try {
+      const res: any = await chatApi.getOrCreateConversation({
+        landlordId: room.landlord.id,
+        roomId: room.id,
+      });
+      navigate('/chat');
+    } catch {
+      navigate('/chat');
+    }
+  };
 
   return (
     <div className="room-detail-page">
@@ -133,7 +125,7 @@ export default function RoomDetailPage() {
             <span>/</span>
             <Link to="/rooms">Tìm phòng</Link>
             <span>/</span>
-            <span className="breadcrumb-current">{roomTitle}</span>
+            <span className="breadcrumb-current">{room.title}</span>
           </nav>
         </div>
       </div>
@@ -145,7 +137,7 @@ export default function RoomDetailPage() {
             {imageUrls.length > 0 ? (
               <img
                 src={imageUrls[currentImage]}
-                alt={`${roomTitle} - Ảnh ${currentImage + 1}`}
+                alt={`${room.title} - Ảnh ${currentImage + 1}`}
                 className="room-gallery-img"
               />
             ) : (
@@ -166,18 +158,10 @@ export default function RoomDetailPage() {
             <div className="room-gallery-counter">
               {imageUrls.length > 0 ? `${currentImage + 1} / ${imageUrls.length}` : '0 / 0'}
             </div>
-
-            {/* Status Badge */}
             <div className="room-gallery-badges">
-              <span
-                className="badge"
-                style={{ background: `${statusInfo.color}20`, color: statusInfo.color }}
-              >
+              <span className="badge" style={{ background: `${statusInfo.color}20`, color: statusInfo.color }}>
                 {statusInfo.label}
               </span>
-              {roomIsVip && (
-                <span className="badge badge-primary">⭐ Nổi bật</span>
-              )}
             </div>
           </div>
 
@@ -202,26 +186,36 @@ export default function RoomDetailPage() {
             {/* Title & Actions */}
             <div className="room-detail-header">
               <div>
-                <h1 className="room-detail-title">{roomTitle}</h1>
+                <h1 className="room-detail-title">{room.title}</h1>
                 <div className="room-detail-location">
                   <MapPin size={16} />
-                  <span>{[roomAddress, roomWard, roomDistrict, roomCity].filter(Boolean).join(', ')}</span>
+                  <span>{[room.address, room.ward, room.district, room.province].filter(Boolean).join(', ')}</span>
+                </div>
+                <div style={{ marginTop: '8px', fontSize: '0.85rem', color: 'var(--text-tertiary)' }}>
+                  {room.roomType?.name && <span className="badge badge-secondary" style={{ marginRight: '8px' }}>{room.roomType.name}</span>}
+                  <Clock size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                  Đăng {timeAgo(room.createdAt)}
                 </div>
               </div>
               <div className="room-detail-actions">
-                <button
-                  className={`btn btn-secondary btn-icon ${isFavorited ? 'btn-favorited' : ''}`}
-                  onClick={() => toggleFavorite(room.id)}
-                  title={isFavorited ? 'Bỏ yêu thích' : 'Yêu thích'}
-                >
-                  <Heart size={20} fill={isFavorited ? '#ef4444' : 'none'} color={isFavorited ? '#ef4444' : undefined} />
-                </button>
-                <button className="btn btn-secondary btn-icon" title="Chia sẻ">
+                {user && (
+                  <button
+                    className={`btn btn-secondary btn-icon ${isBookmarked(room.id) ? 'btn-favorited' : ''}`}
+                    onClick={() => toggleBookmark(room.id)}
+                    title={isBookmarked(room.id) ? 'Bỏ yêu thích' : 'Yêu thích'}
+                  >
+                    <Heart size={20} fill={isBookmarked(room.id) ? '#ef4444' : 'none'} color={isBookmarked(room.id) ? '#ef4444' : undefined} />
+                  </button>
+                )}
+                <button className="btn btn-secondary btn-icon" title="Chia sẻ" onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert('Đã copy link!');
+                }}>
                   <Share2 size={20} />
                 </button>
                 <button
                   className="btn btn-secondary btn-icon"
-                  onClick={() => setShowReportModal(true)}
+                  onClick={() => { if (!user) navigate('/login'); else setShowReportModal(true); }}
                   title="Báo cáo"
                 >
                   <Flag size={20} />
@@ -232,22 +226,14 @@ export default function RoomDetailPage() {
             {/* Price & Stats */}
             <div className="room-detail-price-bar">
               <div className="room-detail-price">
-                <span className="room-detail-price-value">{formatCurrency(roomPrice)}</span>
+                <span className="room-detail-price-value">{formatCurrency(room.price)}</span>
                 <span className="room-detail-price-unit">/tháng</span>
               </div>
               <div className="room-detail-stats">
                 <div className="room-detail-stat">
                   <Star size={16} fill="#f59e0b" color="#f59e0b" />
-                  <span>{roomRating}</span>
-                  <span className="text-muted">({roomReviewCount} đánh giá)</span>
-                </div>
-                <div className="room-detail-stat">
-                  <Eye size={16} />
-                  <span>{roomViews} lượt xem</span>
-                </div>
-                <div className="room-detail-stat">
-                  <Clock size={16} />
-                  <span>Đăng {formatDate(roomCreatedAt)}</span>
+                  <span>{room.avgRating || '—'}</span>
+                  <span className="text-muted">({room.reviewCount || 0} đánh giá)</span>
                 </div>
               </div>
             </div>
@@ -256,110 +242,127 @@ export default function RoomDetailPage() {
             <div className="room-detail-key-info">
               <div className="room-info-item">
                 <span className="room-info-label">Diện tích</span>
-                <span className="room-info-value">{roomArea} m²</span>
+                <span className="room-info-value">{room.area} m²</span>
               </div>
               <div className="room-info-item">
                 <span className="room-info-label">Số người tối đa</span>
-                <span className="room-info-value">{roomMaxOccupants} người</span>
+                <span className="room-info-value">{room.maxOccupants} người</span>
               </div>
               <div className="room-info-item">
-                <span className="room-info-label">Trạng thái</span>
-                <span className="room-info-value" style={{ color: statusInfo.color }}>{statusInfo.label}</span>
+                <span className="room-info-label">Đặt cọc</span>
+                <span className="room-info-value">{formatCurrency(room.deposit)}</span>
               </div>
+              {room.availableFrom && (
+                <div className="room-info-item">
+                  <span className="room-info-label">Ngày trống</span>
+                  <span className="room-info-value">{formatDate(room.availableFrom)}</span>
+                </div>
+              )}
             </div>
 
-            {/* Utility Prices */}
-            {(electricityPrice || waterPrice || internetPrice || parkingPrice) && (
+            {/* Rules */}
+            <div className="room-detail-section">
+              <h2 className="room-detail-section-title">Nội quy phòng</h2>
+              <div className="room-detail-amenities">
+                <div className={`room-amenity-tag ${room.allowPet ? 'room-amenity-yes' : 'room-amenity-no'}`}>
+                  <PawPrint size={16} />
+                  <span>{room.allowPet ? 'Cho phép thú cưng' : 'Không nuôi thú cưng'}</span>
+                </div>
+                <div className={`room-amenity-tag ${room.allowCooking ? 'room-amenity-yes' : 'room-amenity-no'}`}>
+                  <Utensils size={16} />
+                  <span>{room.allowCooking ? 'Cho phép nấu ăn' : 'Không nấu ăn'}</span>
+                </div>
+                <div className={`room-amenity-tag ${room.liveWithOwner ? 'room-amenity-yes' : ''}`}>
+                  <Home size={16} />
+                  <span>{room.liveWithOwner ? 'Ở chung chủ nhà' : 'Ở riêng'}</span>
+                </div>
+                {room.curfewTime && (
+                  <div className="room-amenity-tag">
+                    <Clock size={16} />
+                    <span>Giờ giới nghiêm: {room.curfewTime}</span>
+                  </div>
+                )}
+              </div>
+              {room.extraRules && (
+                <p className="text-muted" style={{ marginTop: '12px', fontSize: '0.9rem' }}>{room.extraRules}</p>
+              )}
+            </div>
+
+            {/* Service Prices */}
+            {room.prices && room.prices.length > 0 && (
               <div className="room-detail-section">
                 <h2 className="room-detail-section-title">Chi phí dịch vụ</h2>
                 <div className="room-detail-key-info">
-                  {electricityPrice && (
-                    <div className="room-info-item">
-                      <span className="room-info-label">Điện</span>
-                      <span className="room-info-value">{formatCurrency(electricityPrice)}/kWh</span>
+                  {room.prices.map((p: any) => (
+                    <div key={p.id || p.label} className="room-info-item">
+                      <span className="room-info-label">
+                        {p.is_metered || p.isMetered ? (
+                          p.meter_type === 'electric' || p.meterType === 'electric' ? <><Zap size={14} /> </> :
+                          p.meter_type === 'water' || p.meterType === 'water' ? <><Droplets size={14} /> </> : null
+                        ) : null}
+                        {p.label}
+                      </span>
+                      <span className="room-info-value">{formatCurrency(parseFloat(p.price))}/{p.unit}</span>
                     </div>
-                  )}
-                  {waterPrice && (
-                    <div className="room-info-item">
-                      <span className="room-info-label">Nước</span>
-                      <span className="room-info-value">{formatCurrency(waterPrice)}/m³</span>
-                    </div>
-                  )}
-                  {internetPrice && (
-                    <div className="room-info-item">
-                      <span className="room-info-label">Internet</span>
-                      <span className="room-info-value">{formatCurrency(internetPrice)}/tháng</span>
-                    </div>
-                  )}
-                  {parkingPrice && (
-                    <div className="room-info-item">
-                      <span className="room-info-label">Gửi xe</span>
-                      <span className="room-info-value">{formatCurrency(parkingPrice)}/tháng</span>
-                    </div>
-                  )}
+                  ))}
                 </div>
               </div>
             )}
 
             {/* Amenities */}
             <div className="room-detail-section">
-              <h2 className="room-detail-section-title">Tiện ích</h2>
+              <h2 className="room-detail-section-title">Tiện nghi</h2>
               <div className="room-detail-amenities">
-                {roomAmenities.map((amenity: any) => {
-                  const key = typeof amenity === 'string' ? amenity : amenity.name;
-                  const label = typeof amenity === 'string'
-                    ? (amenityLabels[amenity]?.label || amenity)
-                    : (amenity.name_vi || amenity.name || key);
-                  return (
-                    <div key={key} className="room-amenity-tag">
-                      <CheckCircle2 size={16} />
-                      <span>{label}</span>
-                    </div>
-                  );
-                })}
-                {roomAmenities.length === 0 && (
-                  <p className="text-muted">Không có thông tin tiện ích.</p>
+                {room.amenities && room.amenities.length > 0 ? room.amenities.map((amenity: any) => (
+                  <div key={amenity.id || amenity.name} className="room-amenity-tag">
+                    <CheckCircle2 size={16} />
+                    <span>{amenity.icon} {amenity.name}</span>
+                  </div>
+                )) : (
+                  <p className="text-muted">Không có thông tin tiện nghi.</p>
                 )}
               </div>
             </div>
 
             {/* Description */}
             <div className="room-detail-section">
-              <h2 className="room-detail-section-title">Mô tả</h2>
-              <p className="room-detail-desc">{roomDescription || 'Không có mô tả.'}</p>
+              <h2 className="room-detail-section-title">Mô tả chi tiết</h2>
+              <p className="room-detail-desc" style={{ whiteSpace: 'pre-wrap' }}>
+                {room.description || 'Không có mô tả.'}
+              </p>
             </div>
 
             {/* Reviews */}
             <div className="room-detail-section">
               <h2 className="room-detail-section-title">
-                Đánh giá ({reviews.length})
+                Đánh giá ({room.reviewCount || 0})
               </h2>
-              {reviews.length > 0 ? (
+              {room.reviews && room.reviews.length > 0 ? (
                 <div className="room-reviews">
-                  {reviews.map(review => (
+                  {room.reviews.map((review: any) => (
                     <div key={review.id} className="review-card">
                       <div className="review-header">
                         <img
-                          src={review.reviewer_avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${review.reviewer_id}`}
-                          alt={review.reviewer_name}
+                          src={review.tenant_avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${review.tenant_name}`}
+                          alt={review.tenant_name}
                           className="review-avatar"
                         />
                         <div>
-                          <div className="review-name">{review.reviewer_name}</div>
-                          <div className="review-date">{formatDate(review.created_at)}</div>
+                          <div className="review-name">{review.tenant_name}</div>
+                          <div className="review-date">{timeAgo(review.created_at)}</div>
                         </div>
                         <div className="review-rating">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <Star
                               key={i}
                               size={14}
-                              fill={i < (review.overall_rating || review.rating || 0) ? '#f59e0b' : 'none'}
-                              color={i < (review.overall_rating || review.rating || 0) ? '#f59e0b' : '#cbd5e1'}
+                              fill={i < review.rating ? '#f59e0b' : 'none'}
+                              color={i < review.rating ? '#f59e0b' : '#cbd5e1'}
                             />
                           ))}
                         </div>
                       </div>
-                      <p className="review-comment">{review.content || review.comment}</p>
+                      {review.comment && <p className="review-comment">{review.comment}</p>}
                     </div>
                   ))}
                 </div>
@@ -374,10 +377,14 @@ export default function RoomDetailPage() {
             {/* Landlord Card */}
             <div className="landlord-card card-elevated">
               <div className="landlord-card-header">
-                <img src={landlordAvatar} alt={landlordName} className="landlord-avatar" />
+                <img
+                  src={room.landlord.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${room.landlord.id}`}
+                  alt={room.landlord.fullName}
+                  className="landlord-avatar"
+                />
                 <div>
-                  <h3 className="landlord-name">{landlordName}</h3>
-                  {landlordVerified && (
+                  <h3 className="landlord-name">{room.landlord.fullName}</h3>
+                  {room.landlord.isVerified && (
                     <div className="landlord-verified">
                       <Shield size={14} />
                       <span>Đã xác thực</span>
@@ -392,140 +399,92 @@ export default function RoomDetailPage() {
                   onClick={() => setShowPhone(!showPhone)}
                 >
                   <Phone size={18} />
-                  {showPhone ? landlordPhone : 'Xem số điện thoại'}
+                  {showPhone ? room.landlord.phone : 'Xem số điện thoại'}
                 </button>
                 <button
                   className="btn btn-secondary btn-lg landlord-action-btn"
-                  onClick={() => navigate('/chat')}
+                  onClick={handleChat}
                 >
                   <MessageCircle size={18} />
                   Nhắn tin
                 </button>
-                <button
-                  className="btn btn-accent btn-lg landlord-action-btn"
-                  onClick={() => {
-                    if (!isAuthenticated) {
-                      navigate('/login');
-                    } else {
-                      setShowBookingModal(true);
-                    }
-                  }}
-                >
-                  <CalendarDays size={18} />
-                  Đặt lịch xem phòng
-                </button>
               </div>
             </div>
 
-            {/* Booking CTA */}
-            {roomStatus === 'active' && (
+            {/* Rental Request CTA */}
+            {room.status === 'available' && (
               <div className="booking-cta card-elevated">
-                <h3 className="booking-cta-title">Đặt phòng ngay</h3>
+                <h3 className="booking-cta-title">Gửi yêu cầu thuê</h3>
                 <div className="booking-cta-price">
-                  <span>{formatCurrency(roomPrice)}</span>
+                  <span>{formatCurrency(room.price)}</span>
                   <span className="text-muted">/tháng</span>
                 </div>
                 <div className="booking-cta-deposit">
-                  Tiền cọc: {formatCurrency(roomPrice)}
+                  Đặt cọc: {formatCurrency(room.deposit)}
                 </div>
                 <button
                   className="btn btn-primary btn-xl booking-cta-btn"
                   onClick={() => {
-                    if (!isAuthenticated) navigate('/login');
-                    else setShowBookingModal(true);
+                    if (!user) navigate('/login');
+                    else setShowRentalModal(true);
                   }}
                 >
-                  Gửi yêu cầu thuê
+                  <CalendarDays size={18} />
+                  Gửi yêu cầu thuê phòng
                 </button>
-                <p className="booking-cta-note">Miễn phí đặt chỗ • Hủy dễ dàng</p>
+                <p className="booking-cta-note">Miễn phí • Phản hồi nhanh</p>
               </div>
             )}
           </div>
         </div>
-
-        {/* Similar Rooms */}
-        {similarRooms.length > 0 && (
-          <div className="room-detail-section" style={{ paddingBottom: 'var(--space-16)' }}>
-            <h2 className="room-detail-section-title">Phòng tương tự</h2>
-            <div className="room-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
-              {similarRooms.map(r => (
-                <div key={r.id} className="room-card" onClick={() => navigate(`/rooms/${r.id}`)}>
-                  <div className="room-card-image">
-                    <img src={(r as any).cover_image || (r as any).coverImage || (r.images && r.images[0]) || 'https://via.placeholder.com/300x200'} alt={r.title} />
-                    <div className="room-card-price-tag">
-                      {formatCurrency(r.price)}<span>/tháng</span>
-                    </div>
-                  </div>
-                  <div className="room-card-body">
-                    <h3 className="room-card-title">{r.title}</h3>
-                    <div className="room-card-location">
-                      <MapPin size={14} />
-                      <span>{(r as any).district_name || (r as any).district}</span>
-                    </div>
-                    <div className="room-card-amenities">
-                      <span className="room-card-area">{r.area}m²</span>
-                      <span className="room-card-dot">•</span>
-                      <span>{formatCurrency(r.price)}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
-      {/* Booking Modal */}
-      {showBookingModal && (
-        <div className="modal-overlay" onClick={() => setShowBookingModal(false)}>
+      {/* Rental Request Modal */}
+      {showRentalModal && (
+        <div className="modal-overlay" onClick={() => setShowRentalModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Đặt lịch xem phòng</h3>
-              <button onClick={() => setShowBookingModal(false)}><ChevronLeft size={20} /></button>
+              <h3>Gửi yêu cầu thuê phòng</h3>
+              <button onClick={() => setShowRentalModal(false)}>✕</button>
             </div>
             <div className="modal-body">
               <div className="input-group">
-                <label className="input-label">Ngày xem</label>
-                <input type="date" className="input-field" id="booking-date" />
+                <label className="input-label">Ngày dọn vào dự kiến *</label>
+                <input
+                  type="date"
+                  className="input-field"
+                  value={rentalForm.moveInDate}
+                  onChange={(e) => setRentalForm({ ...rentalForm, moveInDate: e.target.value })}
+                  min={new Date().toISOString().split('T')[0]}
+                />
               </div>
-              <div className="input-group" style={{ marginTop: 'var(--space-4)' }}>
-                <label className="input-label">Giờ xem</label>
-                <select className="select-field" id="booking-time">
-                  <option>08:00</option>
-                  <option>09:00</option>
-                  <option>10:00</option>
-                  <option>14:00</option>
-                  <option>15:00</option>
-                  <option>16:00</option>
-                  <option>17:00</option>
+              <div className="input-group" style={{ marginTop: '16px' }}>
+                <label className="input-label">Số người ở</label>
+                <select
+                  className="select-field"
+                  value={rentalForm.numPeople}
+                  onChange={(e) => setRentalForm({ ...rentalForm, numPeople: parseInt(e.target.value) })}
+                >
+                  {[1, 2, 3, 4, 5].map(n => (
+                    <option key={n} value={n}>{n} người</option>
+                  ))}
                 </select>
               </div>
-              <div className="input-group" style={{ marginTop: 'var(--space-4)' }}>
-                <label className="input-label">Ghi chú</label>
-                <textarea className="input-field" rows={3} placeholder="Nhập ghi chú (tùy chọn)" id="booking-note"></textarea>
+              <div className="input-group" style={{ marginTop: '16px' }}>
+                <label className="input-label">Lời nhắn cho chủ trọ</label>
+                <textarea
+                  className="input-field"
+                  rows={3}
+                  placeholder="Giới thiệu bản thân, lý do thuê..."
+                  value={rentalForm.message}
+                  onChange={(e) => setRentalForm({ ...rentalForm, message: e.target.value })}
+                />
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-secondary" onClick={() => setShowBookingModal(false)}>Hủy</button>
-              <button className="btn btn-primary" onClick={async () => {
-                const dateEl = document.getElementById('booking-date') as HTMLInputElement;
-                const timeEl = document.getElementById('booking-time') as HTMLSelectElement;
-                const noteEl = document.getElementById('booking-note') as HTMLTextAreaElement;
-                const success = await createBooking({
-                  roomId: room.id,
-                  bookingType: 'viewing',
-                  scheduledDate: dateEl?.value || '',
-                  scheduledTimeStart: timeEl?.value || '',
-                  tenantMessage: noteEl?.value || ''
-                });
-                if (success) {
-                  setShowBookingModal(false);
-                  alert('Đã gửi yêu cầu xem phòng thành công!');
-                } else {
-                  alert('Lỗi: Không thể gửi yêu cầu lúc này.');
-                }
-              }}>
-                Xác nhận
+              <button className="btn btn-secondary" onClick={() => setShowRentalModal(false)}>Hủy</button>
+              <button className="btn btn-primary" onClick={handleRentalRequest} disabled={submitting}>
+                {submitting ? 'Đang gửi...' : 'Gửi yêu cầu'}
               </button>
             </div>
           </div>
@@ -538,12 +497,12 @@ export default function RoomDetailPage() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Báo cáo vi phạm</h3>
-              <button onClick={() => setShowReportModal(false)}><ChevronLeft size={20} /></button>
+              <button onClick={() => setShowReportModal(false)}>✕</button>
             </div>
             <div className="modal-body">
               <div className="input-group">
                 <label className="input-label">Lý do báo cáo</label>
-                <select className="select-field">
+                <select className="select-field" value={reportForm.reason} onChange={(e) => setReportForm({ ...reportForm, reason: e.target.value })}>
                   <option>Thông tin sai sự thật</option>
                   <option>Lừa đảo</option>
                   <option>Nội dung không phù hợp</option>
@@ -551,15 +510,21 @@ export default function RoomDetailPage() {
                   <option>Khác</option>
                 </select>
               </div>
-              <div className="input-group" style={{ marginTop: 'var(--space-4)' }}>
+              <div className="input-group" style={{ marginTop: '16px' }}>
                 <label className="input-label">Mô tả chi tiết</label>
-                <textarea className="input-field" rows={4} placeholder="Mô tả chi tiết vi phạm"></textarea>
+                <textarea
+                  className="input-field"
+                  rows={4}
+                  placeholder="Mô tả chi tiết vi phạm"
+                  value={reportForm.description}
+                  onChange={(e) => setReportForm({ ...reportForm, description: e.target.value })}
+                />
               </div>
             </div>
             <div className="modal-footer">
               <button className="btn btn-secondary" onClick={() => setShowReportModal(false)}>Hủy</button>
-              <button className="btn btn-danger" onClick={() => { setShowReportModal(false); alert('Đã gửi báo cáo!'); }}>
-                Gửi báo cáo
+              <button className="btn btn-danger" onClick={handleReport} disabled={submitting}>
+                {submitting ? 'Đang gửi...' : 'Gửi báo cáo'}
               </button>
             </div>
           </div>

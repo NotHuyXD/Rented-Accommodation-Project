@@ -1,32 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
-import { amenityLabels } from '../../data/mockData';
-import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft } from 'lucide-react';
+import { roomApi, uploadApi } from '../../api/services';
+import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft, PawPrint, Utensils, Home, Clock } from 'lucide-react';
 import './PostRoomPage.css';
 
 export default function PostRoomPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { addRoom } = useRoomStore();
+  const { roomTypes, amenities, provinces, districts, wards, fetchRoomTypes, fetchAmenities, fetchProvinces, fetchDistricts, fetchWards } = useRoomStore();
 
   const [step, setStep] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     address: '',
-    district: '',
-    lat: 10.762622,
-    lng: 106.660172,
+    roomTypeId: '',
+    wardId: '',
+    provinceId: '',
+    districtId: '',
     price: 3000000,
     deposit: 3000000,
     area: 20,
     maxOccupants: 2,
-    type: 'room',
-    amenities: [] as string[],
-    images: [] as string[]
+    availableFrom: '',
+    allowPet: false,
+    allowCooking: false,
+    liveWithOwner: false,
+    curfewTime: '',
+    extraRules: '',
+    selectedAmenities: [] as string[],
+    images: [] as { file: File; preview: string }[],
+    prices: [
+      { label: 'Điện', price: 3500, unit: 'kWh', isMetered: true, meterType: 'electric' as const },
+      { label: 'Nước', price: 30000, unit: 'm³', isMetered: true, meterType: 'water' as const },
+    ] as Array<{ label: string; price: number; unit: string; isMetered: boolean; meterType: 'electric' | 'water' | 'gas' | null }>,
   });
+
+  useEffect(() => {
+    fetchRoomTypes();
+    fetchAmenities();
+    fetchProvinces();
+  }, []);
 
   if (!user || user.role !== 'landlord') {
     return (
@@ -40,20 +57,22 @@ export default function PostRoomPage() {
   const handleNext = () => setStep(prev => prev + 1);
   const handlePrev = () => setStep(prev => prev - 1);
 
-  const toggleAmenity = (key: string) => {
+  const toggleAmenity = (id: string) => {
     setFormData(prev => ({
       ...prev,
-      amenities: prev.amenities.includes(key)
-        ? prev.amenities.filter(a => a !== key)
-        : [...prev.amenities, key]
+      selectedAmenities: prev.selectedAmenities.includes(id)
+        ? prev.selectedAmenities.filter(a => a !== id)
+        : [...prev.selectedAmenities, id]
     }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Mock image upload
     const files = e.target.files;
     if (files && files.length > 0) {
-      const newImages = Array.from(files).map(() => `https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=600&h=400&random=${Math.random()}`);
+      const newImages = Array.from(files).map(file => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
       setFormData(prev => ({ ...prev, images: [...prev.images, ...newImages] }));
     }
   };
@@ -65,46 +84,93 @@ export default function PostRoomPage() {
     }));
   };
 
-  const handleSubmit = () => {
-    const newRoom: any = {
-      ...formData,
-      id: `room-${Date.now()}`,
-      landlordId: user.id,
-      landlordName: user.fullName,
-      landlordPhone: user.phone || '0901234567',
-      landlordAvatar: user.avatar,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      status: 'available',
-      rating: 0,
-      reviewCount: 0,
-      views: 0,
-      featured: false
-    };
+  const handleProvinceChange = (provinceId: string) => {
+    setFormData(prev => ({ ...prev, provinceId, districtId: '', wardId: '' }));
+    if (provinceId) fetchDistricts(provinceId);
+  };
 
-    addRoom(newRoom);
-    alert('Đăng tin thành công!');
-    navigate('/landlord/rooms');
+  const handleDistrictChange = (districtId: string) => {
+    setFormData(prev => ({ ...prev, districtId, wardId: '' }));
+    if (districtId) fetchWards(districtId);
+  };
+
+  const addServicePrice = () => {
+    setFormData(prev => ({
+      ...prev,
+      prices: [...prev.prices, { label: '', price: 0, unit: 'tháng', isMetered: false, meterType: null }],
+    }));
+  };
+
+  const removeServicePrice = (index: number) => {
+    setFormData(prev => ({ ...prev, prices: prev.prices.filter((_, i) => i !== index) }));
+  };
+
+  const updateServicePrice = (index: number, field: string, value: any) => {
+    setFormData(prev => {
+      const prices = [...prev.prices];
+      (prices[index] as any)[field] = value;
+      return { ...prev, prices };
+    });
+  };
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      // 1. Upload images
+      let imageUrls: string[] = [];
+      if (formData.images.length > 0) {
+        const res: any = await uploadApi.uploadMultiple(formData.images.map(i => i.file));
+        imageUrls = (res.data || []).map((f: any) => f.url);
+      }
+
+      // 2. Create room
+      const roomData = {
+        title: formData.title,
+        description: formData.description,
+        address: formData.address,
+        wardId: formData.wardId,
+        roomTypeId: formData.roomTypeId,
+        price: formData.price,
+        deposit: formData.deposit,
+        area: formData.area,
+        maxOccupants: formData.maxOccupants,
+        availableFrom: formData.availableFrom || null,
+        allowPet: formData.allowPet,
+        allowCooking: formData.allowCooking,
+        liveWithOwner: formData.liveWithOwner,
+        curfewTime: formData.curfewTime || null,
+        extraRules: formData.extraRules || null,
+        amenities: formData.selectedAmenities,
+        images: imageUrls.map((url, i) => ({ url, isCover: i === 0 ? 1 : 0, sortOrder: i })),
+        prices: formData.prices.filter(p => p.label && p.price > 0),
+      };
+
+      await roomApi.create(roomData);
+      alert('Đăng tin thành công!');
+      navigate('/landlord');
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi đăng tin');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div style={{ paddingTop: '68px', minHeight: '100vh', background: 'var(--bg-secondary)' }}>
-      <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-16)', maxWidth: '800px' }}>
-        <button className="btn btn-ghost" style={{ marginBottom: 'var(--space-4)' }} onClick={() => navigate(-1)}>
+      <div className="container" style={{ paddingTop: '32px', paddingBottom: '64px', maxWidth: '800px' }}>
+        <button className="btn btn-ghost" style={{ marginBottom: '16px' }} onClick={() => navigate(-1)}>
           <ArrowLeft size={16} /> Quay lại
         </button>
-        
-        <h1 style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 800, marginBottom: 'var(--space-6)' }}>Đăng tin cho thuê</h1>
+
+        <h1 style={{ fontSize: '1.875rem', fontWeight: 800, marginBottom: '24px' }}>Đăng tin cho thuê phòng</h1>
 
         {/* Progress Bar */}
-        <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-8)' }}>
-          {[1, 2, 3].map(i => (
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '32px' }}>
+          {[1, 2, 3, 4].map(i => (
             <div
               key={i}
               style={{
-                flex: 1,
-                height: 6,
-                borderRadius: 3,
+                flex: 1, height: 6, borderRadius: 3,
                 background: step >= i ? 'var(--primary-500)' : 'var(--neutral-200)',
                 transition: 'background 300ms ease'
               }}
@@ -113,157 +179,219 @@ export default function PostRoomPage() {
         </div>
 
         <div className="post-room-form">
+          {/* STEP 1: Basic Info */}
           {step === 1 && (
             <div className="form-step slide-in">
               <h2>Thông tin cơ bản</h2>
-              
+
               <div className="input-group">
-                <label className="input-label">Tiêu đề bản tin <span style={{ color: 'var(--error-500)' }}>*</span></label>
-                <input
-                  className="input-field"
-                  placeholder="Ví dụ: Phòng trọ cao cấp full nội thất quận 1..."
-                  value={formData.title}
-                  onChange={e => setFormData({ ...formData, title: e.target.value })}
-                />
+                <label className="input-label">Tiêu đề <span style={{ color: 'var(--error-500)' }}>*</span></label>
+                <input className="input-field" placeholder="Ví dụ: Phòng trọ cao cấp full nội thất..."
+                  value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
               </div>
 
               <div className="input-group">
-                <label className="input-label">Loại bất động sản</label>
-                <select className="input-field" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })}>
-                  <option value="room">Phòng trọ</option>
-                  <option value="apartment">Căn hộ / Chung cư mini</option>
-                  <option value="house">Nhà nguyên căn</option>
-                  <option value="dorm">Ký túc xá / Sleepbox</option>
+                <label className="input-label">Loại phòng <span style={{ color: 'var(--error-500)' }}>*</span></label>
+                <select className="input-field" value={formData.roomTypeId} onChange={e => setFormData({ ...formData, roomTypeId: e.target.value })}>
+                  <option value="">Chọn loại phòng</option>
+                  {roomTypes.map(rt => <option key={rt.id} value={rt.id}>{rt.name}</option>)}
                 </select>
               </div>
 
               <div className="input-group">
-                <label className="input-label">Địa chỉ chi tiết <span style={{ color: 'var(--error-500)' }}>*</span></label>
+                <label className="input-label">Tỉnh / Thành phố <span style={{ color: 'var(--error-500)' }}>*</span></label>
+                <select className="input-field" value={formData.provinceId} onChange={e => handleProvinceChange(e.target.value)}>
+                  <option value="">Chọn tỉnh/thành</option>
+                  {provinces.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                </select>
+              </div>
+
+              {districts.length > 0 && (
+                <div className="input-group">
+                  <label className="input-label">Quận / Huyện <span style={{ color: 'var(--error-500)' }}>*</span></label>
+                  <select className="input-field" value={formData.districtId} onChange={e => handleDistrictChange(e.target.value)}>
+                    <option value="">Chọn quận/huyện</option>
+                    {districts.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+                  </select>
+                </div>
+              )}
+
+              {wards.length > 0 && (
+                <div className="input-group">
+                  <label className="input-label">Phường / Xã <span style={{ color: 'var(--error-500)' }}>*</span></label>
+                  <select className="input-field" value={formData.wardId} onChange={e => setFormData({ ...formData, wardId: e.target.value })}>
+                    <option value="">Chọn phường/xã</option>
+                    {wards.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}
+                  </select>
+                </div>
+              )}
+
+              <div className="input-group">
+                <label className="input-label">Địa chỉ chi tiết (số nhà, tên đường) <span style={{ color: 'var(--error-500)' }}>*</span></label>
                 <div style={{ position: 'relative' }}>
                   <MapPin size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)' }} />
-                  <input
-                    className="input-field"
-                    style={{ paddingLeft: 40 }}
-                    placeholder="Số nhà, tên đường, phường..."
-                    value={formData.address}
-                    onChange={e => setFormData({ ...formData, address: e.target.value })}
-                  />
+                  <input className="input-field" style={{ paddingLeft: 40 }} placeholder="Số nhà, tên đường..."
+                    value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} />
                 </div>
               </div>
 
-              <div className="input-group">
-                <label className="input-label">Khu vực (Quận/Huyện)</label>
-                <select className="input-field" value={formData.district} onChange={e => setFormData({ ...formData, district: e.target.value })}>
-                  <option value="">Chọn khu vực</option>
-                  <option value="Quận 1">Quận 1</option>
-                  <option value="Quận 3">Quận 3</option>
-                  <option value="Quận 7">Quận 7</option>
-                  <option value="Quận 10">Quận 10</option>
-                  <option value="Bình Thạnh">Bình Thạnh</option>
-                  <option value="Tân Bình">Tân Bình</option>
-                  <option value="Gò Vấp">Gò Vấp</option>
-                </select>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div className="input-group">
                   <label className="input-label">Giá thuê (VNĐ/tháng) <span style={{ color: 'var(--error-500)' }}>*</span></label>
-                  <div style={{ position: 'relative' }}>
-                    <DollarSign size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)' }} />
-                    <input
-                      className="input-field"
-                      type="number"
-                      style={{ paddingLeft: 40 }}
-                      value={formData.price}
-                      onChange={e => setFormData({ ...formData, price: Number(e.target.value) })}
-                    />
-                  </div>
+                  <input className="input-field" type="number" value={formData.price}
+                    onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} />
                 </div>
                 <div className="input-group">
                   <label className="input-label">Tiền cọc (VNĐ)</label>
-                  <input
-                    className="input-field"
-                    type="number"
-                    value={formData.deposit}
-                    onChange={e => setFormData({ ...formData, deposit: Number(e.target.value) })}
-                  />
+                  <input className="input-field" type="number" value={formData.deposit}
+                    onChange={e => setFormData({ ...formData, deposit: Number(e.target.value) })} />
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div className="input-group">
                   <label className="input-label">Diện tích (m²) <span style={{ color: 'var(--error-500)' }}>*</span></label>
-                  <div style={{ position: 'relative' }}>
-                    <Square size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)' }} />
-                    <input
-                      className="input-field"
-                      type="number"
-                      style={{ paddingLeft: 40 }}
-                      value={formData.area}
-                      onChange={e => setFormData({ ...formData, area: Number(e.target.value) })}
-                    />
-                  </div>
+                  <input className="input-field" type="number" value={formData.area}
+                    onChange={e => setFormData({ ...formData, area: Number(e.target.value) })} />
                 </div>
                 <div className="input-group">
-                  <label className="input-label">Số người ở tối đa</label>
-                  <div style={{ position: 'relative' }}>
-                    <Users size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)' }} />
-                    <input
-                      className="input-field"
-                      type="number"
-                      style={{ paddingLeft: 40 }}
-                      value={formData.maxOccupants}
-                      onChange={e => setFormData({ ...formData, maxOccupants: Number(e.target.value) })}
-                    />
-                  </div>
+                  <label className="input-label">Số người tối đa</label>
+                  <input className="input-field" type="number" value={formData.maxOccupants}
+                    onChange={e => setFormData({ ...formData, maxOccupants: Number(e.target.value) })} />
                 </div>
+              </div>
+
+              <div className="input-group">
+                <label className="input-label">Ngày trống (để trống nếu sẵn sàng ngay)</label>
+                <input className="input-field" type="date" value={formData.availableFrom}
+                  onChange={e => setFormData({ ...formData, availableFrom: e.target.value })} />
               </div>
             </div>
           )}
 
+          {/* STEP 2: Rules & Amenities */}
           {step === 2 && (
             <div className="form-step slide-in">
-              <h2>Mô tả & Tiện ích</h2>
+              <h2>Nội quy & Tiện nghi</h2>
 
-              <div className="input-group">
-                <label className="input-label">Mô tả chi tiết <span style={{ color: 'var(--error-500)' }}>*</span></label>
-                <textarea
-                  className="input-field"
-                  rows={8}
-                  placeholder="Gợi ý: Mô tả vị trí, nội thất trang bị, giờ giấc, an ninh khu vực..."
-                  value={formData.description}
-                  onChange={e => setFormData({ ...formData, description: e.target.value })}
-                />
+              <h3 style={{ marginBottom: '16px' }}>Nội quy phòng</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '24px' }}>
+                <label className="checkbox-custom" style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={formData.allowPet}
+                    onChange={e => setFormData({ ...formData, allowPet: e.target.checked })} />
+                  <PawPrint size={16} /> Cho phép thú cưng
+                </label>
+                <label className="checkbox-custom" style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={formData.allowCooking}
+                    onChange={e => setFormData({ ...formData, allowCooking: e.target.checked })} />
+                  <Utensils size={16} /> Cho phép nấu ăn
+                </label>
+                <label className="checkbox-custom" style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={formData.liveWithOwner}
+                    onChange={e => setFormData({ ...formData, liveWithOwner: e.target.checked })} />
+                  <Home size={16} /> Ở chung chủ nhà
+                </label>
               </div>
 
-              <h3 style={{ marginTop: 'var(--space-6)', marginBottom: 'var(--space-4)' }}>Tiện ích có sẵn</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                <div className="input-group">
+                  <label className="input-label">Giờ giới nghiêm (để trống nếu không)</label>
+                  <input className="input-field" type="time" value={formData.curfewTime}
+                    onChange={e => setFormData({ ...formData, curfewTime: e.target.value })} />
+                </div>
+              </div>
+
+              <div className="input-group" style={{ marginBottom: '24px' }}>
+                <label className="input-label">Nội quy khác</label>
+                <textarea className="input-field" rows={3} placeholder="Quy định riêng khác..."
+                  value={formData.extraRules} onChange={e => setFormData({ ...formData, extraRules: e.target.value })} />
+              </div>
+
+              <h3 style={{ marginBottom: '16px' }}>Tiện nghi có sẵn</h3>
               <div className="amenities-grid-select">
-                {Object.entries(amenityLabels).map(([key, info]) => (
+                {amenities.map(amenity => (
                   <button
-                    key={key}
+                    key={amenity.id}
                     type="button"
-                    className={`amenity-toggle-btn ${formData.amenities.includes(key) ? 'active' : ''}`}
-                    onClick={() => toggleAmenity(key)}
+                    className={`amenity-toggle-btn ${formData.selectedAmenities.includes(amenity.id) ? 'active' : ''}`}
+                    onClick={() => toggleAmenity(amenity.id)}
                   >
                     <span className="amenity-checkbox">
-                      {formData.amenities.includes(key) && <Check size={14} />}
+                      {formData.selectedAmenities.includes(amenity.id) && <Check size={14} />}
                     </span>
-                    {info.label}
+                    {amenity.icon} {amenity.name}
                   </button>
                 ))}
               </div>
             </div>
           )}
 
+          {/* STEP 3: Service Prices */}
           {step === 3 && (
             <div className="form-step slide-in">
+              <h2>Chi phí dịch vụ</h2>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+                Thêm các chi phí dịch vụ (điện, nước, internet...) cho phòng
+              </p>
+
+              {formData.prices.map((sp, index) => (
+                <div key={index} style={{ padding: '16px', border: '1px solid var(--border-color)', borderRadius: '12px', marginBottom: '12px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '12px', alignItems: 'end' }}>
+                    <div className="input-group">
+                      <label className="input-label">Tên dịch vụ</label>
+                      <input className="input-field" value={sp.label} placeholder="Ví dụ: Điện"
+                        onChange={e => updateServicePrice(index, 'label', e.target.value)} />
+                    </div>
+                    <div className="input-group">
+                      <label className="input-label">Đơn giá (VNĐ)</label>
+                      <input className="input-field" type="number" value={sp.price}
+                        onChange={e => updateServicePrice(index, 'price', Number(e.target.value))} />
+                    </div>
+                    <button className="btn btn-ghost btn-icon" onClick={() => removeServicePrice(index)} title="Xóa">
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '12px' }}>
+                    <div className="input-group">
+                      <label className="input-label">Đơn vị</label>
+                      <input className="input-field" value={sp.unit} placeholder="kWh, m³, tháng..."
+                        onChange={e => updateServicePrice(index, 'unit', e.target.value)} />
+                    </div>
+                    <div className="input-group">
+                      <label className="checkbox-custom" style={{ marginTop: '28px' }}>
+                        <input type="checkbox" checked={sp.isMetered}
+                          onChange={e => updateServicePrice(index, 'isMetered', e.target.checked)} />
+                        Tính theo đồng hồ (metered)
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <button className="btn btn-secondary" onClick={addServicePrice} style={{ marginTop: '8px' }}>
+                + Thêm dịch vụ
+              </button>
+
+              <div className="input-group" style={{ marginTop: '24px' }}>
+                <label className="input-label">Mô tả chi tiết</label>
+                <textarea className="input-field" rows={6} placeholder="Mô tả chi tiết về phòng..."
+                  value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+              </div>
+            </div>
+          )}
+
+          {/* STEP 4: Images */}
+          {step === 4 && (
+            <div className="form-step slide-in">
               <h2>Hình ảnh</h2>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-4)' }}>Đăng ít nhất 3 hình ảnh rõ nét để thu hút người xem hơn</p>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
+                Đăng ít nhất 3 hình ảnh rõ nét để thu hút người xem
+              </p>
 
               <div className="image-upload-area">
-                <Upload size={48} color="var(--primary-400)" style={{ marginBottom: 'var(--space-4)' }} />
+                <Upload size={48} color="var(--primary-400)" style={{ marginBottom: '16px' }} />
                 <h3>Kéo thả ảnh hoặc click để chọn</h3>
-                <p>Hỗ trợ JPG, PNG (Tối đa 5MB/ảnh)</p>
+                <p>Hỗ trợ JPG, PNG (Tối đa 10MB/ảnh)</p>
                 <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="file-input" />
               </div>
 
@@ -271,7 +399,8 @@ export default function PostRoomPage() {
                 <div className="uploaded-images-preview">
                   {formData.images.map((img, idx) => (
                     <div key={idx} className="preview-image-item">
-                      <img src={img} alt="" />
+                      <img src={img.preview} alt="" />
+                      {idx === 0 && <span className="badge badge-primary" style={{ position: 'absolute', top: 8, left: 8, fontSize: '0.7rem' }}>Ảnh bìa</span>}
                       <button className="remove-image-btn" onClick={() => removeImage(idx)}>
                         <Trash2 size={16} />
                       </button>
@@ -283,30 +412,20 @@ export default function PostRoomPage() {
           )}
 
           {/* Form Actions */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'var(--space-8)', paddingTop: 'var(--space-6)', borderTop: '1px solid var(--border-color)' }}>
-            <button
-              className="btn btn-secondary"
-              onClick={handlePrev}
-              style={{ visibility: step === 1 ? 'hidden' : 'visible' }}
-            >
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--border-color)' }}>
+            <button className="btn btn-secondary" onClick={handlePrev}
+              style={{ visibility: step === 1 ? 'hidden' : 'visible' }}>
               Quay lại
             </button>
-            
-            {step < 3 ? (
-              <button
-                className="btn btn-primary"
-                onClick={handleNext}
-                disabled={step === 1 && (!formData.title || !formData.address || !formData.price)}
-              >
+
+            {step < 4 ? (
+              <button className="btn btn-primary" onClick={handleNext}
+                disabled={step === 1 && (!formData.title || !formData.address || !formData.wardId || !formData.roomTypeId)}>
                 Tiếp tục
               </button>
             ) : (
-              <button
-                className="btn btn-primary"
-                onClick={handleSubmit}
-                disabled={formData.images.length === 0}
-              >
-                Hoàn tất đăng tin
+              <button className="btn btn-primary" onClick={handleSubmit} disabled={submitting}>
+                {submitting ? 'Đang đăng...' : 'Hoàn tất đăng tin'}
               </button>
             )}
           </div>

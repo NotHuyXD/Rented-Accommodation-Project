@@ -29,7 +29,7 @@ export default function ChatPage() {
   const loadConversations = async () => {
     setIsLoading(true);
     try {
-      const res: any = await chatApi.getConversations({});
+      const res: any = await chatApi.listConversations();
       if (res && res.data) {
         setConversations(res.data);
         if (res.data.length > 0) {

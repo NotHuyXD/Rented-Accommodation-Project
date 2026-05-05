@@ -1,254 +1,341 @@
+// ============================================================
+// TypeScript Types - v2.0 Schema
+// ============================================================
+
 // ==================== USER & AUTH ====================
 export type UserRole = 'tenant' | 'landlord' | 'admin';
+export type KycStatus = 'none' | 'pending' | 'approved' | 'rejected';
 
 export interface User {
   id: string;
   email: string;
   phone: string;
   fullName: string;
-  avatar: string;
+  avatar: string | null;
   role: UserRole;
-  cccd?: string;
-  bio?: string;
   isVerified: boolean;
-  isEKYC: boolean;
+  kycStatus: KycStatus;
   createdAt: string;
-  privacySettings?: {
-    showPhone: boolean;
-    showEmail: boolean;
-  };
 }
 
-// ==================== ROOM & PROPERTY ====================
-export type RoomStatus = 'available' | 'deposited' | 'rented' | 'maintenance';
-
-export interface RoomAmenity {
+// ==================== LOCATION ====================
+export interface Province {
   id: string;
   name: string;
-  icon: string;
+  code: string;
+}
+
+export interface District {
+  id: string;
+  name: string;
+  code: string | null;
+}
+
+export interface Ward {
+  id: string;
+  name: string;
+  code: string | null;
+}
+
+// ==================== ROOM TYPE ====================
+export interface RoomType {
+  id: string;
+  name: string;
+  slug: string;
+  icon: string | null;
+  description: string | null;
+}
+
+// ==================== AMENITY ====================
+export interface Amenity {
+  id: string;
+  name: string;
+  icon: string | null;
+}
+
+// ==================== ROOM ====================
+export type RoomStatus = 'available' | 'rented' | 'maintenance' | 'hidden';
+
+export interface RoomPrice {
+  id: string;
+  label: string;
+  price: number;
+  unit: string;
+  isMetered: boolean;
+  meterType: 'electric' | 'water' | 'gas' | null;
 }
 
 export interface Room {
   id: string;
   title: string;
-  price: number;
-  area: number;
-  maxOccupants: number;
-  address: string;
-  district: string;
-  city: string;
-  ward: string;
-  lat: number;
-  lng: number;
-  images: string[];
-  video?: string;
+  slug: string;
   description: string;
-  amenities: string[];
+  address: string;
+  latitude: number | null;
+  longitude: number | null;
+  area: number;
+  price: number;
+  deposit: number;
+  maxOccupants: number;
+  availableFrom: string | null;
+  allowPet: boolean;
+  allowCooking: boolean;
+  liveWithOwner: boolean;
+  curfewTime: string | null;
+  extraRules: string | null;
   status: RoomStatus;
-  landlordId: string;
-  landlordName: string;
-  landlordAvatar: string;
-  landlordPhone: string;
-  buildingId?: string;
-  isPinned: boolean;
-  isBoosted: boolean;
-  rating: number;
-  reviewCount: number;
-  views: number;
   createdAt: string;
   updatedAt: string;
-  hasWifi: boolean;
-  hasAC: boolean;
-  hasParking: boolean;
-  hasFurniture: boolean;
-  allowPets: boolean;
+  // Relations
+  roomType: { name: string; slug: string };
+  ward: string;
+  district: string;
+  province: string;
+  landlord: {
+    id: string;
+    fullName: string;
+    avatar: string | null;
+    phone: string;
+    email: string;
+    isVerified: boolean;
+  };
+  images: Array<{ id: string; url: string; is_cover: number; sort_order: number }>;
+  amenities: Amenity[];
+  prices: RoomPrice[];
+  reviews: Review[];
+  avgRating: number;
+  reviewCount: number;
 }
 
-export interface Building {
+// Room list item (lighter)
+export interface RoomListItem {
   id: string;
-  name: string;
+  title: string;
+  slug: string;
+  price: number;
+  deposit: number;
+  area: number;
+  max_occupants: number;
   address: string;
-  landlordId: string;
-  roomIds: string[];
+  latitude: number | null;
+  longitude: number | null;
+  allow_pet: boolean;
+  allow_cooking: boolean;
+  live_with_owner: boolean;
+  available_from: string | null;
+  status: RoomStatus;
+  created_at: string;
+  room_type_name: string;
+  room_type_slug: string;
+  landlord_id: string;
+  landlord_name: string;
+  landlord_avatar: string | null;
+  landlord_phone: string;
+  landlord_verified: boolean;
+  ward_name: string;
+  district_name: string;
+  province_name: string;
+  cover_image: string | null;
+  images: string[];
+  amenities: Amenity[];
+  avgRating: number;
+  reviewCount: number;
 }
 
-// ==================== BOOKING ====================
-export type BookingStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed';
+// ==================== RENTAL REQUEST ====================
+export type RentalRequestStatus = 'pending' | 'accepted' | 'rejected' | 'cancelled';
 
-export interface Booking {
+export interface RentalRequest {
   id: string;
-  roomId: string;
-  tenantId: string;
-  landlordId: string;
-  startDate: string;
-  endDate?: string;
-  status: BookingStatus;
-  depositAmount: number;
-  monthlyRent: number;
-  createdAt: string;
+  room_id: string;
+  tenant_id: string;
+  message: string | null;
+  move_in_date: string;
+  num_people: number;
+  status: RentalRequestStatus;
+  contract_id: string | null;
+  created_at: string;
+  room_title: string;
+  room_address: string;
+  room_price: number;
+  room_image: string | null;
+  tenant_name: string;
+  tenant_avatar: string | null;
+  tenant_phone: string;
+  landlord_name: string;
 }
 
 // ==================== CONTRACT ====================
-export type ContractStatus = 'draft' | 'active' | 'expired' | 'cancelled';
+export type ContractStatus = 'pending_sign' | 'active' | 'expired' | 'terminated';
 
 export interface Contract {
   id: string;
-  bookingId: string;
-  roomId: string;
-  tenantId: string;
-  landlordId: string;
-  startDate: string;
-  endDate: string;
-  monthlyRent: number;
-  deposit: number;
-  terms: string;
+  room_id: string;
+  tenant_id: string;
+  landlord_id: string;
+  request_id: string | null;
+  start_date: string;
+  end_date: string;
+  monthly_rent: number;
+  deposit_amount: number;
+  terms: string | null;
   status: ContractStatus;
-  signedByTenant: boolean;
-  signedByLandlord: boolean;
-  createdAt: string;
+  signed_at: string | null;
+  created_at: string;
+  room_title: string;
+  room_address: string;
+  room_image: string | null;
+  tenant_name: string;
+  tenant_phone: string;
+  landlord_name: string;
+  landlord_phone: string;
 }
 
-// ==================== PAYMENT ====================
-export type PaymentMethod = 'vnpay' | 'momo' | 'zalopay' | 'vietqr' | 'bank_transfer';
-export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'refunded';
-export type PaymentType = 'rent' | 'electricity' | 'water' | 'service' | 'deposit';
-
-export interface Payment {
-  id: string;
-  bookingId: string;
-  tenantId: string;
-  landlordId: string;
-  amount: number;
-  type: PaymentType;
-  method: PaymentMethod;
-  status: PaymentStatus;
-  month: string;
-  createdAt: string;
-}
+// ==================== INVOICE ====================
+export type InvoiceStatus = 'unpaid' | 'paid' | 'overdue' | 'disputed';
 
 export interface Invoice {
   id: string;
-  bookingId: string;
-  tenantId: string;
-  month: string;
-  rent: number;
-  electricity: number;
-  water: number;
-  service: number;
+  contract_id: string;
+  period_month: string;
+  base_rent: number;
+  electric_usage: number;
+  water_usage: number;
+  electric_fee: number;
+  water_fee: number;
+  other_fees: number;
   total: number;
-  status: PaymentStatus;
-  createdAt: string;
+  due_date: string;
+  status: InvoiceStatus;
+  paid_at: string | null;
+  created_at: string;
+  room_title: string;
+  room_address: string;
+  tenant_name: string;
+  landlord_name: string;
 }
 
-export interface UtilityReading {
+// ==================== PAYMENT ====================
+export type PaymentMethod = 'cash' | 'bank_transfer' | 'momo' | 'vnpay' | 'zalopay';
+export type PaymentStatus = 'pending' | 'success' | 'failed';
+
+export interface Payment {
   id: string;
-  roomId: string;
-  month: string;
-  electricityOld: number;
-  electricityNew: number;
-  waterOld: number;
-  waterNew: number;
-  electricityPrice: number;
-  waterPrice: number;
+  invoice_id: string;
+  tenant_id: string;
+  amount: number;
+  method: PaymentMethod;
+  transaction_id: string | null;
+  status: PaymentStatus;
+  paid_at: string;
+  period_month: string;
+  room_title: string;
 }
 
 // ==================== REVIEW ====================
 export interface Review {
   id: string;
-  roomId: string;
-  userId: string;
-  userName: string;
-  userAvatar: string;
   rating: number;
-  comment: string;
-  createdAt: string;
-  type: 'room' | 'landlord' | 'tenant';
+  comment: string | null;
+  created_at: string;
+  tenant_name: string;
+  tenant_avatar: string | null;
+}
+
+// ==================== BOOKMARK ====================
+export interface Bookmark {
+  id: string;
+  room_id: string;
+  title: string;
+  price: number;
+  area: number;
+  address: string;
+  status: RoomStatus;
+  room_type_name: string;
+  ward_name: string;
+  district_name: string;
+  province_name: string;
+  cover_image: string | null;
+  created_at: string;
 }
 
 // ==================== CHAT ====================
+export interface Conversation {
+  id: string;
+  room_id: string | null;
+  tenant_id: string;
+  tenant_name: string;
+  tenant_avatar: string | null;
+  landlord_id: string;
+  landlord_name: string;
+  landlord_avatar: string | null;
+  room_title: string | null;
+  last_message: string | null;
+  last_message_at: string | null;
+  unread_count: number;
+}
+
 export interface Message {
   id: string;
-  senderId: string;
-  receiverId: string;
+  sender_id: string;
   content: string;
-  type: 'text' | 'image' | 'location';
-  createdAt: string;
-  read: boolean;
-}
-
-export interface ChatRoom {
-  id: string;
-  participants: string[];
-  lastMessage?: Message;
-  unreadCount: number;
-}
-
-// ==================== VIEWING SCHEDULE ====================
-export type ScheduleStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed';
-
-export interface ViewingSchedule {
-  id: string;
-  roomId: string;
-  tenantId: string;
-  landlordId: string;
-  dateTime: string;
-  status: ScheduleStatus;
-  notes?: string;
-}
-
-// ==================== TICKET ====================
-export type TicketStatus = 'open' | 'in_progress' | 'fixing' | 'resolved';
-export type TicketCategory = 'electrical' | 'plumbing' | 'equipment' | 'other';
-
-export interface Ticket {
-  id: string;
-  roomId: string;
-  tenantId: string;
-  category: TicketCategory;
-  title: string;
-  description: string;
-  images?: string[];
-  status: TicketStatus;
-  createdAt: string;
-  resolvedAt?: string;
-}
-
-// ==================== REPORT ====================
-export type ReportType = 'scam' | 'user' | 'content';
-
-export interface Report {
-  id: string;
-  reporterId: string;
-  targetId: string;
-  type: ReportType;
-  reason: string;
-  description: string;
-  status: 'pending' | 'reviewed' | 'resolved';
-  createdAt: string;
-}
-
-// ==================== ROOMMATE ====================
-export interface RoommatePost {
-  id: string;
-  userId: string;
-  userName: string;
-  userAvatar: string;
-  title: string;
-  description: string;
-  budget: number;
-  preferredArea: string;
-  habits: string[];
-  createdAt: string;
+  is_read: boolean;
+  created_at: string;
+  sender_name: string;
+  sender_avatar: string | null;
 }
 
 // ==================== NOTIFICATION ====================
 export interface Notification {
   id: string;
-  userId: string;
+  type: string;
   title: string;
-  message: string;
-  type: 'booking' | 'payment' | 'contract' | 'chat' | 'system' | 'schedule';
-  read: boolean;
-  createdAt: string;
-  link?: string;
+  body: string;
+  is_read: boolean;
+  ref_id: string | null;
+  created_at: string;
+}
+
+// ==================== REPORT ====================
+export type ReportTargetType = 'room' | 'user' | 'review';
+
+export interface Report {
+  id: string;
+  reporter_id: string;
+  target_type: ReportTargetType;
+  target_id: string;
+  reason: string;
+  description: string | null;
+  status: 'pending' | 'resolved' | 'dismissed';
+  created_at: string;
+  reporter_name: string;
+}
+
+// ==================== UTILITY READING ====================
+export interface UtilityReading {
+  id: string;
+  contract_id: string;
+  period_month: string;
+  electric_prev: number;
+  electric_curr: number;
+  water_prev: number;
+  water_curr: number;
+  reading_images: string[] | null;
+  recorded_by_name: string;
+  recorded_at: string;
+}
+
+// ==================== PAGINATION ====================
+export interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext?: boolean;
+  hasPrev?: boolean;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: Pagination;
 }
