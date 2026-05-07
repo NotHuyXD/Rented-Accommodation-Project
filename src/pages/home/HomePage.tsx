@@ -14,13 +14,14 @@ import './HomePage.css';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { rooms, fetchRooms, provinces, fetchProvinces } = useRoomStore();
+  const { rooms, fetchRooms, provinces, fetchProvinces, clearFilters } = useRoomStore();
   const { user } = useAuthStore();
   const { toggleBookmark, isBookmarked } = useAppStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProvinceId, setSelectedProvinceId] = useState('');
 
   useEffect(() => {
+    clearFilters();
     fetchRooms({ limit: 8 });
     fetchProvinces();
   }, []);

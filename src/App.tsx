@@ -4,6 +4,7 @@ import Footer from './components/layout/Footer';
 import HomePage from './pages/home/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import RoomListPage from './pages/rooms/RoomListPage';
 import RoomDetailPage from './pages/rooms/RoomDetailPage';
 import LandlordDashboard from './pages/landlord/LandlordDashboard';
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/rooms" element={<RoomListPage />} />
             <Route path="/rooms/:id" element={<RoomDetailPage />} />
             <Route path="/landlord" element={<LandlordDashboard />} />
@@ -46,6 +48,7 @@ function App() {
         <Routes>
           <Route path="/chat" element={null} />
           <Route path="/login" element={null} />
+          <Route path="/forgot-password" element={null} />
           <Route path="/register" element={null} />
           <Route path="*" element={<Footer />} />
         </Routes>

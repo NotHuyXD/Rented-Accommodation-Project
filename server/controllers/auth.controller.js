@@ -176,6 +176,103 @@ async function logout(req, res) {
 }
 
 // ========================
+// In-memory OTP store (for development; use Redis in production)
+// ========================
+const otpStore = new Map(); // email -> { otp, expiresAt }
+
+/**
+ * POST /auth/forgot-password
+ */
+async function forgotPassword(req, res, next) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: 'Vui lòng cung cấp email' });
+    }
+
+    // Check if email exists
+    const users = await query('SELECT id FROM users WHERE email = ?', [email]);
+    if (users.length === 0) {
+      // Don't reveal whether email exists (security best practice)
+      return res.json({ message: 'Nếu email tồn tại, mã OTP đã được gửi' });
+    }
+
+    // Generate 6-digit OTP
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    otpStore.set(email, { otp, expiresAt });
+
+    // In production, send OTP via email service
+    console.log(`[DEV] OTP for ${email}: ${otp}`);
+
+    res.json({ message: 'Mã OTP đã được gửi đến email của bạn' });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * POST /auth/verify-reset-otp
+ */
+async function verifyResetOTP(req, res, next) {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({ message: 'Thiếu thông tin' });
+    }
+
+    const stored = otpStore.get(email);
+    if (!stored) {
+      return res.status(400).json({ message: 'Mã OTP không hợp lệ hoặc đã hết hạn' });
+    }
+
+    if (stored.otp !== otp) {
+      return res.status(400).json({ message: 'Mã OTP không đúng' });
+    }
+
+    if (Date.now() > stored.expiresAt) {
+      otpStore.delete(email);
+      return res.status(400).json({ message: 'Mã OTP đã hết hạn' });
+    }
+
+    res.json({ message: 'Xác minh OTP thành công' });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * POST /auth/reset-password
+ */
+async function resetPassword(req, res, next) {
+  try {
+    const { email, otp, newPassword } = req.body;
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({ message: 'Thiếu thông tin' });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: 'Mật khẩu phải có ít nhất 6 ký tự' });
+    }
+
+    const stored = otpStore.get(email);
+    if (!stored || stored.otp !== otp || Date.now() > stored.expiresAt) {
+      return res.status(400).json({ message: 'Mã OTP không hợp lệ hoặc đã hết hạn' });
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+    await query('UPDATE users SET password_hash = ? WHERE email = ?', [passwordHash, email]);
+
+    otpStore.delete(email);
+
+    res.json({ message: 'Đặt lại mật khẩu thành công' });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// ========================
 // Helper: format user for response
 // ========================
 function formatUser(user) {
@@ -199,4 +296,7 @@ module.exports = {
   updateProfile,
   changePassword,
   logout,
+  forgotPassword,
+  verifyResetOTP,
+  resetPassword,
 };

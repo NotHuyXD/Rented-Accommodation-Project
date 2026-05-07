@@ -22,10 +22,11 @@ async function listRooms(req, res, next) {
     let conditions = ["r.status = 'available'"];
     const params = [];
 
-    // Fulltext search
+    // Search by title/address (LIKE-based for better Vietnamese text support)
     if (search) {
-      conditions.push('MATCH(r.title, r.address) AGAINST(? IN BOOLEAN MODE)');
-      params.push(search);
+      conditions.push('(r.title LIKE ? OR r.address LIKE ? OR w.name LIKE ? OR d.name LIKE ? OR p.name LIKE ?)');
+      const searchPattern = `%${search}%`;
+      params.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
     }
 
     // Filters
@@ -75,7 +76,11 @@ async function listRooms(req, res, next) {
 
     // Count total
     const countResult = await query(
-      `SELECT COUNT(*) as total FROM rooms r ${whereClause}`, [...params]
+      `SELECT COUNT(*) as total FROM rooms r
+       JOIN wards w ON r.ward_id = w.id
+       JOIN districts d ON w.district_id = d.id
+       JOIN provinces p ON d.province_id = p.id
+       ${whereClause}`, [...params]
     );
     const total = countResult[0]?.total || 0;
 

@@ -27,6 +27,10 @@ export default function RoomDetailPage() {
   const [rentalForm, setRentalForm] = useState({ moveInDate: '', numPeople: 1, message: '' });
   const [reportForm, setReportForm] = useState({ reason: 'Thông tin sai sự thật', description: '' });
   const [submitting, setSubmitting] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewHover, setReviewHover] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -108,6 +112,30 @@ export default function RoomDetailPage() {
       navigate('/chat');
     } catch {
       navigate('/chat');
+    }
+  };
+
+  const handleReviewSubmit = async () => {
+    if (reviewRating === 0) {
+      alert('Vui lòng chọn số sao đánh giá');
+      return;
+    }
+    setReviewSubmitting(true);
+    try {
+      await reviewApi.create({
+        roomId: room.id,
+        rating: reviewRating,
+        comment: reviewComment || undefined,
+      });
+      alert('Đánh giá của bạn đã được gửi thành công!');
+      setReviewRating(0);
+      setReviewComment('');
+      // Reload room to update reviews
+      if (id) fetchRoomById(id);
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi gửi đánh giá');
+    } finally {
+      setReviewSubmitting(false);
     }
   };
 
@@ -337,6 +365,56 @@ export default function RoomDetailPage() {
               <h2 className="room-detail-section-title">
                 Đánh giá ({room.reviewCount || 0})
               </h2>
+
+              {/* Review Form */}
+              {user && user.role === 'tenant' && user.id !== room.landlord.id && (
+                <div className="review-form" style={{ 
+                  background: 'var(--bg-tertiary)', padding: '20px', borderRadius: 'var(--radius-lg)', 
+                  marginBottom: '24px', border: '1px solid var(--border-color)'
+                }}>
+                  <h4 style={{ fontWeight: 600, marginBottom: '12px' }}>Viết đánh giá của bạn</h4>
+                  <div style={{ display: 'flex', gap: '4px', marginBottom: '12px' }}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setReviewRating(star)}
+                        onMouseEnter={() => setReviewHover(star)}
+                        onMouseLeave={() => setReviewHover(0)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '2px', transition: 'transform 0.15s' }}
+                      >
+                        <Star
+                          size={28}
+                          fill={star <= (reviewHover || reviewRating) ? '#f59e0b' : 'none'}
+                          color={star <= (reviewHover || reviewRating) ? '#f59e0b' : '#cbd5e1'}
+                          style={{ transition: 'all 0.15s' }}
+                        />
+                      </button>
+                    ))}
+                    {reviewRating > 0 && (
+                      <span style={{ marginLeft: '8px', color: 'var(--text-secondary)', fontSize: '0.9rem', alignSelf: 'center' }}>
+                        {reviewRating === 1 ? 'Rất tệ' : reviewRating === 2 ? 'Tệ' : reviewRating === 3 ? 'Bình thường' : reviewRating === 4 ? 'Tốt' : 'Xuất sắc'}
+                      </span>
+                    )}
+                  </div>
+                  <textarea
+                    className="input-field"
+                    rows={3}
+                    placeholder="Chia sẻ trải nghiệm của bạn về phòng trọ này..."
+                    value={reviewComment}
+                    onChange={(e) => setReviewComment(e.target.value)}
+                    style={{ width: '100%', marginBottom: '12px', resize: 'vertical' }}
+                  />
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleReviewSubmit}
+                    disabled={reviewSubmitting || reviewRating === 0}
+                  >
+                    {reviewSubmitting ? 'Đang gửi...' : 'Gửi đánh giá'}
+                  </button>
+                </div>
+              )}
+
               {room.reviews && room.reviews.length > 0 ? (
                 <div className="room-reviews">
                   {room.reviews.map((review: any) => (

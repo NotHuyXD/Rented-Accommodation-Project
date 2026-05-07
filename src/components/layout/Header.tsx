@@ -169,10 +169,6 @@ export default function Header() {
                     </Link>
                     {user.role === 'landlord' && (
                       <>
-                        <Link to="/landlord" className="header-dropdown-item">
-                          <Building2 size={18} />
-                          Quản lý phòng
-                        </Link>
                         <Link to="/contracts" className="header-dropdown-item">
                           <FileText size={18} />
                           Hợp đồng

@@ -1,12 +1,13 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
+import { rentalRequestApi } from '../../api/services';
 import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
 import {
   Home, FileText, DollarSign, Heart, MessageCircle,
   CheckCircle2, Clock, AlertCircle, Settings,
-  CreditCard, Receipt, Search
+  CreditCard, Receipt, Search, XCircle, Trash2
 } from 'lucide-react';
 import '../landlord/DashboardPages.css';
 
@@ -17,6 +18,7 @@ export default function TenantDashboard() {
     contracts, invoices, rentalRequests, bookmarks,
     fetchContracts, fetchInvoices, fetchRentalRequests, fetchBookmarks
   } = useAppStore();
+  const [cancelling, setCancelling] = useState<string | null>(null);
 
   useEffect(() => {
     if (user?.role === 'tenant') {
@@ -48,6 +50,20 @@ export default function TenantDashboard() {
     { icon: DollarSign, label: 'Chưa thanh toán', value: unpaidInvoices.length, color: '#ef4444' },
     { icon: Heart, label: 'Yêu thích', value: bookmarks.length, color: '#ec4899' },
   ];
+
+  const handleCancelRequest = async (requestId: string) => {
+    if (!confirm('Bạn có chắc muốn hủy yêu cầu thuê phòng này?')) return;
+    setCancelling(requestId);
+    try {
+      await rentalRequestApi.cancel(requestId);
+      alert('Đã hủy yêu cầu thuê phòng thành công');
+      fetchRentalRequests();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi hủy yêu cầu');
+    } finally {
+      setCancelling(null);
+    }
+  };
 
   return (
     <div className="dashboard-page">
@@ -160,26 +176,46 @@ export default function TenantDashboard() {
           </div>
 
           {/* Rental Requests */}
-          <div className="dashboard-card">
+          <div className="dashboard-card dashboard-card-full">
             <div className="dashboard-card-header">
               <h2>Yêu cầu thuê phòng</h2>
             </div>
             {rentalRequests.length > 0 ? (
               <div className="dashboard-tickets">
-                {rentalRequests.slice(0, 5).map(req => {
+                {rentalRequests.map(req => {
                   const status = getStatusLabel(req.status);
+                  const isPending = req.status === 'pending';
                   return (
                     <div key={req.id} className="dashboard-ticket-item">
                       <div className="dashboard-ticket-icon" style={{ background: `${status.color}20`, color: status.color }}>
-                        {req.status === 'pending' ? <Clock size={18} /> : <CheckCircle2 size={18} />}
+                        {isPending ? <Clock size={18} /> : <CheckCircle2 size={18} />}
                       </div>
                       <div className="dashboard-ticket-info">
                         <h4>{req.room_title || 'Phòng trọ'}</h4>
-                        <p>Dọn vào: {formatDate(req.move_in_date)}</p>
+                        <p>
+                          Dọn vào: {formatDate(req.move_in_date)}
+                          {req.room_price ? ` · ${formatCurrency(req.room_price)}/tháng` : ''}
+                        </p>
                       </div>
-                      <span className="badge" style={{ background: `${status.color}20`, color: status.color }}>
-                        {status.label}
-                      </span>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
+                        <span className="badge" style={{ background: `${status.color}20`, color: status.color }}>
+                          {status.label}
+                        </span>
+                        {isPending && (
+                          <button
+                            className="btn btn-sm"
+                            style={{ 
+                              background: '#ef444415', color: '#ef4444', border: 'none',
+                              fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px'
+                            }}
+                            onClick={() => handleCancelRequest(req.id)}
+                            disabled={cancelling === req.id}
+                          >
+                            <XCircle size={14} />
+                            {cancelling === req.id ? 'Đang hủy...' : 'Hủy yêu cầu'}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   );
                 })}

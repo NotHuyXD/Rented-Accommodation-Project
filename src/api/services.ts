@@ -14,6 +14,9 @@ export const authApi = {
   changePassword: (data: { currentPassword: string; newPassword: string }) =>
     axiosClient.post('/auth/change-password', data),
   logout: () => axiosClient.post('/auth/logout'),
+  forgotPassword: (data: { email: string }) => axiosClient.post('/auth/forgot-password', data),
+  verifyResetOTP: (data: { email: string; otp: string }) => axiosClient.post('/auth/verify-reset-otp', data),
+  resetPassword: (data: { email: string; otp: string; newPassword: string }) => axiosClient.post('/auth/reset-password', data),
 };
 
 // ==================== ROOMS ====================

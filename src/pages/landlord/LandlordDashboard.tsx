@@ -1,13 +1,14 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAppStore } from '../../stores/appStore';
-import { formatCurrency, getStatusLabel } from '../../utils/helpers';
+import { rentalRequestApi } from '../../api/services';
+import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
 import {
   Building2, Plus, CheckCircle2, DollarSign,
   FileText, Settings, Users, Clock,
-  Wrench, MessageCircle
+  Wrench, MessageCircle, X, Check, XCircle
 } from 'lucide-react';
 import './DashboardPages.css';
 
@@ -16,6 +17,10 @@ export default function LandlordDashboard() {
   const { user } = useAuthStore();
   const { myRooms, fetchMyRooms, isLoading: roomsLoading } = useRoomStore();
   const { rentalRequests, fetchRentalRequests } = useAppStore();
+  const [showAcceptModal, setShowAcceptModal] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState<any>(null);
+  const [contractForm, setContractForm] = useState({ startDate: '', endDate: '', terms: '' });
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     if (user && user.role === 'landlord') {
@@ -46,6 +51,55 @@ export default function LandlordDashboard() {
     { icon: Users, label: 'Đang thuê', value: rentedRooms, color: '#8b5cf6' },
     { icon: DollarSign, label: 'Doanh thu/tháng', value: formatCurrency(totalRevenue), color: '#f97316' }
   ];
+
+  const handleAcceptClick = (req: any) => {
+    setSelectedRequest(req);
+    // Default contract dates: move-in date to +12 months
+    const startDate = req.move_in_date ? req.move_in_date.split('T')[0] : new Date().toISOString().split('T')[0];
+    const endDateObj = new Date(startDate);
+    endDateObj.setFullYear(endDateObj.getFullYear() + 1);
+    const endDate = endDateObj.toISOString().split('T')[0];
+    setContractForm({ startDate, endDate, terms: '' });
+    setShowAcceptModal(true);
+  };
+
+  const handleAcceptSubmit = async () => {
+    if (!contractForm.startDate || !contractForm.endDate) {
+      alert('Vui lòng chọn ngày bắt đầu và kết thúc hợp đồng');
+      return;
+    }
+    setProcessing(true);
+    try {
+      await rentalRequestApi.accept(selectedRequest.id, {
+        startDate: contractForm.startDate,
+        endDate: contractForm.endDate,
+        terms: contractForm.terms || undefined,
+      });
+      alert('Đã chấp nhận yêu cầu thuê phòng và tạo hợp đồng thành công!');
+      setShowAcceptModal(false);
+      setSelectedRequest(null);
+      fetchRentalRequests();
+      fetchMyRooms();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi xử lý yêu cầu');
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleReject = async (requestId: string) => {
+    if (!confirm('Bạn có chắc muốn từ chối yêu cầu thuê phòng này?')) return;
+    setProcessing(true);
+    try {
+      await rentalRequestApi.reject(requestId);
+      alert('Đã từ chối yêu cầu thuê phòng');
+      fetchRentalRequests();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi xử lý yêu cầu');
+    } finally {
+      setProcessing(false);
+    }
+  };
 
   return (
     <div className="dashboard-page">
@@ -155,30 +209,123 @@ export default function LandlordDashboard() {
               <h2>Yêu cầu thuê phòng ({pendingRequests.length} chờ duyệt)</h2>
             </div>
             <div className="dashboard-tickets">
-              {pendingRequests.length > 0 ? (
-                pendingRequests.slice(0, 5).map(req => (
-                  <div key={req.id} className="dashboard-ticket-item">
-                    <div className="dashboard-ticket-icon" style={{ background: 'var(--warning-100)', color: 'var(--warning-600)' }}>
-                      <Clock size={18} />
+              {rentalRequests.length > 0 ? (
+                rentalRequests.slice(0, 10).map(req => {
+                  const status = getStatusLabel(req.status);
+                  const isPending = req.status === 'pending';
+                  return (
+                    <div key={req.id} className="dashboard-ticket-item">
+                      <div className="dashboard-ticket-icon" style={{ background: `${status.color}15`, color: status.color }}>
+                        {isPending ? <Clock size={18} /> : <CheckCircle2 size={18} />}
+                      </div>
+                      <div className="dashboard-ticket-info">
+                        <h4>{req.room_title || 'Phòng trọ'}</h4>
+                        <p>
+                          <strong>{req.tenant_name}</strong> - Dọn vào {formatDate(req.move_in_date)} ({req.num_people} người)
+                          {req.tenant_phone && <span> · SĐT: {req.tenant_phone}</span>}
+                        </p>
+                        {req.message && (
+                          <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginTop: '4px', fontStyle: 'italic' }}>
+                            "{req.message}"
+                          </p>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
+                        <span className="badge" style={{ background: `${status.color}15`, color: status.color }}>
+                          {status.label}
+                        </span>
+                        {isPending && (
+                          <>
+                            <button
+                              className="btn btn-sm"
+                              style={{ background: '#10b98120', color: '#10b981', border: 'none', fontWeight: 600 }}
+                              onClick={() => handleAcceptClick(req)}
+                              disabled={processing}
+                            >
+                              <Check size={14} />
+                              Chấp nhận
+                            </button>
+                            <button
+                              className="btn btn-sm"
+                              style={{ background: '#ef444420', color: '#ef4444', border: 'none', fontWeight: 600 }}
+                              onClick={() => handleReject(req.id)}
+                              disabled={processing}
+                            >
+                              <XCircle size={14} />
+                              Từ chối
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <div className="dashboard-ticket-info">
-                      <h4>{req.room_title || 'Phòng trọ'}</h4>
-                      <p>{req.tenant_name} - Dọn vào {req.move_in_date} ({req.num_people} người)</p>
-                    </div>
-                    <span className="badge" style={{ background: 'var(--warning-100)', color: 'var(--warning-600)' }}>
-                      Chờ duyệt
-                    </span>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-                  Không có yêu cầu nào đang chờ
+                  Không có yêu cầu nào
                 </div>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Accept Request Modal */}
+      {showAcceptModal && selectedRequest && (
+        <div className="modal-overlay" onClick={() => setShowAcceptModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Chấp nhận yêu cầu thuê phòng</h3>
+              <button onClick={() => setShowAcceptModal(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              <div style={{ background: 'var(--primary-50)', padding: '16px', borderRadius: '12px', marginBottom: '20px' }}>
+                <p style={{ fontWeight: 600, marginBottom: '4px' }}>{selectedRequest.room_title}</p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                  Khách thuê: <strong>{selectedRequest.tenant_name}</strong> · {selectedRequest.num_people} người
+                </p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                  Giá phòng: <strong>{formatCurrency(selectedRequest.room_price || 0)}/tháng</strong>
+                </p>
+              </div>
+              <div className="input-group">
+                <label className="input-label">Ngày bắt đầu hợp đồng *</label>
+                <input
+                  type="date"
+                  className="input-field"
+                  value={contractForm.startDate}
+                  onChange={(e) => setContractForm({ ...contractForm, startDate: e.target.value })}
+                />
+              </div>
+              <div className="input-group" style={{ marginTop: '16px' }}>
+                <label className="input-label">Ngày kết thúc hợp đồng *</label>
+                <input
+                  type="date"
+                  className="input-field"
+                  value={contractForm.endDate}
+                  onChange={(e) => setContractForm({ ...contractForm, endDate: e.target.value })}
+                />
+              </div>
+              <div className="input-group" style={{ marginTop: '16px' }}>
+                <label className="input-label">Điều khoản hợp đồng (tùy chọn)</label>
+                <textarea
+                  className="input-field"
+                  rows={4}
+                  placeholder="Nhập các điều khoản hợp đồng..."
+                  value={contractForm.terms}
+                  onChange={(e) => setContractForm({ ...contractForm, terms: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-secondary" onClick={() => setShowAcceptModal(false)}>Hủy</button>
+              <button className="btn btn-primary" onClick={handleAcceptSubmit} disabled={processing}>
+                {processing ? 'Đang xử lý...' : 'Tạo hợp đồng & Chấp nhận'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
