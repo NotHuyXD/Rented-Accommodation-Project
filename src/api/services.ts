@@ -9,6 +9,8 @@ export const authApi = {
     axiosClient.post('/auth/register', data),
   login: (data: { email: string; password: string }) =>
     axiosClient.post('/auth/login', data),
+  googleLogin: (data: { token: string }) =>
+    axiosClient.post('/auth/google-login', data),
   getProfile: () => axiosClient.get('/auth/profile'),
   updateProfile: (data: Record<string, unknown>) => axiosClient.put('/auth/profile', data),
   changePassword: (data: { currentPassword: string; newPassword: string }) =>

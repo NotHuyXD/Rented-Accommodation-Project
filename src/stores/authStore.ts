@@ -12,6 +12,7 @@ interface AuthState {
   error: string | null;
 
   login: (email: string, password: string) => Promise<boolean>;
+  googleLogin: (token: string) => Promise<boolean>;
   register: (data: { email: string; phone: string; password: string; fullName: string; role?: string }) => Promise<boolean>;
   logout: () => void;
   loadProfile: () => Promise<void>;
@@ -42,6 +43,23 @@ export const useAuthStore = create<AuthState>((set) => ({
       return true;
     } catch (err: any) {
       const message = err.response?.data?.message || 'Đăng nhập thất bại';
+      set({ isLoading: false, error: message });
+      return false;
+    }
+  },
+
+  googleLogin: async (googleToken: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const res: any = await authApi.googleLogin({ token: googleToken });
+      const { user, token, refreshToken } = res.data;
+      localStorage.setItem('access_token', token);
+      localStorage.setItem('refresh_token', refreshToken);
+      localStorage.setItem('auth-user', JSON.stringify(user));
+      set({ user, token, isLoading: false });
+      return true;
+    } catch (err: any) {
+      const message = err.response?.data?.message || 'Đăng nhập Google thất bại';
       set({ isLoading: false, error: message });
       return false;
     }

@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 const { query, getConnection } = require('../config/db');
 const { generateAccessToken, generateRefreshToken } = require('../middleware/auth');
 const { generateUUID } = require('../utils/helpers');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 /**
  * POST /auth/register
@@ -93,6 +96,70 @@ async function login(req, res, next) {
     });
   } catch (error) {
     next(error);
+  }
+}
+
+/**
+ * POST /auth/google-login
+ */
+async function googleLogin(req, res, next) {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ message: 'Thiếu Google Token' });
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    const { email, name, picture, sub } = payload;
+
+    const users = await query(
+      `SELECT id, full_name, email, phone, password_hash, avatar_url, role, is_verified, kyc_status, created_at
+       FROM users WHERE email = ?`, [email]
+    );
+
+    let user;
+
+    if (users.length === 0) {
+      // User doesn't exist, create a new one
+      const userId = generateUUID();
+      // Generate a random password for google users or we can leave it empty
+      const randomPassword = await bcrypt.hash(Math.random().toString(36).slice(-8), 12);
+      
+      await query(
+        `INSERT INTO users (id, full_name, email, phone, password_hash, avatar_url, role, is_verified)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [userId, name, email, '', randomPassword, picture, 'tenant', 1]
+      );
+      
+      const newUsers = await query(
+        `SELECT id, full_name, email, phone, avatar_url, role, is_verified, kyc_status, created_at
+         FROM users WHERE id = ?`, [userId]
+      );
+      user = newUsers[0];
+    } else {
+      user = users[0];
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    res.json({
+      message: 'Đăng nhập Google thành công',
+      data: {
+        user: formatUser(user),
+        token: accessToken,
+        refreshToken,
+      }
+    });
+  } catch (error) {
+    console.error("Google Login Error:", error);
+    res.status(401).json({ message: 'Xác thực Google thất bại' });
   }
 }
 
@@ -292,6 +359,7 @@ function formatUser(user) {
 module.exports = {
   register,
   login,
+  googleLogin,
   getProfile,
   updateProfile,
   changePassword,
