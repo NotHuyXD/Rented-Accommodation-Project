@@ -110,13 +110,21 @@ async function googleLogin(req, res, next) {
       return res.status(400).json({ message: 'Thiếu Google Token' });
     }
 
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+    // The token from frontend useGoogleLogin is an access_token, not an id_token
+    const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${token}` }
     });
-    
-    const payload = ticket.getPayload();
+
+    if (!response.ok) {
+      throw new Error('Invalid Google Access Token');
+    }
+
+    const payload = await response.json();
     const { email, name, picture, sub } = payload;
+    
+    if (!email) {
+      return res.status(400).json({ message: 'Không lấy được email từ Google' });
+    }
 
     const users = await query(
       `SELECT id, full_name, email, phone, password_hash, avatar_url, role, is_verified, kyc_status, created_at
@@ -134,7 +142,7 @@ async function googleLogin(req, res, next) {
       await query(
         `INSERT INTO users (id, full_name, email, phone, password_hash, avatar_url, role, is_verified)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [userId, name, email, '', randomPassword, picture, 'tenant', 1]
+        [userId, name || 'Google User', email, '', randomPassword, picture || null, 'tenant', 1]
       );
       
       const newUsers = await query(
