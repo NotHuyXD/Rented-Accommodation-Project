@@ -1,9 +1,11 @@
 .post-room-form {
-  background: var(--bg-card);
-  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-2xl);
   padding: var(--space-8);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  position: relative;
 }
 
 .form-step {
@@ -50,6 +52,8 @@
 .amenity-toggle-btn:hover {
   border-color: var(--primary-300);
   background: var(--primary-50);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .amenity-toggle-btn.active {

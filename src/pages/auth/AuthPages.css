@@ -17,7 +17,9 @@
 .auth-bg-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #164e63 30%, #0e7490 60%, #06b6d4 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 30%, #312e81 60%, #1e1b4b 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 10s ease infinite;
 }
 
 .auth-container {
@@ -28,10 +30,26 @@
 }
 
 .auth-card {
-  background: var(--bg-primary);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
   border-radius: var(--radius-2xl);
   padding: var(--space-10);
-  box-shadow: var(--shadow-2xl);
+  box-shadow: 0 32px 64px -12px rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius-2xl) + 2px);
+  background: linear-gradient(135deg, rgba(99,102,241,0.5), rgba(244,63,94,0.5));
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(10px);
+  animation: glowPulse 4s infinite alternate;
 }
 
 .auth-brand {

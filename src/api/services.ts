@@ -110,6 +110,19 @@ export const chatApi = {
     axiosClient.post(`/chat/conversations/${conversationId}/messages`, { content }),
 };
 
+// ==================== APPOINTMENTS (Hẹn lịch xem phòng) ====================
+export const appointmentApi = {
+  create: (data: {
+    roomId: string;
+    appointmentDate: string;
+    appointmentTime: string;
+    message?: string;
+  }) => axiosClient.post('/appointments', data),
+  list: (params?: Record<string, unknown>) => axiosClient.get('/appointments', { params }),
+  cancel: (id: string) => axiosClient.patch(`/appointments/${id}/cancel`),
+  confirm: (id: string) => axiosClient.patch(`/appointments/${id}/confirm`),
+};
+
 // ==================== NOTIFICATIONS ====================
 export const notificationApi = {
   list: (params?: Record<string, unknown>) => axiosClient.get('/notifications', { params }),

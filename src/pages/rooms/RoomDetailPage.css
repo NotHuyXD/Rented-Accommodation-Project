@@ -49,6 +49,7 @@
   overflow: hidden;
   aspect-ratio: 16/8;
   background: var(--neutral-200);
+  box-shadow: var(--shadow-lg);
 }
 
 .room-gallery-img {
@@ -188,10 +189,25 @@
   flex-wrap: wrap;
   gap: var(--space-4);
   padding: var(--space-5);
-  background: var(--primary-50);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--primary-100);
+  background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(244,63,94,0.05));
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(99,102,241,0.2);
   margin-bottom: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.room-detail-price-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(244,63,94,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  pointer-events: none;
 }
 
 .room-detail-price-value {
@@ -233,9 +249,16 @@
 .room-info-item {
   background: var(--bg-card);
   padding: var(--space-4);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.room-info-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary-300);
 }
 
 .room-info-label {

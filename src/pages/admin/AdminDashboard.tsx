@@ -302,8 +302,8 @@ export default function AdminDashboard() {
                       <td>{(room as any).landlord_name || (room as any).landlordName}</td>
                       <td>{formatCurrency(room.price)}</td>
                       <td>
-                        <span className={`badge ${room.status === 'active' ? 'badge-success' : room.status === 'pending_approval' ? 'badge-warning' : 'badge-neutral'}`}>
-                          {room.status === 'active' ? 'Hoạt động' : room.status === 'pending_approval' ? 'Chờ duyệt' : room.status === 'rented' ? 'Đang thuê' : room.status}
+                        <span className={`badge ${(room.status as string) === 'active' ? 'badge-success' : (room.status as string) === 'pending_approval' ? 'badge-warning' : 'badge-neutral'}`}>
+                          {(room.status as string) === 'active' ? 'Hoạt động' : (room.status as string) === 'pending_approval' ? 'Chờ duyệt' : room.status === 'rented' ? 'Đang thuê' : room.status}
                         </span>
                       </td>
                       <td>{(room as any).view_count || (room as any).views || 0}</td>

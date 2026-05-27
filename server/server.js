@@ -27,6 +27,8 @@ const chatRoutes = require('./routes/chat.routes');
 const reportRoutes = require('./routes/report.routes');
 const adminRoutes = require('./routes/admin.routes');
 const uploadRoutes = require('./routes/upload.routes');
+const appointmentRoutes = require('./routes/appointment.routes');
+const { verifyEmailConnection } = require('./utils/emailService');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -68,6 +70,7 @@ app.use(`${API_PREFIX}/chat`, chatRoutes);
 app.use(`${API_PREFIX}/reports`, reportRoutes);
 app.use(`${API_PREFIX}/admin`, adminRoutes);
 app.use(`${API_PREFIX}/upload`, uploadRoutes);
+app.use(`${API_PREFIX}/appointments`, appointmentRoutes);
 
 // Health check
 app.get(`${API_PREFIX}/health`, (req, res) => {
@@ -90,6 +93,7 @@ async function startServer() {
     // Test DB connection
     await testConnection();
     console.log('✅ MySQL connected successfully (room_rental)');
+    await verifyEmailConnection();
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);

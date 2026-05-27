@@ -4,13 +4,13 @@ import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
 import { formatCurrency, formatDate, getStatusLabel, timeAgo } from '../../utils/helpers';
-import { rentalRequestApi, chatApi, reportApi, reviewApi } from '../../api/services';
+import { rentalRequestApi, chatApi, reportApi, reviewApi, appointmentApi } from '../../api/services';
 import type { Room } from '../../types';
 import {
   MapPin, Star, Heart, Share2, Phone, MessageCircle,
   CalendarDays, ChevronLeft, ChevronRight, Shield,
   PawPrint, Flag, Clock, CheckCircle2,
-  ArrowLeft, Utensils, Home, Zap, Droplets, Wifi
+  ArrowLeft, Utensils, Home, Zap, Droplets, CalendarClock
 } from 'lucide-react';
 import './RoomDetailPage.css';
 
@@ -31,6 +31,14 @@ export default function RoomDetailPage() {
   const [reviewHover, setReviewHover] = useState(0);
   const [reviewComment, setReviewComment] = useState('');
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
+  const [appointmentForm, setAppointmentForm] = useState({
+    appointmentDate: '',
+    appointmentTime: '09:00',
+    message: '',
+  });
+  const [appointmentSubmitting, setAppointmentSubmitting] = useState(false);
+  const [appointmentSuccess, setAppointmentSuccess] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -105,7 +113,7 @@ export default function RoomDetailPage() {
   const handleChat = async () => {
     if (!user) return navigate('/login');
     try {
-      const res: any = await chatApi.getOrCreateConversation({
+      await chatApi.getOrCreateConversation({
         landlordId: room.landlord.id,
         roomId: room.id,
       });
@@ -137,6 +145,31 @@ export default function RoomDetailPage() {
     } finally {
       setReviewSubmitting(false);
     }
+  };
+
+  const handleAppointment = async () => {
+    if (!appointmentForm.appointmentDate) return alert('Vui lòng chọn ngày hẹn');
+    if (!appointmentForm.appointmentTime) return alert('Vui lòng chọn giờ hẹn');
+    setAppointmentSubmitting(true);
+    try {
+      await appointmentApi.create({
+        roomId: room.id,
+        appointmentDate: appointmentForm.appointmentDate,
+        appointmentTime: appointmentForm.appointmentTime,
+        message: appointmentForm.message || undefined,
+      });
+      setAppointmentSuccess(true);
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Lỗi đặt lịch hẹn');
+    } finally {
+      setAppointmentSubmitting(false);
+    }
+  };
+
+  const handleCloseAppointmentModal = () => {
+    setShowAppointmentModal(false);
+    setAppointmentSuccess(false);
+    setAppointmentForm({ appointmentDate: '', appointmentTime: '09:00', message: '' });
   };
 
   return (
@@ -510,7 +543,18 @@ export default function RoomDetailPage() {
                   <CalendarDays size={18} />
                   Gửi yêu cầu thuê phòng
                 </button>
-                <p className="booking-cta-note">Miễn phí • Phản hồi nhanh</p>
+                <button
+                  className="btn btn-secondary btn-xl booking-cta-btn"
+                  style={{ marginTop: '10px' }}
+                  onClick={() => {
+                    if (!user) navigate('/login');
+                    else { setShowAppointmentModal(true); setAppointmentSuccess(false); }
+                  }}
+                >
+                  <CalendarClock size={18} />
+                  Hẹn lịch xem phòng
+                </button>
+                <p className="booking-cta-note">Miễn phí • Email xác nhận tự động</p>
               </div>
             )}
           </div>
@@ -605,6 +649,126 @@ export default function RoomDetailPage() {
                 {submitting ? 'Đang gửi...' : 'Gửi báo cáo'}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Appointment Modal – Hẹn lịch xem phòng */}
+      {showAppointmentModal && (
+        <div className="modal-overlay" onClick={handleCloseAppointmentModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '480px' }}>
+            {!appointmentSuccess ? (
+              <>
+                <div className="modal-header">
+                  <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CalendarClock size={20} color="var(--primary-500)" />
+                    Hẹn lịch xem phòng
+                  </h3>
+                  <button onClick={handleCloseAppointmentModal}>✕</button>
+                </div>
+                <div className="modal-body">
+                  <div style={{
+                    background: 'var(--primary-50, #ede9fe)',
+                    borderRadius: '10px',
+                    padding: '12px 16px',
+                    marginBottom: '20px',
+                    fontSize: '13.5px',
+                    color: 'var(--primary-700, #4f46e5)',
+                    display: 'flex',
+                    gap: '8px',
+                    alignItems: 'flex-start',
+                  }}>
+                    <span style={{ fontSize: '18px' }}>📧</span>
+                    <span>Email xác nhận sẽ được gửi tự động đến bạn và chủ trọ sau khi đặt lịch.</span>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div className="input-group">
+                      <label className="input-label">Ngày hẹn *</label>
+                      <input
+                        type="date"
+                        className="input-field"
+                        value={appointmentForm.appointmentDate}
+                        onChange={(e) => setAppointmentForm({ ...appointmentForm, appointmentDate: e.target.value })}
+                        min={new Date(Date.now() + 86400000).toISOString().split('T')[0]}
+                      />
+                    </div>
+                    <div className="input-group">
+                      <label className="input-label">Giờ hẹn *</label>
+                      <select
+                        className="select-field"
+                        value={appointmentForm.appointmentTime}
+                        onChange={(e) => setAppointmentForm({ ...appointmentForm, appointmentTime: e.target.value })}
+                      >
+                        {['07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30',
+                          '11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30',
+                          '16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00'].map(t => (
+                          <option key={t} value={t}>{t}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="input-group" style={{ marginTop: '16px' }}>
+                    <label className="input-label">Lời nhắn cho chủ trọ (tuỳ chọn)</label>
+                    <textarea
+                      className="input-field"
+                      rows={3}
+                      placeholder="Giới thiệu bản thân, câu hỏi về phòng..."
+                      value={appointmentForm.message}
+                      onChange={(e) => setAppointmentForm({ ...appointmentForm, message: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button className="btn btn-secondary" onClick={handleCloseAppointmentModal}>Hủy</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleAppointment}
+                    disabled={appointmentSubmitting}
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    <CalendarClock size={16} />
+                    {appointmentSubmitting ? 'Đang gửi...' : 'Xác nhận đặt lịch'}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="modal-header" style={{ border: 'none' }}>
+                  <span></span>
+                  <button onClick={handleCloseAppointmentModal}>✕</button>
+                </div>
+                <div className="modal-body" style={{ textAlign: 'center', padding: '20px 32px 32px' }}>
+                  <div style={{ fontSize: '64px', marginBottom: '16px' }}>🎉</div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '12px', color: 'var(--success-600, #059669)' }}>
+                    Đặt lịch thành công!
+                  </h3>
+                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '8px' }}>
+                    Email xác nhận đã được gửi đến hộp thư của bạn và chủ trọ.
+                  </p>
+                  <p style={{ fontSize: '13px', color: 'var(--text-tertiary)', marginBottom: '24px' }}>
+                    Vui lòng kiểm tra hộp thư (kể cả thư mục spam)
+                  </p>
+                  <div style={{
+                    background: 'var(--success-50, #d1fae5)',
+                    borderRadius: '10px',
+                    padding: '14px 20px',
+                    marginBottom: '24px',
+                    fontSize: '13.5px',
+                    color: 'var(--success-700, #065f46)',
+                    textAlign: 'left',
+                  }}>
+                    <strong>Ngày hẹn:</strong> {appointmentForm.appointmentDate && new Date(appointmentForm.appointmentDate + 'T00:00:00').toLocaleDateString('vi-VN', { weekday:'long', day:'2-digit', month:'2-digit', year:'numeric' })}<br/>
+                    <strong>Giờ hẹn:</strong> {appointmentForm.appointmentTime}<br/>
+                    <strong>Địa chỉ:</strong> {[room.address, room.ward, room.district, room.province].filter(Boolean).join(', ')}
+                  </div>
+                  <button className="btn btn-primary" onClick={handleCloseAppointmentModal} style={{ width: '100%' }}>
+                    Đã hiểu
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
