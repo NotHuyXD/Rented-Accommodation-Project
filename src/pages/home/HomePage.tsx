@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, getImageUrl } from '../../utils/helpers';
 import {
   Search, MapPin, Shield, Zap, Users, Star, ArrowRight,
   Building2, Heart, ChevronRight,
@@ -197,7 +197,7 @@ export default function HomePage() {
                 onClick={() => navigate(`/rooms/${room.id}`)}
               >
                 <div className="room-card-image">
-                  <img src={room.cover_image || room.images?.[0] || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'} alt={room.title} loading="lazy" />
+                  <img src={getImageUrl(room.cover_image || room.images?.[0]) || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'} alt={room.title} loading="lazy" />
                   <div className="room-card-overlay">
                     <span className="room-card-badge room-card-badge-new">
                       <Clock size={12} />

@@ -7,6 +7,7 @@ import {
   LogIn, UserPlus, ChevronDown, Building2, LayoutDashboard,
   Settings, LogOut, Shield, Plus, BarChart3, FileText
 } from 'lucide-react';
+import { getImageUrl } from '../../utils/helpers';
 import './Header.css';
 
 export default function Header() {
@@ -136,7 +137,7 @@ export default function Header() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                 >
                   <img
-                    src={user.avatar || defaultAvatar}
+                    src={getImageUrl(user.avatar) || defaultAvatar}
                     alt={user.fullName}
                     className="header-user-avatar"
                     onError={(e) => { (e.target as HTMLImageElement).src = defaultAvatar; }}
@@ -151,7 +152,7 @@ export default function Header() {
                 {userMenuOpen && (
                   <div className="header-dropdown animate-slideDown">
                     <div className="header-dropdown-header">
-                      <img src={user.avatar || defaultAvatar} alt={user.fullName} className="header-dropdown-avatar"
+                      <img src={getImageUrl(user.avatar) || defaultAvatar} alt={user.fullName} className="header-dropdown-avatar"
                         onError={(e) => { (e.target as HTMLImageElement).src = defaultAvatar; }} />
                       <div>
                         <div className="header-dropdown-name">{user.fullName}</div>

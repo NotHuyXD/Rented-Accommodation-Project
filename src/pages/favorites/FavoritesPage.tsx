@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, getImageUrl } from '../../utils/helpers';
 import { MapPin, Star, Heart, Trash2 } from 'lucide-react';
 import type { Bookmark } from '../../types';
 
@@ -36,7 +36,7 @@ export default function FavoritesPage() {
             {bookmarks.map((bm: Bookmark) => (
               <div key={bm.id} className="room-card" onClick={() => navigate(`/rooms/${bm.room_id}`)}>
                 <div className="room-card-image">
-                  <img src={bm.cover_image || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'} alt={bm.title} />
+                  <img src={getImageUrl(bm.cover_image) || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'} alt={bm.title} />
                   <div className="room-card-overlay">
                     <span></span>
                     <button

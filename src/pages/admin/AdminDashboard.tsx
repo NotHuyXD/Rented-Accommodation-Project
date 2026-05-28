@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
 import { adminApi } from '../../api/services';
-import { formatCurrency, formatDate } from '../../utils/helpers';
+import { formatCurrency, formatDate, getImageUrl } from '../../utils/helpers';
 import axiosClient from '../../api/axiosClient';
 import {
   Users, Building2, DollarSign, AlertTriangle, Shield,
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
               <div className="admin-user-list">
                 {users.slice(0, 5).map(u => (
                   <div key={u.id} className="admin-user-item">
-                    <img src={u.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.id}`} alt={u.full_name} className="admin-user-avatar" />
+                    <img src={getImageUrl(u.avatar_url) || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.id}`} alt={u.full_name} className="admin-user-avatar" />
                     <div className="admin-user-info">
                       <h4>{u.full_name}</h4>
                       <p>{u.role === 'tenant' ? 'Khách thuê' : u.role === 'landlord' ? 'Chủ trọ' : 'Admin'}</p>
@@ -193,7 +193,7 @@ export default function AdminDashboard() {
               <div className="dashboard-room-list">
                 {rooms.slice(0, 4).map(room => (
                   <div key={room.id} className="dashboard-room-item">
-                    <img src={(room as any).cover_image || (room as any).coverImage || (room.images && room.images[0]) || 'https://via.placeholder.com/60x45'} alt={room.title} className="dashboard-room-thumb" />
+                    <img src={getImageUrl((room as any).cover_image || (room as any).coverImage || (room.images && room.images[0])) || 'https://via.placeholder.com/60x45'} alt={room.title} className="dashboard-room-thumb" />
                     <div className="dashboard-room-info">
                       <h4>{room.title}</h4>
                       <p>{(room as any).landlord_name || (room as any).landlordName}</p>
@@ -239,7 +239,7 @@ export default function AdminDashboard() {
                     <tr key={u.id}>
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                          <img src={u.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.id}`} alt="" style={{ width: 32, height: 32, borderRadius: '50%' }} />
+                          <img src={getImageUrl(u.avatar_url) || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.id}`} alt="" style={{ width: 32, height: 32, borderRadius: '50%' }} />
                           <span style={{ fontWeight: 600 }}>{u.full_name}</span>
                         </div>
                       </td>
@@ -295,7 +295,7 @@ export default function AdminDashboard() {
                     <tr key={room.id}>
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                          <img src={(room as any).cover_image || (room as any).coverImage || (room.images && room.images[0]) || 'https://via.placeholder.com/48x36'} alt="" style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover' }} />
+                          <img src={getImageUrl((room as any).cover_image || (room as any).coverImage || (room.images && room.images[0])) || 'https://via.placeholder.com/48x36'} alt="" style={{ width: 48, height: 36, borderRadius: 6, objectFit: 'cover' }} />
                           <span style={{ fontWeight: 600, maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{room.title}</span>
                         </div>
                       </td>

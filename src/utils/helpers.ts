@@ -2,6 +2,20 @@
 // Utility Helper Functions - v2.0
 // ============================================================
 
+/**
+ * Convert a relative upload path (e.g. /uploads/foo.jpg) to an absolute URL
+ * pointing at the Express backend server.
+ * If the value is already an absolute URL (http/https), it is returned as-is.
+ */
+export function getImageUrl(url: string | null | undefined): string {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  // Derive server base from VITE_API_URL by stripping "/api/v1"
+  const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+  const serverBase = apiBase.replace(/\/api\/v1\/?$/, '');
+  return `${serverBase}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',

@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
-import { formatCurrency, formatDate, getStatusLabel, timeAgo } from '../../utils/helpers';
+import { formatCurrency, formatDate, getStatusLabel, timeAgo, getImageUrl } from '../../utils/helpers';
 import { rentalRequestApi, chatApi, reportApi, reviewApi, appointmentApi } from '../../api/services';
 import type { Room } from '../../types';
 import {
@@ -67,7 +67,10 @@ export default function RoomDetailPage() {
     );
   }
 
-  const imageUrls = (room.images || []).map((img: any) => typeof img === 'string' ? img : img.url);
+  const imageUrls = (room.images || []).map((img: any) => {
+    const url = typeof img === 'string' ? img : img.url;
+    return getImageUrl(url);
+  });
   const statusInfo = getStatusLabel(room.status);
 
   const nextImage = () => setCurrentImage((prev) => (prev + 1) % (imageUrls.length || 1));
@@ -489,7 +492,7 @@ export default function RoomDetailPage() {
             <div className="landlord-card card-elevated">
               <div className="landlord-card-header">
                 <img
-                  src={room.landlord.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${room.landlord.id}`}
+                  src={getImageUrl(room.landlord.avatar) || `https://api.dicebear.com/7.x/avataaars/svg?seed=${room.landlord.id}`}
                   alt={room.landlord.fullName}
                   className="landlord-avatar"
                 />

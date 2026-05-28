@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
-import { formatCurrency, timeAgo } from '../../utils/helpers';
+import { formatCurrency, timeAgo, getImageUrl } from '../../utils/helpers';
 import type { RoomListItem } from '../../types';
 import {
   Search, MapPin, SlidersHorizontal, X,
@@ -330,7 +330,7 @@ export default function RoomListPage() {
                   >
                     <div className="room-card-image">
                       <img
-                        src={room.cover_image || room.images?.[0] || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'}
+                        src={getImageUrl(room.cover_image || room.images?.[0]) || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'}
                         alt={room.title}
                         loading="lazy"
                       />

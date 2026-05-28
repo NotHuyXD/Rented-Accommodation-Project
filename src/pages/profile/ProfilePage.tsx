@@ -5,6 +5,7 @@ import {
   User, Mail, Phone, Shield, Camera, Save,
   Eye, EyeOff, Lock, Bell, Globe, Trash2
 } from 'lucide-react';
+import { getImageUrl } from '../../utils/helpers';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ export default function ProfilePage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)', marginBottom: 'var(--space-6)' }}>
                   <div style={{ position: 'relative' }}>
                     <img
-                      src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}`}
+                      src={getImageUrl(user.avatar) || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}`}
                       alt={user.fullName}
                       style={{ width: 80, height: 80, borderRadius: '50%', border: '3px solid var(--primary-200)' }}
                     />

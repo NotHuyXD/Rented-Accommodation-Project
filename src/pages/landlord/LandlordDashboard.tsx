@@ -4,7 +4,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
 import { useAppStore } from '../../stores/appStore';
 import { rentalRequestApi } from '../../api/services';
-import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
+import { formatCurrency, formatDate, getStatusLabel, getImageUrl } from '../../utils/helpers';
 import {
   Building2, Plus, CheckCircle2, DollarSign,
   FileText, Settings, Users, Clock,
@@ -151,7 +151,7 @@ export default function LandlordDashboard() {
                   return (
                     <div key={room.id} className="dashboard-room-item" onClick={() => navigate(`/rooms/${room.id}`)}>
                       <img
-                        src={room.cover_image || 'https://placehold.co/60x45/e2e8f0/64748b?text=Room'}
+                        src={getImageUrl(room.cover_image) || 'https://placehold.co/60x45/e2e8f0/64748b?text=Room'}
                         alt={room.title}
                         className="dashboard-room-thumb"
                       />
