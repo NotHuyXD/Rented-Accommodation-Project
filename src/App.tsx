@@ -10,6 +10,7 @@ import RoomDetailPage from './pages/rooms/RoomDetailPage';
 import LandlordDashboard from './pages/landlord/LandlordDashboard';
 import TenantDashboard from './pages/tenant/TenantDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminLoginPage from './pages/admin/AdminLoginPage';
 import ChatPage from './pages/chat/ChatPage';
 import FavoritesPage from './pages/favorites/FavoritesPage';
 import ProfilePage from './pages/profile/ProfilePage';
@@ -34,6 +35,7 @@ function App() {
             <Route path="/landlord/*" element={<LandlordDashboard />} />
             <Route path="/tenant" element={<TenantDashboard />} />
             <Route path="/tenant/*" element={<TenantDashboard />} />
+            <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
             <Route path="/chat" element={<ChatPage />} />
@@ -50,6 +52,7 @@ function App() {
           <Route path="/login" element={null} />
           <Route path="/forgot-password" element={null} />
           <Route path="/register" element={null} />
+          <Route path="/admin/*" element={null} />
           <Route path="*" element={<Footer />} />
         </Routes>
       </div>

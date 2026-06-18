@@ -38,7 +38,20 @@ axiosClient.interceptors.response.use(
       // Token hết hạn hoặc không hợp lệ -> Đăng xuất
       localStorage.removeItem('access_token');
       localStorage.removeItem('auth-storage'); // Reset Zustand persist cache nếu có
-      window.location.href = '/login';
+      
+      const isAuthRequest = error.config?.url?.includes('/auth/login') || 
+                            error.config?.url?.includes('/auth/google-login') ||
+                            error.config?.url?.includes('/auth/logout');
+      const isAuthPage = window.location.pathname === '/login' || 
+                         window.location.pathname === '/admin/login';
+      
+      if (!isAuthRequest && !isAuthPage) {
+        if (window.location.pathname.startsWith('/admin')) {
+          window.location.href = '/admin/login';
+        } else {
+          window.location.href = '/login';
+        }
+      }
     }
     return Promise.reject(error);
   }

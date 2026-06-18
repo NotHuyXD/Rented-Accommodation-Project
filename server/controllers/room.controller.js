@@ -425,19 +425,77 @@ async function updateRoom(req, res, next) {
  * DELETE /rooms/:id
  */
 async function deleteRoom(req, res, next) {
+  const conn = await getConnection();
   try {
-    const rooms = await query('SELECT landlord_id FROM rooms WHERE id = ?', [req.params.id]);
+    await conn.beginTransaction();
+
+    const [rooms] = await conn.execute('SELECT landlord_id FROM rooms WHERE id = ?', [req.params.id]);
     if (rooms.length === 0) {
+      await conn.rollback();
       return res.status(404).json({ message: 'Không tìm thấy phòng' });
     }
+    
+    // Check permission (owner or admin)
     if (rooms[0].landlord_id !== req.user.id && req.user.role !== 'admin') {
+      await conn.rollback();
       return res.status(403).json({ message: 'Bạn không có quyền xóa phòng này' });
     }
 
-    await query('UPDATE rooms SET status = ? WHERE id = ?', ['hidden', req.params.id]);
-    res.json({ message: 'Xóa phòng thành công' });
+    // 1. Fetch contracts of this room
+    const [contracts] = await conn.execute('SELECT id FROM contracts WHERE room_id = ?', [req.params.id]);
+    const contractIds = contracts.map(c => c.id);
+
+    if (contractIds.length > 0) {
+      const placeholders = contractIds.map(() => '?').join(',');
+      
+      // 2. Fetch invoices associated with contracts
+      const [invoices] = await conn.execute(
+        `SELECT id FROM invoices WHERE contract_id IN (${placeholders})`,
+        contractIds
+      );
+      const invoiceIds = invoices.map(i => i.id);
+
+      if (invoiceIds.length > 0) {
+        const invPlaceholders = invoiceIds.map(() => '?').join(',');
+        // 3. Delete payments associated with invoices
+        await conn.execute(
+          `DELETE FROM payments WHERE invoice_id IN (${invPlaceholders})`,
+          invoiceIds
+        );
+      }
+
+      // 4. Delete invoices
+      await conn.execute(
+        `DELETE FROM invoices WHERE contract_id IN (${placeholders})`,
+        contractIds
+      );
+
+      // 5. Delete utility readings
+      await conn.execute(
+        `DELETE FROM utility_readings WHERE contract_id IN (${placeholders})`,
+        contractIds
+      );
+
+      // 6. Delete contracts
+      await conn.execute(
+        `DELETE FROM contracts WHERE room_id = ?`,
+        [req.params.id]
+      );
+    }
+
+    // 7. Delete rental requests
+    await conn.execute('DELETE FROM rental_requests WHERE room_id = ?', [req.params.id]);
+
+    // 8. Delete room (Cascades will delete images, amenities, prices, bookmarks, reviews, appointments)
+    await conn.execute('DELETE FROM rooms WHERE id = ?', [req.params.id]);
+
+    await conn.commit();
+    res.json({ message: 'Xóa phòng trọ thành công' });
   } catch (error) {
+    await conn.rollback();
     next(error);
+  } finally {
+    conn.release();
   }
 }
 

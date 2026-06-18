@@ -152,6 +152,10 @@ export const reportApi = {
 export const adminApi = {
   getStats: () => axiosClient.get('/admin/stats'),
   listAllRooms: (params?: Record<string, unknown>) => axiosClient.get('/admin/rooms', { params }),
+  listAllUsers: (params?: Record<string, unknown>) => axiosClient.get('/admin/users', { params }),
+  updateUserRole: (id: string, role: string) => axiosClient.patch(`/admin/users/${id}/role`, { role }),
+  getUserVerification: (id: string) => axiosClient.get(`/admin/users/${id}/kyc`),
+  getReportTarget: (type: string, id: string) => axiosClient.get(`/admin/reports/target/${type}/${id}`),
 };
 
 // ==================== UPLOAD ====================

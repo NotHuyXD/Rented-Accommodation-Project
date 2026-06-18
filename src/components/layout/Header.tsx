@@ -73,6 +73,10 @@ export default function Header() {
 
   const defaultAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.fullName || 'U') + '&background=06b6d4&color=fff';
 
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <header className={`header ${scrolled ? 'header-scrolled' : ''} ${isHomePage && !scrolled ? 'header-transparent' : ''}`}>
       <div className="header-container container-lg">
