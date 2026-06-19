@@ -52,40 +52,18 @@ export const useAppStore = create<AppState>((set, get) => ({
     } catch { /* ignore */ }
   },
   toggleBookmark: async (roomId) => {
-    const { bookmarkedRoomIds, bookmarks } = get();
-    const updatedIds = new Set(bookmarkedRoomIds);
-    const isAdding = !updatedIds.has(roomId);
-
-    // Optimistic update
-    if (isAdding) {
-      updatedIds.add(roomId);
-      set({ bookmarkedRoomIds: updatedIds });
-    } else {
-      updatedIds.delete(roomId);
-      const updatedBookmarks = bookmarks.filter((b) => b.room_id !== roomId);
-      set({ bookmarkedRoomIds: updatedIds, bookmarks: updatedBookmarks });
-    }
-
+    const { bookmarkedRoomIds } = get();
     try {
-      if (isAdding) {
-        await bookmarkApi.add(roomId);
-      } else {
+      if (bookmarkedRoomIds.has(roomId)) {
         await bookmarkApi.remove(roomId);
-      }
-      // Re-sync with server to get authentic data and IDs
-      await get().fetchBookmarks();
-    } catch (error) {
-      // Revert optimistic update on failure
-      const revertedIds = new Set(bookmarkedRoomIds);
-      if (isAdding) {
-        revertedIds.delete(roomId);
-        set({ bookmarkedRoomIds: revertedIds });
+        bookmarkedRoomIds.delete(roomId);
       } else {
-        revertedIds.add(roomId);
-        set({ bookmarkedRoomIds: revertedIds, bookmarks });
+        await bookmarkApi.add(roomId);
+        bookmarkedRoomIds.add(roomId);
       }
-      console.error('Failed to toggle bookmark:', error);
-    }
+      set({ bookmarkedRoomIds: new Set(bookmarkedRoomIds) });
+      get().fetchBookmarks();
+    } catch { /* ignore */ }
   },
   isBookmarked: (roomId) => get().bookmarkedRoomIds.has(roomId),
 
