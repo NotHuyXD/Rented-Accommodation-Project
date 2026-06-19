@@ -172,7 +172,7 @@ export default function AdminDashboard() {
       alert('Cập nhật vai trò thành công');
       setUsersList(prev => prev.map(u => u.id === userId ? { ...u, role: newRole } : u));
       if (selectedUser && selectedUser.id === userId) {
-        setSelectedUser(prev => ({ ...prev, role: newRole }));
+        setSelectedUser((prev: any) => ({ ...prev, role: newRole }));
       }
       loadDashboard();
     } catch (error) {
@@ -191,7 +191,7 @@ export default function AdminDashboard() {
       if (selectedUser) {
         const updatedStatus = status === 'approved' ? 'approved' : 'rejected';
         setUsersList(prev => prev.map(u => u.id === selectedUser.id ? { ...u, kycStatus: updatedStatus, isVerified: status === 'approved' } : u));
-        setSelectedUser(prev => ({ ...prev, kycStatus: updatedStatus, isVerified: status === 'approved' }));
+        setSelectedUser((prev: any) => ({ ...prev, kycStatus: updatedStatus, isVerified: status === 'approved' }));
       }
       
       // Reload KYC info
@@ -298,7 +298,7 @@ export default function AdminDashboard() {
       alert('Đã ẩn phòng trọ thành công');
       fetchRooms();
       if (selectedRoom && selectedRoom.id === roomId) {
-        setSelectedRoom(prev => ({ ...prev, status: 'hidden' }));
+        setSelectedRoom((prev: any) => ({ ...prev, status: 'hidden' }));
       }
       loadDashboard();
     } catch (error) {
@@ -367,7 +367,7 @@ export default function AdminDashboard() {
       alert(`Đã xử lý báo cáo: ${status === 'resolved' ? 'Chấp nhận vi phạm' : 'Bác bỏ báo cáo'}`);
       setReportsList(prev => prev.map(r => r.id === reportId ? { ...r, status } : r));
       if (selectedReport && selectedReport.id === reportId) {
-        setSelectedReport(prev => ({ ...prev, status }));
+        setSelectedReport((prev: any) => ({ ...prev, status }));
       }
       loadDashboard();
     } catch (error) {
