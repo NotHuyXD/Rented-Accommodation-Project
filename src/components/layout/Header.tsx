@@ -12,7 +12,7 @@ import './Header.css';
 
 export default function Header() {
   const { user, logout } = useAuthStore();
-  const { unreadCount } = useAppStore();
+  const { unreadCount, fetchBookmarks } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,6 +42,12 @@ export default function Header() {
     setMobileMenuOpen(false);
     setUserMenuOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (user) {
+      fetchBookmarks();
+    }
+  }, [user, fetchBookmarks]);
 
   const isActive = (path: string) => location.pathname === path;
   const isHomePage = location.pathname === '/';
