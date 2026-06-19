@@ -11,6 +11,7 @@ import {
   Phone, MessageCircle
 } from 'lucide-react';
 import './HomePage.css';
+import hanoiImg from '../../assets/hanoi.jpg';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ export default function HomePage() {
 
   const cities = [
     { name: 'TP. Hồ Chí Minh', count: 5200, image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=400' },
-    { name: 'Hà Nội', count: 3800, image: 'https://images.unsplash.com/photo-1509030450996-dd1a26613e2c?w=400' },
+    { name: 'Hà Nội', count: 3800, image: hanoiImg },
     { name: 'Đà Nẵng', count: 1500, image: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=400' }
   ];
 
