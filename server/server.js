@@ -36,8 +36,19 @@ const PORT = process.env.PORT || 5000;
 // ========================
 // MIDDLEWARE
 // ========================
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.CORS_ORIGIN
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
