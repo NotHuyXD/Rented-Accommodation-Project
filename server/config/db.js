@@ -11,7 +11,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME || 'room_rental',
   charset: 'utf8mb4',
   waitForConnections: true,
-  connectionLimit: 20,
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '2'),
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
