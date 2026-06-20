@@ -135,9 +135,7 @@ export default function ContractsPage() {
                         <CheckCircle2 size={16} /> Ký hợp đồng
                       </button>
                     )}
-                    <button className="btn btn-ghost btn-sm" onClick={() => alert('Tính năng đang phát triển')}>
-                      <Download size={16} /> Tải PDF
-                    </button>
+                
                   </div>
                 </div>
               );
