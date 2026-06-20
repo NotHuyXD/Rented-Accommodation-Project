@@ -320,10 +320,18 @@ export default function LandlordDashboard() {
               <div className="input-group" style={{ marginTop: '16px' }}>
                 <label className="input-label">Số tiền cọc</label>
                 <input type="text" className="input-field" value={formatCurrency(selectedRequest.deposit_amount || 0)} disabled />  
+                {selectedRequest.deposit_amount === 0 && (
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '4px', display: 'block' }}>
+                    (Phòng này không yêu cầu đặt cọc)
+                  </span>
+                )}
               </div>
               <div className="input-group" style={{ marginTop: '16px' }}>
                 <label className="input-label">Số tiền còn chờ thanh toán</label>
-                <input type="text" className="input-field" value={formatCurrency(selectedRequest.outstanding_amount || 0)} disabled />  
+                <input type="text" className="input-field" value={formatCurrency(selectedRequest.outstanding_amount ?? ((selectedRequest.room_price || 0) - (selectedRequest.deposit_amount || 0)))} disabled />  
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '4px', display: 'block', fontStyle: 'italic' }}>
+                  Tiền còn lại = Tiền thuê trọ ({formatCurrency(selectedRequest.room_price || 0)}) - Tiền cọc ({formatCurrency(selectedRequest.deposit_amount || 0)})
+                </span>
               </div>
               <div className="input-group" style={{ marginTop: '16px' }}>
                 <label className="input-label">Điều khoản hợp đồng (tùy chọn)</label>
