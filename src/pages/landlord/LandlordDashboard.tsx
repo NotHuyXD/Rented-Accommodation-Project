@@ -311,6 +311,10 @@ export default function LandlordDashboard() {
                 <input type="text" className="input-field" value={formatCurrency(selectedRequest.deposit_amount || 0)} disabled />  
               </div>
               <div className="input-group" style={{ marginTop: '16px' }}>
+                <label className="input-label">Số tiền còn chờ thanh toán</label>
+                <input type="text" className="input-field" value={formatCurrency(selectedRequest.outstanding_amount || 0)} disabled />  
+              </div>
+              <div className="input-group" style={{ marginTop: '16px' }}>
                 <label className="input-label">Điều khoản hợp đồng (tùy chọn)</label>
                 <textarea
                   className="input-field"
