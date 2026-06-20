@@ -317,12 +317,6 @@ export default function LandlordDashboard() {
                   onChange={(e) => setContractForm({ ...contractForm, endDate: e.target.value })}
                 />
               </div>
-              <div className="input-group" style={{ marginTop: '16px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                  <input type="checkbox" checked={(selectedRequest.deposit_amount || 0) > 0} disabled style={{ accentColor: 'var(--primary-500)' }} />
-                  Yêu cầu đặt cọc
-                </label>
-              </div>
 
               {(selectedRequest.deposit_amount || 0) > 0 ? (
                 <div className="input-group" style={{ marginTop: '16px' }}>
