@@ -224,6 +224,17 @@ export default function LandlordDashboard() {
                           <strong>{req.tenant_name}</strong> - Dọn vào {formatDate(req.move_in_date)} ({req.num_people} người)
                           {req.tenant_phone && <span> · SĐT: {req.tenant_phone}</span>}
                         </p>
+                        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                          Giá thuê: <strong>{formatCurrency(req.room_price || 0)}/tháng</strong>
+                          {req.deposit_amount > 0 ? (
+                            <>
+                              {' '}· Tiền cọc: <strong>{formatCurrency(req.deposit_amount)}</strong>
+                              {' '}· Còn lại cần thanh toán: <strong style={{ color: 'var(--primary-600)' }}>{formatCurrency(req.outstanding_amount)}</strong>
+                            </>
+                          ) : (
+                            <> · Không yêu cầu cọc</>
+                          )}
+                        </p>
                         {req.message && (
                           <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginTop: '4px', fontStyle: 'italic' }}>
                             "{req.message}"

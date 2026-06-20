@@ -87,6 +87,7 @@ async function listRentalRequests(req, res, next) {
       `SELECT rr.id, rr.room_id, rr.tenant_id, rr.message, rr.move_in_date,
               rr.num_people, rr.status, rr.contract_id, rr.created_at,
               r.title as room_title, r.address as room_address, r.price as room_price,
+              r.deposit as deposit_amount, (r.price - r.deposit) as outstanding_amount,
               (SELECT url FROM room_images ri WHERE ri.room_id = r.id AND ri.is_cover = 1 LIMIT 1) as room_image,
               u.full_name as tenant_name, u.avatar_url as tenant_avatar, u.phone as tenant_phone,
               lu.full_name as landlord_name
@@ -98,8 +99,15 @@ async function listRentalRequests(req, res, next) {
        ORDER BY rr.created_at DESC LIMIT ? OFFSET ?`, params
     );
 
+    const formattedRequests = requests.map(req => ({
+      ...req,
+      room_price: req.room_price ? parseFloat(req.room_price) : 0,
+      deposit_amount: req.deposit_amount ? parseFloat(req.deposit_amount) : 0,
+      outstanding_amount: req.outstanding_amount ? parseFloat(req.outstanding_amount) : 0,
+    }));
+
     res.json({
-      data: requests,
+      data: formattedRequests,
       pagination: { page: parseInt(page), limit: parseInt(limit), total, totalPages: Math.ceil(total / parseInt(limit)) },
     });
   } catch (error) {

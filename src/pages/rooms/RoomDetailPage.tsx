@@ -314,7 +314,7 @@ export default function RoomDetailPage() {
               </div>
               <div className="room-info-item">
                 <span className="room-info-label">Đặt cọc</span>
-                <span className="room-info-value">{formatCurrency(room.deposit)}</span>
+                <span className="room-info-value">{room.deposit > 0 ? formatCurrency(room.deposit) : 'Không yêu cầu cọc'}</span>
               </div>
               {room.availableFrom && (
                 <div className="room-info-item">
@@ -534,7 +534,7 @@ export default function RoomDetailPage() {
                   <span className="text-muted">/tháng</span>
                 </div>
                 <div className="booking-cta-deposit">
-                  Đặt cọc: {formatCurrency(room.deposit)}
+                  Đặt cọc: {room.deposit > 0 ? formatCurrency(room.deposit) : 'Không yêu cầu cọc'}
                 </div>
                 <button
                   className="btn btn-primary btn-xl booking-cta-btn"

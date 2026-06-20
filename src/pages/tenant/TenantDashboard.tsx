@@ -192,9 +192,17 @@ export default function TenantDashboard() {
                       </div>
                       <div className="dashboard-ticket-info">
                         <h4>{req.room_title || 'Phòng trọ'}</h4>
-                        <p>
-                          Dọn vào: {formatDate(req.move_in_date)}
-                          {req.room_price ? ` · ${formatCurrency(req.room_price)}/tháng` : ''}
+                        <p style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 8px', margin: 0 }}>
+                          <span>Dọn vào: <strong>{formatDate(req.move_in_date)}</strong></span>
+                          {req.room_price ? <span> · Giá thuê: <strong>{formatCurrency(req.room_price)}/tháng</strong></span> : ''}
+                          {req.deposit_amount > 0 ? (
+                            <>
+                              <span> · Tiền cọc: <strong>{formatCurrency(req.deposit_amount)}</strong></span>
+                              <span> · Còn lại cần thanh toán: <strong style={{ color: 'var(--primary-600)' }}>{formatCurrency(req.outstanding_amount)}</strong></span>
+                            </>
+                          ) : (
+                            <span> · Không yêu cầu cọc</span>
+                          )}
                         </p>
                       </div>
                       <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>

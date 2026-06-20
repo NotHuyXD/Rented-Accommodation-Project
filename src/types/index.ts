@@ -158,6 +158,8 @@ export interface RentalRequest {
   room_title: string;
   room_address: string;
   room_price: number;
+  deposit_amount: number;
+  outstanding_amount: number;
   room_image: string | null;
   tenant_name: string;
   tenant_avatar: string | null;

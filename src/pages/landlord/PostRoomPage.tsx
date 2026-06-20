@@ -13,6 +13,7 @@ export default function PostRoomPage() {
 
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
+  const [requireDeposit, setRequireDeposit] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -242,9 +243,20 @@ export default function PostRoomPage() {
                     onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} />
                 </div>
                 <div className="input-group">
-                  <label className="input-label">Tiền cọc (VNĐ)</label>
-                  <input className="input-field" type="number" value={formData.deposit}
-                    onChange={e => setFormData({ ...formData, deposit: Number(e.target.value) })} />
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <label className="input-label" style={{ marginBottom: 0 }}>Tiền cọc (VNĐ)</label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', cursor: 'pointer', fontWeight: 500, color: 'var(--text-secondary)' }}>
+                      <input type="checkbox" checked={requireDeposit} onChange={e => {
+                        const checked = e.target.checked;
+                        setRequireDeposit(checked);
+                        setFormData(prev => ({ ...prev, deposit: checked ? (prev.deposit || 3000000) : 0 }));
+                      }} />
+                      Yêu cầu cọc
+                    </label>
+                  </div>
+                  <input className="input-field" type="number" value={formData.deposit} disabled={!requireDeposit}
+                    onChange={e => setFormData({ ...formData, deposit: Number(e.target.value) })}
+                    placeholder={requireDeposit ? "Nhập số tiền cọc" : "Không yêu cầu cọc"} />
                 </div>
               </div>
 
