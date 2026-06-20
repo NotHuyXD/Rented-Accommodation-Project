@@ -306,6 +306,8 @@ export default function LandlordDashboard() {
                   onChange={(e) => setContractForm({ ...contractForm, endDate: e.target.value })}
                 />
               </div>
+              <label className="input-label">Số tiền cọc</label>
+              <input type="text" className="input-field" value={formatCurrency(selectedRequest.deposit_amount || 0)} disabled />  
               <div className="input-group" style={{ marginTop: '16px' }}>
                 <label className="input-label">Điều khoản hợp đồng (tùy chọn)</label>
                 <textarea
