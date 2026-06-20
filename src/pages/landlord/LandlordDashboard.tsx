@@ -318,14 +318,23 @@ export default function LandlordDashboard() {
                 />
               </div>
               <div className="input-group" style={{ marginTop: '16px' }}>
-                <label className="input-label">Số tiền cọc</label>
-                <input type="text" className="input-field" value={formatCurrency(selectedRequest.deposit_amount || 0)} disabled />  
-                {selectedRequest.deposit_amount === 0 && (
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '4px', display: 'block' }}>
-                    (Phòng này không yêu cầu đặt cọc)
-                  </span>
-                )}
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  <input type="checkbox" checked={(selectedRequest.deposit_amount || 0) > 0} disabled style={{ accentColor: 'var(--primary-500)' }} />
+                  Yêu cầu đặt cọc
+                </label>
               </div>
+
+              {(selectedRequest.deposit_amount || 0) > 0 ? (
+                <div className="input-group" style={{ marginTop: '16px' }}>
+                  <label className="input-label">Số tiền cọc</label>
+                  <input type="text" className="input-field" value={formatCurrency(selectedRequest.deposit_amount || 0)} disabled />  
+                </div>
+              ) : (
+                <div style={{ marginTop: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                  * Phòng này không yêu cầu đặt cọc.
+                </div>
+              )}
+
               <div className="input-group" style={{ marginTop: '16px' }}>
                 <label className="input-label">Số tiền còn chờ thanh toán</label>
                 <input type="text" className="input-field" value={formatCurrency(selectedRequest.outstanding_amount ?? ((selectedRequest.room_price || 0) - (selectedRequest.deposit_amount || 0)))} disabled />  
