@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
 import { roomApi, uploadApi } from '../../api/services';
-import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft, PawPrint, Utensils, Home, Clock } from 'lucide-react';
+import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft, PawPrint, Utensils, Home, Clock, CheckCircle } from 'lucide-react';
 import './PostRoomPage.css';
 
 export default function PostRoomPage() {
@@ -13,6 +13,7 @@ export default function PostRoomPage() {
 
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [requireDeposit, setRequireDeposit] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
@@ -147,8 +148,10 @@ export default function PostRoomPage() {
       };
 
       await roomApi.create(roomData);
-      alert('Đăng tin thành công!');
-      navigate('/landlord');
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        navigate('/landlord');
+      }, 2000);
     } catch (err: any) {
       alert(err.response?.data?.message || 'Lỗi đăng tin');
     } finally {
@@ -443,6 +446,21 @@ export default function PostRoomPage() {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="success-modal-overlay">
+          <div className="success-modal-content">
+            <div className="success-icon-container">
+              <CheckCircle className="success-icon" />
+            </div>
+            <h3 className="success-modal-title">Đăng phòng thành công!</h3>
+            <p className="success-modal-message">
+              Phòng của bạn đã được đăng thành công. Đang chuyển hướng về trang quản lý...
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
