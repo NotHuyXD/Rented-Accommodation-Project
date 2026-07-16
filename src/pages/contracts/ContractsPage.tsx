@@ -5,7 +5,7 @@ import { useAppStore } from '../../stores/appStore';
 import { contractApi } from '../../api/services';
 import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
 import { FileText, Clock, CheckCircle2, AlertCircle, Printer, X } from 'lucide-react';
-import { Contract } from '../../types';
+import type { Contract } from '../../types';
 import './ContractsPage.css';
 
 export default function ContractsPage() {
