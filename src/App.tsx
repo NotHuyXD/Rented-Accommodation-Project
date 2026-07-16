@@ -17,10 +17,12 @@ import ProfilePage from './pages/profile/ProfilePage';
 import ContractsPage from './pages/contracts/ContractsPage';
 import PaymentsPage from './pages/payments/PaymentsPage';
 import PostRoomPage from './pages/landlord/PostRoomPage';
+import GlobalModal from './components/common/GlobalModal';
 
 function App() {
   return (
     <Router>
+      <GlobalModal />
       <div className="app">
         <Header />
         <main className="app-main">

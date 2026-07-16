@@ -10,6 +10,7 @@ import {
   CreditCard, Receipt, Search, XCircle, Trash2
 } from 'lucide-react';
 import '../landlord/DashboardPages.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function TenantDashboard() {
   const navigate = useNavigate();
@@ -52,14 +53,14 @@ export default function TenantDashboard() {
   ];
 
   const handleCancelRequest = async (requestId: string) => {
-    if (!confirm('Bạn có chắc muốn hủy yêu cầu thuê phòng này?')) return;
+    if (!(await confirmAsync('Xác nhận', 'Bạn có chắc muốn hủy yêu cầu thuê phòng này?'))) return;
     setCancelling(requestId);
     try {
       await rentalRequestApi.cancel(requestId);
-      alert('Đã hủy yêu cầu thuê phòng thành công');
+      alertQuick('success', 'Đã hủy yêu cầu thuê phòng thành công');
       fetchRentalRequests();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi hủy yêu cầu');
+      alertQuick('error', err.response?.data?.message || 'Lỗi hủy yêu cầu');
     } finally {
       setCancelling(null);
     }

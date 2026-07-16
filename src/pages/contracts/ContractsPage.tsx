@@ -7,6 +7,7 @@ import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers'
 import { FileText, Clock, CheckCircle2, AlertCircle, Printer, X } from 'lucide-react';
 import type { Contract } from '../../types';
 import './ContractsPage.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function ContractsPage() {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ export default function ContractsPage() {
       }, 2000);
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
-      alert(error.response?.data?.message || 'Lỗi ký hợp đồng');
+      alertQuick('error', error.response?.data?.message || 'Lỗi ký hợp đồng');
     }
   };
 

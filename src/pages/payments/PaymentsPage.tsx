@@ -7,6 +7,7 @@ import { formatCurrency, formatDate, getStatusLabel, getPaymentMethodLabel } fro
 import type { Invoice } from '../../types';
 import { Receipt, DollarSign, CheckCircle2, Clock, AlertCircle, CreditCard } from 'lucide-react';
 import './PaymentsPage.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function PaymentsPage() {
   const navigate = useNavigate();
@@ -51,10 +52,10 @@ export default function PaymentsPage() {
         amount: total,
         method: 'bank_transfer',
       });
-      alert('Thanh toán thành công!');
+      alertQuick('success', 'Thanh toán thành công!');
       fetchInvoices();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi thanh toán');
+      alertQuick('error', err.response?.data?.message || 'Lỗi thanh toán');
     } finally {
       setPayingId(null);
     }

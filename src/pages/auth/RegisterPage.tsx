@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { Building2, Mail, Lock, User, Phone, Eye, EyeOff, UserPlus, ArrowRight } from 'lucide-react';
+import { alertQuick } from '../../stores/modalStore';
 import { useGoogleLogin } from '@react-oauth/google';
 import './AuthPages.css';
 
@@ -80,7 +81,7 @@ export default function RegisterPage() {
     if (provider === 'Google') {
       registerWithGoogle();
     } else {
-      alert(`Đăng ký bằng ${provider} sẽ sớm được hỗ trợ!\n\nTính năng đang được phát triển.`);
+      alertQuick('info', `Đăng ký bằng ${provider} sẽ sớm được hỗ trợ!\n\nTính năng đang được phát triển.`);
     }
   };
 

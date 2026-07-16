@@ -11,6 +11,7 @@ import {
   Wrench, MessageCircle, X, Check, XCircle
 } from 'lucide-react';
 import './DashboardPages.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function LandlordDashboard() {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ export default function LandlordDashboard() {
 
   const handleAcceptSubmit = async () => {
     if (!contractForm.startDate || !contractForm.endDate) {
-      alert('Vui lòng chọn ngày bắt đầu và kết thúc hợp đồng');
+      alertQuick('success', 'Vui lòng chọn ngày bắt đầu và kết thúc hợp đồng');
       return;
     }
     setProcessing(true);
@@ -75,27 +76,27 @@ export default function LandlordDashboard() {
         endDate: contractForm.endDate,
         terms: contractForm.terms || undefined,
       });
-      alert('Đã chấp nhận yêu cầu thuê phòng và tạo hợp đồng thành công!');
+      alertQuick('success', 'Đã chấp nhận yêu cầu thuê phòng và tạo hợp đồng thành công!');
       setShowAcceptModal(false);
       setSelectedRequest(null);
       fetchRentalRequests();
       fetchMyRooms();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi xử lý yêu cầu');
+      alertQuick('error', err.response?.data?.message || 'Lỗi xử lý yêu cầu');
     } finally {
       setProcessing(false);
     }
   };
 
   const handleReject = async (requestId: string) => {
-    if (!confirm('Bạn có chắc muốn từ chối yêu cầu thuê phòng này?')) return;
+    if (!(await confirmAsync('Xác nhận', 'Bạn có chắc muốn từ chối yêu cầu thuê phòng này?'))) return;
     setProcessing(true);
     try {
       await rentalRequestApi.reject(requestId);
-      alert('Đã từ chối yêu cầu thuê phòng');
+      alertQuick('success', 'Đã từ chối yêu cầu thuê phòng');
       fetchRentalRequests();
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi xử lý yêu cầu');
+      alertQuick('error', err.response?.data?.message || 'Lỗi xử lý yêu cầu');
     } finally {
       setProcessing(false);
     }

@@ -5,6 +5,7 @@ import { useRoomStore } from '../../stores/roomStore';
 import { roomApi, uploadApi } from '../../api/services';
 import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft, PawPrint, Utensils, Home, Clock, CheckCircle } from 'lucide-react';
 import './PostRoomPage.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function PostRoomPage() {
   const navigate = useNavigate();
@@ -153,7 +154,7 @@ export default function PostRoomPage() {
         navigate('/landlord');
       }, 2000);
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi đăng tin');
+      alertQuick('error', err.response?.data?.message || 'Lỗi đăng tin');
     } finally {
       setSubmitting(false);
     }

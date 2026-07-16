@@ -13,6 +13,7 @@ import {
   ArrowLeft, Utensils, Home, Zap, Droplets, CalendarClock
 } from 'lucide-react';
 import './RoomDetailPage.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function RoomDetailPage() {
   const { id } = useParams();
@@ -77,7 +78,7 @@ export default function RoomDetailPage() {
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + (imageUrls.length || 1)) % (imageUrls.length || 1));
 
   const handleRentalRequest = async () => {
-    if (!rentalForm.moveInDate) return alert('Vui lòng chọn ngày dọn vào');
+    if (!rentalForm.moveInDate) return alertQuick('success', 'Vui lòng chọn ngày dọn vào');
     setSubmitting(true);
     try {
       await rentalRequestApi.create({
@@ -87,9 +88,9 @@ export default function RoomDetailPage() {
         message: rentalForm.message || undefined,
       });
       setShowRentalModal(false);
-      alert('Gửi yêu cầu thuê phòng thành công! Chủ trọ sẽ phản hồi sớm.');
+      alertQuick('success', 'Gửi yêu cầu thuê phòng thành công! Chủ trọ sẽ phản hồi sớm.');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi gửi yêu cầu');
+      alertQuick('error', err.response?.data?.message || 'Lỗi gửi yêu cầu');
     } finally {
       setSubmitting(false);
     }
@@ -105,9 +106,9 @@ export default function RoomDetailPage() {
         description: reportForm.description || undefined,
       });
       setShowReportModal(false);
-      alert('Đã gửi báo cáo thành công!');
+      alertQuick('success', 'Đã gửi báo cáo thành công!');
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi gửi báo cáo');
+      alertQuick('error', err.response?.data?.message || 'Lỗi gửi báo cáo');
     } finally {
       setSubmitting(false);
     }
@@ -128,7 +129,7 @@ export default function RoomDetailPage() {
 
   const handleReviewSubmit = async () => {
     if (reviewRating === 0) {
-      alert('Vui lòng chọn số sao đánh giá');
+      alertQuick('success', 'Vui lòng chọn số sao đánh giá');
       return;
     }
     setReviewSubmitting(true);
@@ -138,21 +139,21 @@ export default function RoomDetailPage() {
         rating: reviewRating,
         comment: reviewComment || undefined,
       });
-      alert('Đánh giá của bạn đã được gửi thành công!');
+      alertQuick('success', 'Đánh giá của bạn đã được gửi thành công!');
       setReviewRating(0);
       setReviewComment('');
       // Reload room to update reviews
       if (id) fetchRoomById(id);
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi gửi đánh giá');
+      alertQuick('error', err.response?.data?.message || 'Lỗi gửi đánh giá');
     } finally {
       setReviewSubmitting(false);
     }
   };
 
   const handleAppointment = async () => {
-    if (!appointmentForm.appointmentDate) return alert('Vui lòng chọn ngày hẹn');
-    if (!appointmentForm.appointmentTime) return alert('Vui lòng chọn giờ hẹn');
+    if (!appointmentForm.appointmentDate) return alertQuick('success', 'Vui lòng chọn ngày hẹn');
+    if (!appointmentForm.appointmentTime) return alertQuick('success', 'Vui lòng chọn giờ hẹn');
     setAppointmentSubmitting(true);
     try {
       await appointmentApi.create({
@@ -163,7 +164,7 @@ export default function RoomDetailPage() {
       });
       setAppointmentSuccess(true);
     } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi đặt lịch hẹn');
+      alertQuick('error', err.response?.data?.message || 'Lỗi đặt lịch hẹn');
     } finally {
       setAppointmentSubmitting(false);
     }
@@ -273,7 +274,7 @@ export default function RoomDetailPage() {
                 )}
                 <button className="btn btn-secondary btn-icon" title="Chia sẻ" onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
-                  alert('Đã copy link!');
+                  alertQuick('success', 'Đã copy link!');
                 }}>
                   <Share2 size={20} />
                 </button>

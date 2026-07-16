@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { Building2, Mail, Lock, Eye, EyeOff, LogIn, ArrowRight } from 'lucide-react';
+import { alertQuick } from '../../stores/modalStore';
 import { useGoogleLogin } from '@react-oauth/google';
 import './AuthPages.css';
 
@@ -49,7 +50,7 @@ export default function LoginPage() {
     if (provider === 'Google') {
       loginWithGoogle();
     } else {
-      alert(`Đăng nhập bằng ${provider} sẽ sớm được hỗ trợ!\n\nTính năng đang được phát triển. Vui lòng sử dụng đăng nhập bằng email.`);
+      alertQuick('info', `Đăng nhập bằng ${provider} sẽ sớm được hỗ trợ!\n\nTính năng đang được phát triển. Vui lòng sử dụng đăng nhập bằng email.`);
     }
   };
 

@@ -10,6 +10,7 @@ import {
   Edit
 } from 'lucide-react';
 import './AdminDashboard.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -169,7 +170,7 @@ export default function AdminDashboard() {
   const handleUpdateUserRole = async (userId: string, newRole: string) => {
     try {
       await adminApi.updateUserRole(userId, newRole);
-      alert('Cập nhật vai trò thành công');
+      alertQuick('success', 'Cập nhật vai trò thành công');
       setUsersList(prev => prev.map(u => u.id === userId ? { ...u, role: newRole } : u));
       if (selectedUser && selectedUser.id === userId) {
         setSelectedUser((prev: any) => ({ ...prev, role: newRole }));
@@ -177,7 +178,7 @@ export default function AdminDashboard() {
       loadDashboard();
     } catch (error) {
       console.error('Failed to update role', error);
-      alert('Không thể cập nhật vai trò');
+      alertQuick('error', 'Không thể cập nhật vai trò');
     }
   };
 
@@ -185,7 +186,7 @@ export default function AdminDashboard() {
   const handleReviewKYC = async (verificationId: string, status: 'approved' | 'rejected') => {
     try {
       await userApi.reviewKYC(verificationId, status);
-      alert(`Đã ${status === 'approved' ? 'phê duyệt' : 'từ chối'} hồ sơ xác thực`);
+      alertQuick('success', `Đã ${status === 'approved' ? 'phê duyệt' : 'từ chối'} hồ sơ xác thực`);
       
       // Update local state
       if (selectedUser) {
@@ -204,7 +205,7 @@ export default function AdminDashboard() {
       loadDashboard();
     } catch (error) {
       console.error('Failed to review KYC', error);
-      alert('Thao tác duyệt KYC thất bại');
+      alertQuick('error', 'Thao tác duyệt KYC thất bại');
     }
   };
 
@@ -228,7 +229,7 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error('Failed to load room for editing', error);
-      alert('Không thể tải thông tin phòng trọ để sửa');
+      alertQuick('error', 'Không thể tải thông tin phòng trọ để sửa');
     }
   };
 
@@ -247,7 +248,7 @@ export default function AdminDashboard() {
         status: editRoomData.status,
         address: editRoomData.address
       });
-      alert('Cập nhật thông tin phòng trọ thành công!');
+      alertQuick('success', 'Cập nhật thông tin phòng trọ thành công!');
       setEditRoomData(null);
       
       // Refresh details if open
@@ -258,22 +259,22 @@ export default function AdminDashboard() {
       loadDashboard();
     } catch (error) {
       console.error('Failed to update room', error);
-      alert('Không thể cập nhật thông tin phòng trọ');
+      alertQuick('error', 'Không thể cập nhật thông tin phòng trọ');
     }
   };
 
   // AD03 - Physical/Logical Delete Room
   const handleDeleteRoom = async (roomId: string) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa vĩnh viễn phòng trọ này khỏi hệ thống?')) return;
+    if (!(await confirmAsync('Xác nhận', 'Bạn có chắc chắn muốn xóa vĩnh viễn phòng trọ này khỏi hệ thống?'))) return;
     try {
       await roomApi.delete(roomId);
-      alert('Đã xóa phòng trọ thành công!');
+      alertQuick('success', 'Đã xóa phòng trọ thành công!');
       setSelectedRoom(null);
       fetchRooms();
       loadDashboard();
     } catch (error) {
       console.error('Failed to delete room', error);
-      alert('Không thể xóa phòng trọ');
+      alertQuick('error', 'Không thể xóa phòng trọ');
     }
   };
 
@@ -286,16 +287,16 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error('Failed to load room details', error);
-      alert('Không thể tải chi tiết phòng trọ');
+      alertQuick('error', 'Không thể tải chi tiết phòng trọ');
     }
   };
 
   // AD03 - Hide / Reject Room
   const handleHideRoom = async (roomId: string) => {
-    if (!window.confirm('Bạn có chắc chắn muốn ẩn phòng trọ này khỏi hệ thống?')) return;
+    if (!(await confirmAsync('Xác nhận', 'Bạn có chắc chắn muốn ẩn phòng trọ này khỏi hệ thống?'))) return;
     try {
       await roomApi.updateStatus(roomId, 'hidden');
-      alert('Đã ẩn phòng trọ thành công');
+      alertQuick('success', 'Đã ẩn phòng trọ thành công');
       fetchRooms();
       if (selectedRoom && selectedRoom.id === roomId) {
         setSelectedRoom((prev: any) => ({ ...prev, status: 'hidden' }));
@@ -303,14 +304,14 @@ export default function AdminDashboard() {
       loadDashboard();
     } catch (error) {
       console.error('Failed to hide room', error);
-      alert('Ẩn phòng trọ thất bại');
+      alertQuick('error', 'Ẩn phòng trọ thất bại');
     }
   };
 
   const handleApproveRoomQuick = async (roomId: string) => {
     try {
       await roomApi.updateStatus(roomId, 'available');
-      alert('Phê duyệt phòng trọ thành công');
+      alertQuick('success', 'Phê duyệt phòng trọ thành công');
       loadDashboard();
       fetchRooms();
     } catch (error) {
@@ -321,7 +322,7 @@ export default function AdminDashboard() {
   const handleRejectRoomQuick = async (roomId: string) => {
     try {
       await roomApi.updateStatus(roomId, 'hidden');
-      alert('Đã ẩn/từ chối phòng trọ');
+      alertQuick('success', 'Đã ẩn/từ chối phòng trọ');
       loadDashboard();
       fetchRooms();
     } catch (error) {
@@ -331,10 +332,10 @@ export default function AdminDashboard() {
 
   // AD03 - Delete inappropriate review
   const handleDeleteReview = async (reviewId: string, roomId: string) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa vĩnh viễn đánh giá này?')) return;
+    if (!(await confirmAsync('Xác nhận', 'Bạn có chắc chắn muốn xóa vĩnh viễn đánh giá này?'))) return;
     try {
       await reviewApi.delete(reviewId);
-      alert('Xóa đánh giá thành công');
+      alertQuick('success', 'Xóa đánh giá thành công');
       // Reload room details to reflect deletion
       const res: any = await roomApi.getById(roomId);
       if (res?.data) {
@@ -342,7 +343,7 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error('Failed to delete review', error);
-      alert('Xóa đánh giá thất bại');
+      alertQuick('error', 'Xóa đánh giá thất bại');
     }
   };
 
@@ -364,7 +365,7 @@ export default function AdminDashboard() {
   const handleReviewReport = async (reportId: string, status: 'resolved' | 'dismissed') => {
     try {
       await reportApi.updateStatus(reportId, status);
-      alert(`Đã xử lý báo cáo: ${status === 'resolved' ? 'Chấp nhận vi phạm' : 'Bác bỏ báo cáo'}`);
+      alertQuick('success', `Đã xử lý báo cáo: ${status === 'resolved' ? 'Chấp nhận vi phạm' : 'Bác bỏ báo cáo'}`);
       setReportsList(prev => prev.map(r => r.id === reportId ? { ...r, status } : r));
       if (selectedReport && selectedReport.id === reportId) {
         setSelectedReport((prev: any) => ({ ...prev, status }));
@@ -372,17 +373,17 @@ export default function AdminDashboard() {
       loadDashboard();
     } catch (error) {
       console.error('Failed to update report status', error);
-      alert('Không thể xử lý báo cáo');
+      alertQuick('error', 'Không thể xử lý báo cáo');
     }
   };
 
   // AD03 - Resolve report by hiding target room
   const handleHideRoomFromReport = async (roomId: string, reportId: string) => {
-    if (!window.confirm('Bạn có chắc chắn muốn ẩn phòng này và đánh dấu báo cáo đã xử lý?')) return;
+    if (!(await confirmAsync('Xác nhận', 'Bạn có chắc chắn muốn ẩn phòng này và đánh dấu báo cáo đã xử lý?'))) return;
     try {
       await roomApi.updateStatus(roomId, 'hidden');
       await reportApi.updateStatus(reportId, 'resolved');
-      alert('Đã ẩn phòng và giải quyết báo cáo');
+      alertQuick('success', 'Đã ẩn phòng và giải quyết báo cáo');
       setSelectedReport(null);
       fetchReports();
       loadDashboard();
@@ -393,11 +394,11 @@ export default function AdminDashboard() {
 
   // AD03 - Resolve report by deleting target review
   const handleDeleteReviewFromReport = async (reviewId: string, reportId: string) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa đánh giá này và đánh dấu báo cáo đã xử lý?')) return;
+    if (!(await confirmAsync('Xác nhận', 'Bạn có chắc chắn muốn xóa đánh giá này và đánh dấu báo cáo đã xử lý?'))) return;
     try {
       await reviewApi.delete(reviewId);
       await reportApi.updateStatus(reportId, 'resolved');
-      alert('Đã xóa đánh giá và giải quyết báo cáo');
+      alertQuick('success', 'Đã xóa đánh giá và giải quyết báo cáo');
       setSelectedReport(null);
       fetchReports();
       loadDashboard();

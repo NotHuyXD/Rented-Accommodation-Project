@@ -6,6 +6,7 @@ import {
   Eye, EyeOff, Lock, Bell, Globe, Trash2
 } from 'lucide-react';
 import { getImageUrl } from '../../utils/helpers';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function ProfilePage() {
 
   const handleSave = () => {
     updateProfile(formData);
-    alert('Đã cập nhật hồ sơ!');
+    alertQuick('success', 'Đã cập nhật hồ sơ!');
   };
 
   const tabs = [

@@ -9,6 +9,7 @@ import {
   ArrowLeft, CheckCheck, Smile, X, MessageSquarePlus
 } from 'lucide-react';
 import './ChatPage.css';
+import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
 // Emoji nhanh phổ biến
 const QUICK_EMOJIS = ['😊','😄','👍','❤️','🙏','😂','🎉','😍','🤔','👋','💪','✅','🏠','📞','💰','🔑'];
@@ -133,7 +134,7 @@ export default function ChatPage() {
     } catch {
       setMessages(prev => prev.filter(m => m.id !== optimisticMsg.id));
       setMessage(content);
-      alert('Gửi tin nhắn thất bại. Vui lòng thử lại.');
+      alertQuick('error', 'Gửi tin nhắn thất bại. Vui lòng thử lại.');
     } finally {
       setSending(false);
       setTimeout(() => inputRef.current?.focus(), 50);
