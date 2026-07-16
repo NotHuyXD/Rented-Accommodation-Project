@@ -4,7 +4,8 @@ import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
 import { contractApi } from '../../api/services';
 import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
-import { FileText, Download, Eye, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { FileText, Download, Eye, Clock, CheckCircle2, AlertCircle, Printer, X } from 'lucide-react';
+import { Contract } from '../../types';
 import './ContractsPage.css';
 
 export default function ContractsPage() {
@@ -12,6 +13,8 @@ export default function ContractsPage() {
   const { user } = useAuthStore();
   const { contracts, fetchContracts, isLoading } = useAppStore();
   const [activeTab, setActiveTab] = useState('active');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [selectedContract, setSelectedContract] = useState<Contract | null>(null);
 
   useEffect(() => {
     if (user) fetchContracts();
@@ -44,8 +47,11 @@ export default function ContractsPage() {
   const handleSign = async (contractId: string) => {
     try {
       await contractApi.sign(contractId);
-      fetchContracts();
-      alert('Ký hợp đồng thành công!');
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        setShowSuccessModal(false);
+        fetchContracts();
+      }, 2000);
     } catch (err: any) {
       alert(err.response?.data?.message || 'Lỗi ký hợp đồng');
     }
@@ -130,12 +136,14 @@ export default function ContractsPage() {
                   </div>
 
                   <div className="contract-footer">
-                    {contract.status === 'pending_sign' && (
+                    <button className="btn btn-secondary btn-sm" onClick={() => setSelectedContract(contract as any)}>
+                      <FileText size={16} /> Xem PDF
+                    </button>
+                    {contract.status === 'pending_sign' && contract.tenant_id === user?.id && (
                       <button className="btn btn-primary btn-sm" onClick={() => handleSign(contract.id)}>
                         <CheckCircle2 size={16} /> Ký hợp đồng
                       </button>
                     )}
-                
                   </div>
                 </div>
               );
@@ -149,6 +157,86 @@ export default function ContractsPage() {
           ) : null}
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="contract-modal-overlay">
+          <div className="contract-modal-content">
+            <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--success-50)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+              <CheckCircle2 color="var(--success-500)" size={48} />
+            </div>
+            <h3 className="contract-modal-title">Ký hợp đồng thành công!</h3>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              Hợp đồng của bạn đã được ký xác nhận.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* PDF Modal */}
+      {selectedContract && (
+        <div className="contract-modal-overlay">
+          <div className="pdf-modal-content">
+            <div className="pdf-header">
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Chi tiết hợp đồng</h2>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button className="btn btn-primary btn-sm" onClick={() => window.print()}>
+                  <Printer size={16} /> Tải xuống / In PDF
+                </button>
+                <button className="btn btn-ghost btn-sm" onClick={() => setSelectedContract(null)}>
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+            
+            <div className="pdf-document">
+              <h1>HỢP ĐỒNG THUÊ PHÒNG TRỌ</h1>
+              <p style={{ textAlign: 'center', marginBottom: '32px' }}>Mã hợp đồng: {selectedContract.id.toUpperCase()}</p>
+              
+              <div className="pdf-section">
+                <h3>BÊN CHO THUÊ (BÊN A)</h3>
+                <div className="pdf-row"><div className="pdf-label">Họ và tên:</div><div className="pdf-value">{selectedContract.landlord_name}</div></div>
+                <div className="pdf-row"><div className="pdf-label">Số điện thoại:</div><div className="pdf-value">{selectedContract.landlord_phone || 'Chưa cập nhật'}</div></div>
+              </div>
+
+              <div className="pdf-section">
+                <h3>BÊN THUÊ (BÊN B)</h3>
+                <div className="pdf-row"><div className="pdf-label">Họ và tên:</div><div className="pdf-value">{selectedContract.tenant_name}</div></div>
+                <div className="pdf-row"><div className="pdf-label">Số điện thoại:</div><div className="pdf-value">{selectedContract.tenant_phone || 'Chưa cập nhật'}</div></div>
+              </div>
+
+              <div className="pdf-section">
+                <h3>THÔNG TIN PHÒNG THUÊ</h3>
+                <div className="pdf-row"><div className="pdf-label">Phòng:</div><div className="pdf-value">{selectedContract.room_title || 'Phòng trọ'}</div></div>
+                <div className="pdf-row"><div className="pdf-label">Địa chỉ:</div><div className="pdf-value">{selectedContract.room_address || 'Chưa cập nhật'}</div></div>
+                <div className="pdf-row"><div className="pdf-label">Thời hạn thuê:</div><div className="pdf-value">Từ {formatDate(selectedContract.start_date)} đến {formatDate(selectedContract.end_date)}</div></div>
+                <div className="pdf-row"><div className="pdf-label">Giá thuê/tháng:</div><div className="pdf-value">{formatCurrency(selectedContract.monthly_rent)}</div></div>
+                <div className="pdf-row"><div className="pdf-label">Tiền cọc:</div><div className="pdf-value">{formatCurrency(selectedContract.deposit_amount)}</div></div>
+              </div>
+
+              <div className="pdf-section">
+                <h3>ĐIỀU KHOẢN KHÁC</h3>
+                <p>{selectedContract.terms || 'Theo quy định chung của nhà trọ.'}</p>
+              </div>
+
+              <div className="pdf-signatures">
+                <div className="pdf-signature-box">
+                  <p><strong>ĐẠI DIỆN BÊN A</strong></p>
+                  <p style={{ marginTop: '80px' }}>{selectedContract.landlord_name}</p>
+                </div>
+                <div className="pdf-signature-box">
+                  <p><strong>ĐẠI DIỆN BÊN B</strong></p>
+                  {selectedContract.status === 'active' || selectedContract.status === 'expired' || selectedContract.status === 'terminated' ? (
+                    <p style={{ marginTop: '80px' }}>{selectedContract.tenant_name}</p>
+                  ) : (
+                    <p style={{ marginTop: '80px', color: '#999', fontStyle: 'italic' }}>(Chưa ký)</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

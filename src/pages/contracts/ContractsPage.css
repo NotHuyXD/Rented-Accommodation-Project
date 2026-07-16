@@ -68,3 +68,126 @@
   padding-top: var(--space-4);
   border-top: 1px solid var(--border-color);
 }
+
+/* Modals */
+.contract-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+.contract-modal-content {
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: 40px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: var(--shadow-2xl);
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.contract-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+/* PDF Modal Specific */
+.pdf-modal-content {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-2xl);
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  text-align: left;
+}
+
+.pdf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.pdf-document {
+  padding: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+  color: black;
+}
+
+.pdf-document h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 32px;
+}
+
+.pdf-section {
+  margin-bottom: 24px;
+}
+
+.pdf-section h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  border-bottom: 1px dotted #ccc;
+  padding-bottom: 4px;
+}
+
+.pdf-row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.pdf-label {
+  font-weight: bold;
+  width: 150px;
+}
+
+.pdf-value {
+  flex: 1;
+}
+
+.pdf-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.pdf-signature-box {
+  width: 45%;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .pdf-document, .pdf-document * {
+    visibility: visible;
+  }
+  .pdf-document {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    padding: 0;
+  }
+}
