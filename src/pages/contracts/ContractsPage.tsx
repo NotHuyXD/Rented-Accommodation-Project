@@ -4,7 +4,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
 import { contractApi } from '../../api/services';
 import { formatCurrency, formatDate, getStatusLabel } from '../../utils/helpers';
-import { FileText, Download, Eye, Clock, CheckCircle2, AlertCircle, Printer, X } from 'lucide-react';
+import { FileText, Clock, CheckCircle2, AlertCircle, Printer, X } from 'lucide-react';
 import { Contract } from '../../types';
 import './ContractsPage.css';
 
@@ -18,7 +18,7 @@ export default function ContractsPage() {
 
   useEffect(() => {
     if (user) fetchContracts();
-  }, [user]);
+  }, [user, fetchContracts]);
 
   if (!user) {
     return (
@@ -52,8 +52,9 @@ export default function ContractsPage() {
         setShowSuccessModal(false);
         fetchContracts();
       }, 2000);
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Lỗi ký hợp đồng');
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      alert(error.response?.data?.message || 'Lỗi ký hợp đồng');
     }
   };
 
@@ -136,7 +137,7 @@ export default function ContractsPage() {
                   </div>
 
                   <div className="contract-footer">
-                    <button className="btn btn-secondary btn-sm" onClick={() => setSelectedContract(contract as any)}>
+                    <button className="btn btn-secondary btn-sm" onClick={() => setSelectedContract(contract as Contract)}>
                       <FileText size={16} /> Xem PDF
                     </button>
                     {contract.status === 'pending_sign' && contract.tenant_id === user?.id && (
@@ -240,3 +241,4 @@ export default function ContractsPage() {
     </div>
   );
 }
+ 
