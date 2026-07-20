@@ -17,7 +17,7 @@ export default function LandlordDashboard() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { myRooms, fetchMyRooms, isLoading: roomsLoading } = useRoomStore();
-  const { rentalRequests, fetchRentalRequests } = useAppStore();
+  const { rentalRequests, fetchRentalRequests, contracts, fetchContracts } = useAppStore();
   const [showAcceptModal, setShowAcceptModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<any>(null);
   const [contractForm, setContractForm] = useState({ startDate: '', endDate: '', terms: '' });
@@ -27,6 +27,7 @@ export default function LandlordDashboard() {
     if (user && user.role === 'landlord') {
       fetchMyRooms();
       fetchRentalRequests();
+      fetchContracts();
     }
   }, [user]);
 
@@ -43,7 +44,9 @@ export default function LandlordDashboard() {
 
   const availableRooms = myRooms.filter(r => r.status === 'available').length;
   const rentedRooms = myRooms.filter(r => r.status === 'rented').length;
-  const totalRevenue = myRooms.filter(r => r.status === 'rented').reduce((sum, r) => sum + (r.price || 0), 0);
+  const totalRevenue = contracts
+    .filter(c => c.status === 'active')
+    .reduce((sum, c) => sum + Number(c.monthly_rent || 0), 0);
   const pendingRequests = rentalRequests.filter(r => r.status === 'pending');
 
   const stats = [
