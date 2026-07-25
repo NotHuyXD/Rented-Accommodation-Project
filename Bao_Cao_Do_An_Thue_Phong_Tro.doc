@@ -1,0 +1,296 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Báo Cáo Đồ Án Thuê Phòng Trọ</title>
+<style>
+  @page {
+    size: A4;
+    margin: 2.5cm 2cm 2.5cm 3cm;
+  }
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 13pt;
+    line-height: 1.5;
+    color: #000000;
+  }
+  h1, h2, h3, h4 {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    color: #000000;
+  }
+  h1 { font-size: 16pt; text-align: center; margin-top: 18pt; margin-bottom: 12pt; text-transform: uppercase; }
+  h2 { font-size: 14pt; margin-top: 16pt; margin-bottom: 8pt; }
+  h3 { font-size: 13pt; margin-top: 12pt; margin-bottom: 6pt; font-style: italic; }
+  p { margin-top: 6pt; margin-bottom: 6pt; text-align: justify; }
+  ul, ol { margin-top: 6pt; margin-bottom: 6pt; padding-left: 24pt; }
+  li { margin-bottom: 4pt; text-align: justify; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12pt;
+    margin-bottom: 16pt;
+  }
+  th, td {
+    border: 1px solid #000000;
+    padding: 8pt 10pt;
+    font-size: 12pt;
+    vertical-align: top;
+  }
+  th {
+    background-color: #e6e6e6;
+    font-weight: bold;
+    text-align: center;
+  }
+  .text-center { text-align: center; }
+  .text-bold { font-weight: bold; }
+  .cover-page {
+    text-align: center;
+    page-break-after: always;
+    padding-top: 30pt;
+  }
+  .cover-header {
+    font-size: 13pt;
+    font-weight: bold;
+    margin-bottom: 60pt;
+  }
+  .cover-title {
+    font-size: 20pt;
+    font-weight: bold;
+    margin-top: 40pt;
+    margin-bottom: 16pt;
+    color: #002060;
+  }
+  .cover-subtitle {
+    font-size: 15pt;
+    font-weight: bold;
+    margin-bottom: 80pt;
+  }
+  .cover-info {
+    font-size: 13pt;
+    text-align: left;
+    margin-left: 80pt;
+    line-height: 2.0;
+  }
+  .cover-footer {
+    font-size: 12pt;
+    margin-top: 80pt;
+    font-style: italic;
+  }
+  .page-break { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<!-- TRANG BÌA -->
+<div class="cover-page">
+  <div class="cover-header">
+    <p class="text-center" style="margin:0;">TRƯỜNG ĐẠI HỌC .....................................................</p>
+    <p class="text-center" style="margin:0; text-decoration: underline;">KHOA CÔNG NGHỆ THÔNG TIN</p>
+  </div>
+
+  <div class="cover-title">
+    BÁO CÁO ĐỒ ÁN MÔN HỌC / TỐT NGHIỆP
+  </div>
+  <div class="cover-subtitle">
+    ĐỀ TÀI: XÂY DỰNG HỆ THỐNG QUẢN LÝ VÀ CHO THUÊ PHÒNG TRỌ TRỰC TUYẾN<br>
+    (RENTED ACCOMMODATION MANAGEMENT SYSTEM)
+  </div>
+
+  <div class="cover-info">
+    <p style="margin:4pt 0;"><b>Giảng viên hướng dẫn:</b> ............................................................</p>
+    <p style="margin:4pt 0;"><b>Nhóm sinh viên thực hiện (3 thành viên):</b></p>
+    <p style="margin:4pt 0; padding-left: 20pt;">1. <b>[Họ và tên SV 1]</b> - MSSV: <i>XXXXXX1</i> (Nhóm trưởng)</p>
+    <p style="margin:4pt 0; padding-left: 20pt;">2. <b>[Họ và tên SV 2]</b> - MSSV: <i>XXXXXX2</i> (Thành viên)</p>
+    <p style="margin:4pt 0; padding-left: 20pt;">3. <b>[Họ và tên SV 3]</b> - MSSV: <i>XXXXXX3</i> (Thành viên)</p>
+  </div>
+
+  <div class="cover-footer">
+    <p class="text-center">Tháng 07 / 2026</p>
+  </div>
+</div>
+
+<!-- NỘI DUNG BÁO CÁO -->
+<div class="page-break"></div>
+
+<h1>DANH SÁCH THÀNH VIÊN VÀ PHÂN CÔNG NHIỆM VỤ</h1>
+<p>Dự án được chia nhỏ thành 3 phân hệ chức năng cốt lõi, tương ứng với nhiệm vụ thực hiện của 3 thành viên trong nhóm nhằm đảm bảo tính toàn vẹn, chuyên sâu và không trùng lặp công việc:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 8%;">STT</th>
+      <th style="width: 25%;">Họ và tên sinh viên</th>
+      <th style="width: 15%;">Vai trò</th>
+      <th style="width: 52%;">Phân công nhiệm vụ chính trong dự án</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-center"><b>1</b></td>
+      <td><b>[Họ và tên SV 1]</b><br>MSSV: <i>XXXXXX1</i></td>
+      <td class="text-center"><b>Nhóm trưởng</b></td>
+      <td>
+        - Phân tích & thiết kế kiến trúc tổng thể, Store quản lý trạng thái (Zustand).<br>
+        - Phân hệ Xác thực (Login, Register, Google OAuth) & Định danh KYC.<br>
+        - Phân hệ Quản trị viên (Admin Dashboard: Quản lý User, duyệt KYC, duyệt bình luận).<br>
+        - Thiết kế UI/UX & Hệ thống Global Custom Modal toàn cục.
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center"><b>2</b></td>
+      <td><b>[Họ và tên SV 2]</b><br>MSSV: <i>XXXXXX2</i></td>
+      <td class="text-center">Thành viên</td>
+      <td>
+        - Phân hệ Quản lý phòng trọ (Đăng phòng, chỉnh sửa, tải ảnh, ẩn/hiện phòng).<br>
+        - Phân hệ Tìm kiếm & Lọc phòng nâng cao (Theo khu vực, khoảng giá, tiện ích).<br>
+        - Quản lý Yêu cầu thuê phòng (Rental Requests) từ Khách thuê gửi đến Chủ trọ.<br>
+        - Phân hệ Lịch hẹn xem phòng (Room Tour Appointments: Đặt lịch, duyệt lịch).
+      </td>
+    </tr>
+    <tr>
+      <td class="text-center"><b>3</b></td>
+      <td><b>[Họ và tên SV 3]</b><br>MSSV: <i>XXXXXX3</i></td>
+      <td class="text-center">Thành viên</td>
+      <td>
+        - Phân hệ Hợp đồng thuê phòng (Tạo hợp đồng, ký kết trực tuyến, xuất PDF).<br>
+        - Phân hệ Lập hóa đơn tiện ích hàng tháng (Nhập chỉ số điện, nước, rác, tự động tính tổng).<br>
+        - Phân hệ Thanh toán trực tuyến & Lịch sử giao dịch.<br>
+        - Phân hệ Chấm dứt / Thanh lý hợp đồng trả phòng.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h1>CHƯƠNG 1: TỔNG QUAN VÀ ĐẶT VẤN ĐỀ</h1>
+
+<h2>1.1. Lý do chọn đề tài</h2>
+<p>Hiện nay, việc tìm kiếm và cho thuê phòng trọ tại các thành phố lớn đang gặp nhiều bất cập và thách thức lớn đối với cả hai bên:</p>
+<ul>
+  <li><b>Đối với Người thuê (Khách thuê):</b> Khó tìm kiếm thông tin minh bạch, dễ gặp phòng ảo hoặc giá cả không đúng thực tế; gặp khó khăn trong việc hẹn lịch xem phòng cũng như theo dõi hợp đồng, các khoản chi phí hóa đơn điện nước hàng tháng.</li>
+  <li><b>Đối với Người cho thuê (Chủ trọ):</b> Quản lý thủ công bằng sổ sách giấy tờ hoặc các công cụ phân tán như Zalo, Excel dẫn đến nhầm lẫn chỉ số điện nước, thất thoát tiền thuê, khó quản lý danh sách hợp đồng đang hiệu lực và lịch hẹn xem phòng của khách.</li>
+  <li><b>Thực trạng ứng dụng hiện tại:</b> Hầu hết các website hiện nay chỉ dừng lại ở việc đăng tin rao vặt (classifieds) mà thiếu đi một nền tảng quản lý khép kín (End-to-End) từ khâu tìm kiếm, đặt lịch hẹn, ký hợp đồng cho đến lập hóa đơn và thanh toán hàng tháng.</li>
+</ul>
+<p>Xuất phát từ thực tế đó, nhóm quyết định nghiên cứu và phát triển <b>Hệ thống Quản lý và Cho thuê Phòng trọ Trực tuyến</b> với giao diện hiện đại, quy trình nghiệp vụ tự động hóa cao và trải nghiệm người dùng tối ưu nhất.</p>
+
+<h2>1.2. Mục tiêu của dự án</h2>
+<p>Hệ thống hướng tới việc phục vụ 3 nhóm đối tượng người dùng chính với các mục tiêu cụ thể:</p>
+<ul>
+  <li><b>Đối với Khách thuê (Tenant):</b> Cung cấp công cụ tìm kiếm phòng nhanh chóng, trực quan; gửi yêu cầu thuê phòng; đặt lịch hẹn xem phòng; ký hợp đồng số hóa và nhận/thanh toán hóa đơn tiện ích minh bạch hàng tháng.</li>
+  <li><b>Đối với Chủ trọ (Landlord):</b> Cung cấp trang quản trị (Dashboard) để đăng tải và quản lý phòng trọ; theo dõi doanh thu thực tế; duyệt lịch hẹn xem phòng; ký kết hợp đồng và tự động hóa việc tính toán tiền điện/nước để xuất hóa đơn.</li>
+  <li><b>Đối với Quản trị viên (Admin):</b> Kiểm soát an ninh và độ tin cậy của nền tảng thông qua xác thực danh tính chủ trọ (KYC), kiểm duyệt nội dung phòng trọ và quản lý người dùng vi phạm.</li>
+</ul>
+
+<h2>1.3. Phạm vi ứng dụng</h2>
+<p>Hệ thống được thiết kế dưới dạng Web Application phản hồi nhanh (Responsive Web App), hoạt động tốt trên cả máy tính bàn, máy tính bảng và điện thoại di động, phù hợp triển khai tại các khu vực tập trung đông sinh viên và người lao động như Hà Nội, TP. Hồ Chí Minh, Đà Nẵng.</p>
+
+<div class="page-break"></div>
+
+<h1>CHƯƠNG 2: CÔNG NGHỆ SỬ DỤNG & KIẾN TRÚC HỆ THỐNG</h1>
+
+<h2>2.1. Công nghệ Frontend (Tech Stack)</h2>
+<p>Dự án áp dụng các công nghệ web hiện đại nhất hiện nay để đảm bảo hiệu năng, tính dễ bảo trì và trải nghiệm người dùng mượt mà:</p>
+<ul>
+  <li><b>Ngôn ngữ & Thư viện cốt lõi:</b> <b>React 19</b> kết hợp <b>TypeScript 5</b> - Đảm bảo tính mô-đun, dễ tái sử dụng component và an toàn kiểu dữ liệu (Type-safety) ở mức cao nhất, giảm thiểu tối đa lỗi runtime.</li>
+  <li><b>Công cụ Đóng gói (Build Tool):</b> <b>Vite 8</b> - Mang lại tốc độ khởi tạo server phát triển cực nhanh và Hot Module Replacement (HMR) tức thời.</li>
+  <li><b>Điều hướng (Routing):</b> <b>React Router DOM v7</b> - Quản lý điều hướng đơn trang (SPA), hỗ trợ bảo vệ các trang theo quyền người dùng (Protected Routes cho Admin, Landlord, Tenant).</li>
+  <li><b>Quản lý Trạng thái (State Management):</b> <b>Zustand v5</b> - Áp dụng mô hình Store phân tán, nhẹ, hiệu năng cao hơn Redux, được chia thành các store chuyên biệt: <code>authStore</code>, <code>roomStore</code>, <code>appStore</code> và <code>modalStore</code>.</li>
+  <li><b>Tương tác API & Giả lập dữ liệu:</b> <b>Axios</b> kết hợp <b>Axios Mock Adapter</b> - Giúp giả lập toàn bộ backend RESTful API với độ trễ phản hồi (delay) và xử lý logic CRUD thực thụ.</li>
+  <li><b>Giao diện & Trải nghiệm (UI/UX):</b> <b>Vanilla CSS</b> kết hợp hệ thống Design Tokens (CSS Variables), các hiệu ứng hoạt ảnh (Glassmorphism, Slide Up, Fade In) và bộ biểu tượng <b>Lucide React</b>.</li>
+</ul>
+
+<h2>2.2. Kiến trúc Hệ thống & Tổ chức Dữ liệu</h2>
+<p>Hệ thống được kiến trúc theo mô hình <b>Component-Based Architecture</b> và phân tách thành 3 lớp rõ ràng:</p>
+<ol>
+  <li><b>Lớp Giao diện (Presentation Layer):</b> Bao gồm các Trang (Pages) tương ứng với các luồng nghiệp vụ và các Thành phần dùng chung (Common Components như Header, Navbar, GlobalModal).</li>
+  <li><b>Lớp Trạng thái (State Layer):</b> Các Store Zustand chịu trách nhiệm lưu trữ dữ liệu toàn cục, xử lý logic nghiệp vụ và giao tiếp với API.</li>
+  <li><b>Lớp Dịch vụ (Service Layer):</b> Tập hợp các API services (<code>rentalRequestApi</code>, <code>contractApi</code>, <code>invoiceApi</code>, <code>appointmentApi</code>) đóng gói các lời gọi mạng.</li>
+</ol>
+
+<div class="page-break"></div>
+
+<h1>CHƯƠNG 3: PHÂN TÍCH & THIẾT KẾ CHI TIẾT CÁC CHỨC NĂNG</h1>
+
+<h2>3.1. Phân quyền Người dùng (Role-Based Access Control)</h2>
+<p>Hệ thống chia làm 3 vai trò (Role) chuyên biệt với quyền hạn và không gian làm việc khác nhau:</p>
+<ul>
+  <li><b>Quản trị viên (Admin):</b> Cấp quyền cao nhất, quản lý toàn bộ hệ thống, xét duyệt hồ sơ KYC, kiểm duyệt phòng trọ và khóa/mở khóa tài khoản người dùng vi phạm.</li>
+  <li><b>Chủ trọ (Landlord):</b> Người đăng tin cho thuê, quản lý phòng trọ của mình, tiếp nhận yêu cầu thuê, duyệt lịch xem phòng, ký hợp đồng và lập hóa đơn hàng tháng.</li>
+  <li><b>Khách thuê (Tenant):</b> Người đi thuê phòng, tìm kiếm phòng theo bộ lọc, gửi yêu cầu thuê, đặt lịch hẹn xem phòng, ký hợp đồng trực tuyến và thanh toán hóa đơn.</li>
+</ul>
+
+<h2>3.2. Chi tiết Phân công Nghiệp vụ theo Thành viên</h2>
+
+<h3>3.2.1. Phân hệ Thành viên 1: Kiến trúc, Xác thực, Admin & Global UI</h3>
+<ul>
+  <li><b>Xác thực & Định danh danh tính (Auth & KYC):</b> Xây dựng quy trình Đăng ký, Đăng nhập, hỗ trợ đăng nhập nhanh qua Google OAuth. Đặc biệt, hệ thống yêu cầu Chủ trọ phải tải lên ảnh CCCD/GPLX để Admin xét duyệt (KYC - Know Your Customer) trước khi được phép đăng tin cho thuê, ngăn chặn phòng ảo và lừa đảo.</li>
+  <li><b>Trang Quản trị viên (Admin Dashboard):</b> Cung cấp cái nhìn tổng quan với các số liệu thống kê (Tổng người dùng, phòng trọ, yêu cầu chờ duyệt). Admin có quyền xem chi tiết hồ sơ KYC để Chấp nhận/Từ chối, đồng thời quản lý danh sách phòng trọ và ẩn các đánh giá/bình luận tiêu cực hoặc spam.</li>
+  <li><b>Hệ thống Thông báo Toàn cục (Global Custom Modal):</b> Thiết kế Store và Component quản lý Popup toàn cục thay thế hoàn toàn các hàm <code>alert()</code> và <code>confirm()</code> mặc định của trình duyệt. Hỗ trợ cơ chế bọc Promise (<code>confirmAsync</code>) giúp duy trì tính bất đồng bộ khi xác nhận thao tác của người dùng.</li>
+</ul>
+
+<h3>3.2.2. Phân hệ Thành viên 2: Quản lý Phòng trọ, Tìm kiếm & Lịch hẹn xem phòng</h3>
+<ul>
+  <li><b>Quản lý Phòng trọ (Room Management):</b> Chủ trọ có thể đăng tải phòng mới với đầy đủ thông tin: Tiêu đề, giá thuê, diện tích, tiền cọc, địa chỉ chi tiết, danh sách tiện ích (Điều hòa, Thang máy, Ban công, Máy giặt...) và hình ảnh trực quan. Hỗ trợ cập nhật thông tin và chuyển trạng thái phòng (Còn trống / Đã thuê / Ẩn).</li>
+  <li><b>Tìm kiếm & Lọc phòng nâng cao:</b> Khách thuê có thể tìm kiếm từ khóa hoặc sử dụng bộ lọc đa chiều: Lọc theo thành phố (Hà Nội, TP.HCM, Đà Nẵng), quận/huyện, khoảng giá thuê, diện tích và các tiện ích bắt buộc.</li>
+  <li><b>Quản lý Yêu cầu thuê phòng (Rental Requests):</b> Khách thuê gửi yêu cầu thuê kèm ngày mong muốn dọn vào. Chủ trọ tiếp nhận thông báo, có quyền Chấp nhận (để chuyển sang bước lập hợp đồng) hoặc Từ chối yêu cầu.</li>
+  <li><b>Lịch hẹn xem phòng (Room Tour Appointments):</b>
+    <ul>
+      <li>Khách thuê chọn ngày, giờ và gửi lời nhắn để hẹn đến xem phòng trực tiếp.</li>
+      <li>Chủ trọ quản lý tại tab <i>"Lịch hẹn xem phòng"</i> trên Dashboard, thực hiện <b>Xác nhận</b> hoặc <b>Từ chối</b> lịch hẹn.</li>
+      <li>Khách thuê theo dõi trạng thái tại mục <i>"Lịch xem phòng của tôi"</i> và có quyền hủy lịch khi không còn nhu cầu.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>3.2.3. Phân hệ Thành viên 3: Hợp đồng, Lập hóa đơn tiện ích & Thanh lý</h3>
+<ul>
+  <li><b>Hợp đồng thuê phòng trực tuyến (Contracts):</b> Khi yêu cầu thuê được chấp nhận, hệ thống hỗ trợ tạo hợp đồng số với đầy đủ điều khoản pháp lý, thông tin Bên A (Chủ trọ), Bên B (Khách thuê), giá tiền, tiền cọc và thời hạn thuê. Hai bên thực hiện ký xác nhận trực tuyến trên hệ thống và có thể tải xuống/in ấn dưới dạng văn bản PDF.</li>
+  <li><b>Lập hóa đơn tiện ích hàng tháng (Monthly Utility Billing):</b>
+    <ul>
+      <li>Vào định kỳ hàng tháng, Chủ trọ vào danh sách Hợp đồng đang hiệu lực, nhấn nút <b>"Lập hóa đơn"</b>.</li>
+      <li>Modal lập hóa đơn cho phép chọn tháng, nhập chỉ số/tiền điện, tiền nước và các khoản phí dịch vụ khác (rác, wifi, gửi xe...).</li>
+      <li>Hệ thống tự động cộng dồn với tiền thuê phòng cố định trong hợp đồng để xuất ra hóa đơn tổng mới nhất.</li>
+    </ul>
+  </li>
+  <li><b>Thanh toán & Lịch sử giao dịch:</b> Khách thuê nhận được thông báo hóa đơn mới tại Dashboard, xem chi tiết từng khoản mục và thực hiện thanh toán trực tuyến.</li>
+  <li><b>Chấm dứt / Thanh lý hợp đồng (Contract Termination):</b> Khi kết thúc thời hạn thuê hoặc hai bên thỏa thuận trả phòng trước hạn, Chủ trọ thực hiện thao tác <b>"Trả phòng / Thanh lý"</b>. Hệ thống yêu cầu xác nhận an toàn qua Custom Modal, chuyển trạng thái hợp đồng thành <code>terminated</code> và trả phòng về trạng thái trống.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h1>CHƯƠNG 4: KẾT QUẢ ĐẠT ĐƯỢC & HƯỚNG PHÁT TRIỂN</h1>
+
+<h2>4.1. Kết quả đạt được</h2>
+<p>Sau thời gian nghiên cứu và phát triển nghiêm túc, nhóm đã hoàn thành đúng các mục tiêu đề ra ban đầu:</p>
+<ul>
+  <li>Xây dựng thành công hệ thống ứng dụng Web hoạt động mượt mà, tốc độ phản hồi cực nhanh, không xảy ra hiện tượng tải lại trang (Single Page Application).</li>
+  <li>Hoàn thiện trọn vẹn luồng nghiệp vụ thực tế: Từ tìm kiếm phòng -> xem phòng -> gửi yêu cầu -> ký hợp đồng -> tính tiền điện nước hàng tháng -> thanh toán và thanh lý trả phòng.</li>
+  <li>Giao diện (UI/UX) được chăm chút tỉ mỉ, đồng bộ, đẹp mắt và hiện đại; các cơ chế xác thực và thông báo được xử lý tập trung, chuyên nghiệp.</li>
+  <li>Sự phối hợp giữa 3 thành viên chặt chẽ, các khối chức năng gắn kết logic và không xảy ra xung đột dữ liệu.</li>
+</ul>
+
+<h2>4.2. Hạn chế và Hướng phát triển tương lai</h2>
+<p>Bên cạnh những kết quả đạt được, dự án vẫn còn một số hạn chế nhất định để tiếp tục nâng cấp trong tương lai:</p>
+<ul>
+  <li><b>Hạn chế hiện tại:</b> Hệ thống hiện đang sử dụng cơ chế giả lập dữ liệu (Mock API & LocalStorage) để phục vụ kiểm thử frontend, chưa kết nối trực tiếp với hệ quản trị cơ sở dữ liệu quan hệ (PostgreSQL / MySQL) và máy chủ backend thực tế.</li>
+  <li><b>Hướng phát triển tương lai:</b>
+    <ul>
+      <li>Xây dựng Backend thực tế với Node.js/Express hoặc Spring Boot kết hợp cơ sở dữ liệu PostgreSQL.</li>
+      <li>Tích hợp các cổng thanh toán điện tử thực tế tại Việt Nam (VNPay, MoMo, ZaloPay, VietQR) để tự động gạch nợ hóa đơn khi khách thanh toán thành công.</li>
+      <li>Tích hợp bản đồ số (Google Maps API hoặc OpenStreetMap) để tìm kiếm phòng theo bán kính hoặc trường học/nơi làm việc.</li>
+      <li>Phát triển hệ thống trò chuyện trực tuyến (Real-time Chat) qua WebSocket để Khách thuê và Chủ trọ trao đổi trực tiếp ngay trên nền tảng.</li>
+    </ul>
+  </li>
+</ul>
+
+<div style="margin-top: 50pt; text-align: right; padding-right: 20pt;">
+  <p><i>..........., ngày .... tháng .... năm 2026</i></p>
+  <p><b>ĐẠI DIỆN NHÓM SINH VIÊN</b></p>
+  <p style="margin-top: 60pt;"><b>[Họ và tên Nhóm trưởng]</b></p>
+</div>
+
+</body>
+</html>
