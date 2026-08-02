@@ -1,4 +1,4 @@
-<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv=Content-Type  content="text/html; charset=utf-8" ><meta name=ProgId  content=Word.Document ><meta name=Generator  content="Microsoft Word 14" ><meta name=Originator  content="Microsoft Word 14" ><link rel=File-List  href="Bao_Cao_Do_An_Thue_Phong_Tro.files/filelist.xml" ><title></title><!--[if gte mso 9]><xml><o:DocumentProperties><o:Author>motmi</o:Author><o:LastAuthor>Huy Gia</o:LastAuthor><o:Revision>1</o:Revision><o:Pages>3</o:Pages><o:Characters>9169</o:Characters><o:Lines>1</o:Lines><o:Paragraphs>1</o:Paragraphs></o:DocumentProperties><o:CustomDocumentProperties><o:KSOTemplateDocerSaveRecord dt:dt="string" >eyJoZGlkIjoiMmY1M2JjMWNmMjhmYTc3ZTc5ZThhOGJkZjkyOTVjOWQiLCJ1c2VySWQiOiIxMzkxOTkzNTQzNTczIn0=</o:KSOTemplateDocerSaveRecord><o:KSOProductBuildVer dt:dt="string" >1033-12.1.0.24752</o:KSOProductBuildVer><o:ICV dt:dt="string" >EE5642FA8DFA47C3881FC928E9ADA4B3_12</o:ICV></o:CustomDocumentProperties></xml><![endif]--><!--[if gte mso 9]><xml><o:OfficeDocumentSettings></o:OfficeDocumentSettings></xml><![endif]--><!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing><w:View>Web</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]--><!--[if gte mso 9]><xml><w:LatentStyles DefLockedState="false"  DefUnhideWhenUsed="true"  DefSemiHidden="true"  DefQFormat="false"  DefPriority="99"  LatentStyleCount="260" >
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv=Content-Type  content="text/html; charset=utf-8" ><meta name=ProgId  content=Word.Document ><meta name=Generator  content="Microsoft Word 14" ><meta name=Originator  content="Microsoft Word 14" ><link rel=File-List  href="Bao_Cao_Do_An_Thue_Phong_Tro.files/filelist.xml" ><title></title><!--[if gte mso 9]><xml><o:DocumentProperties><o:Author>motmi</o:Author><o:LastAuthor>Huy Gia</o:LastAuthor><o:Revision>1</o:Revision><o:Pages>3</o:Pages><o:Characters>1743</o:Characters><o:Lines>1</o:Lines><o:Paragraphs>1</o:Paragraphs></o:DocumentProperties><o:CustomDocumentProperties><o:KSOTemplateDocerSaveRecord dt:dt="string" >eyJoZGlkIjoiMmY1M2JjMWNmMjhmYTc3ZTc5ZThhOGJkZjkyOTVjOWQiLCJ1c2VySWQiOiIxMzkxOTkzNTQzNTczIn0=</o:KSOTemplateDocerSaveRecord><o:KSOProductBuildVer dt:dt="string" >1033-12.1.0.24752</o:KSOProductBuildVer><o:ICV dt:dt="string" >EE5642FA8DFA47C3881FC928E9ADA4B3_12</o:ICV></o:CustomDocumentProperties></xml><![endif]--><!--[if gte mso 9]><xml><o:OfficeDocumentSettings></o:OfficeDocumentSettings></xml><![endif]--><!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing><w:View>Web</w:View><w:Compatibility></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]--><!--[if gte mso 9]><xml><w:LatentStyles DefLockedState="false"  DefUnhideWhenUsed="true"  DefSemiHidden="true"  DefQFormat="false"  DefPriority="99"  LatentStyleCount="260" >
 <w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="Normal" ></w:LsdException>
 <w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="heading 1" ></w:LsdException>
 <w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="heading 2" ></w:LsdException>
@@ -290,76 +290,76 @@ font-family:"Calibri";
 }
 
 @list l0:level1{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
+mso-level-text:"%1.";
 mso-level-tab-stop:36.0000pt;
 mso-level-number-position:left;
-margin-left:36.0000pt;text-indent:-18.0000pt;tab-stops:blank 36.0000pt ;font-family:Symbol;font-size:10.0000pt;}
+margin-left:36.0000pt;text-indent:-18.0000pt;tab-stops:blank 36.0000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level2{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"o";
+mso-level-text:"%2.";
 mso-level-tab-stop:72.0000pt;
 mso-level-number-position:left;
-margin-left:72.0000pt;text-indent:-18.0000pt;tab-stops:blank 72.0000pt ;font-family:'Courier New';font-size:10.0000pt;}
+margin-left:72.0000pt;text-indent:-18.0000pt;tab-stops:blank 72.0000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level3{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
+mso-level-text:"%3.";
 mso-level-tab-stop:108.0000pt;
 mso-level-number-position:left;
-margin-left:108.0000pt;text-indent:-18.0000pt;tab-stops:blank 108.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:108.0000pt;text-indent:-18.0000pt;tab-stops:blank 108.0000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level4{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:144.0000pt;
+mso-level-text:"%4.";
+mso-level-tab-stop:125.8500pt;
 mso-level-number-position:left;
-margin-left:144.0000pt;text-indent:-18.0000pt;tab-stops:blank 144.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:144.0000pt;text-indent:-18.0000pt;tab-stops:blank 125.8500pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level5{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:180.0000pt;
+mso-level-text:"%5.";
+mso-level-tab-stop:161.9000pt;
 mso-level-number-position:left;
-margin-left:180.0000pt;text-indent:-18.0000pt;tab-stops:blank 180.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:180.0000pt;text-indent:-18.0000pt;tab-stops:blank 161.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level6{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:216.0000pt;
+mso-level-text:"%6.";
+mso-level-tab-stop:197.9000pt;
 mso-level-number-position:left;
-margin-left:216.0000pt;text-indent:-18.0000pt;tab-stops:blank 216.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:216.0000pt;text-indent:-18.0000pt;tab-stops:blank 197.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level7{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:252.0000pt;
+mso-level-text:"%7.";
+mso-level-tab-stop:233.9000pt;
 mso-level-number-position:left;
-margin-left:252.0000pt;text-indent:-18.0000pt;tab-stops:blank 252.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:252.0000pt;text-indent:-18.0000pt;tab-stops:blank 233.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level8{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:288.0000pt;
+mso-level-text:"%8.";
+mso-level-tab-stop:269.9000pt;
 mso-level-number-position:left;
-margin-left:288.0000pt;text-indent:-18.0000pt;tab-stops:blank 288.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:288.0000pt;text-indent:-18.0000pt;tab-stops:blank 269.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l0:level9{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:324.0000pt;
+mso-level-text:"%9.";
+mso-level-tab-stop:305.9000pt;
 mso-level-number-position:left;
-margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 324.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 305.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
 
 @list l1:level1{
 mso-level-number-format:bullet;
@@ -434,76 +434,76 @@ mso-level-number-position:left;
 margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 324.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l2:level1{
-mso-level-number-format:bullet;
+mso-level-number-format:decimal;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:36.0000pt;
+mso-level-text:"%1.";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:36.0000pt;text-indent:-18.0000pt;tab-stops:blank 36.0000pt ;font-family:Symbol;font-size:10.0000pt;}
+margin-left:36.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level2{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
 mso-level-text:"o";
-mso-level-tab-stop:72.0000pt;
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:72.0000pt;text-indent:-18.0000pt;tab-stops:blank 72.0000pt ;font-family:'Courier New';font-size:10.0000pt;}
+margin-left:72.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level3{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:108.0000pt;
+mso-level-text:"▪";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:108.0000pt;text-indent:-18.0000pt;tab-stops:blank 108.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:108.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level4{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:144.0000pt;
+mso-level-text:"●";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:144.0000pt;text-indent:-18.0000pt;tab-stops:blank 144.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:144.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level5{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:180.0000pt;
+mso-level-text:"o";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:180.0000pt;text-indent:-18.0000pt;tab-stops:blank 180.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:180.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level6{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:216.0000pt;
+mso-level-text:"▪";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:216.0000pt;text-indent:-18.0000pt;tab-stops:blank 216.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:216.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level7{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:252.0000pt;
+mso-level-text:"●";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:252.0000pt;text-indent:-18.0000pt;tab-stops:blank 252.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:252.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level8{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:288.0000pt;
+mso-level-text:"o";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:288.0000pt;text-indent:-18.0000pt;tab-stops:blank 288.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:288.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l2:level9{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"";
-mso-level-tab-stop:324.0000pt;
+mso-level-text:"▪";
+mso-level-tab-stop:0.0000pt;
 mso-level-number-position:left;
-margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 324.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
+margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 0.0000pt ;font-family:'Times New Roman';}
 
 @list l3:level1{
 mso-level-number-format:bullet;
@@ -578,76 +578,76 @@ mso-level-number-position:left;
 margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 324.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l4:level1{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%1.";
+mso-level-text:"";
 mso-level-tab-stop:36.0000pt;
 mso-level-number-position:left;
-margin-left:36.0000pt;text-indent:-18.0000pt;tab-stops:blank 36.0000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:36.0000pt;text-indent:-18.0000pt;tab-stops:blank 36.0000pt ;font-family:Symbol;font-size:10.0000pt;}
 
 @list l4:level2{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%2.";
+mso-level-text:"o";
 mso-level-tab-stop:72.0000pt;
 mso-level-number-position:left;
-margin-left:72.0000pt;text-indent:-18.0000pt;tab-stops:blank 72.0000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:72.0000pt;text-indent:-18.0000pt;tab-stops:blank 72.0000pt ;font-family:'Courier New';font-size:10.0000pt;}
 
 @list l4:level3{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%3.";
+mso-level-text:"";
 mso-level-tab-stop:108.0000pt;
 mso-level-number-position:left;
-margin-left:108.0000pt;text-indent:-18.0000pt;tab-stops:blank 108.0000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:108.0000pt;text-indent:-18.0000pt;tab-stops:blank 108.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l4:level4{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%4.";
-mso-level-tab-stop:125.8500pt;
+mso-level-text:"";
+mso-level-tab-stop:144.0000pt;
 mso-level-number-position:left;
-margin-left:144.0000pt;text-indent:-18.0000pt;tab-stops:blank 125.8500pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:144.0000pt;text-indent:-18.0000pt;tab-stops:blank 144.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l4:level5{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%5.";
-mso-level-tab-stop:161.9000pt;
+mso-level-text:"";
+mso-level-tab-stop:180.0000pt;
 mso-level-number-position:left;
-margin-left:180.0000pt;text-indent:-18.0000pt;tab-stops:blank 161.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:180.0000pt;text-indent:-18.0000pt;tab-stops:blank 180.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l4:level6{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%6.";
-mso-level-tab-stop:197.9000pt;
+mso-level-text:"";
+mso-level-tab-stop:216.0000pt;
 mso-level-number-position:left;
-margin-left:216.0000pt;text-indent:-18.0000pt;tab-stops:blank 197.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:216.0000pt;text-indent:-18.0000pt;tab-stops:blank 216.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l4:level7{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%7.";
-mso-level-tab-stop:233.9000pt;
+mso-level-text:"";
+mso-level-tab-stop:252.0000pt;
 mso-level-number-position:left;
-margin-left:252.0000pt;text-indent:-18.0000pt;tab-stops:blank 233.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:252.0000pt;text-indent:-18.0000pt;tab-stops:blank 252.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l4:level8{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%8.";
-mso-level-tab-stop:269.9000pt;
+mso-level-text:"";
+mso-level-tab-stop:288.0000pt;
 mso-level-number-position:left;
-margin-left:288.0000pt;text-indent:-18.0000pt;tab-stops:blank 269.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:288.0000pt;text-indent:-18.0000pt;tab-stops:blank 288.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l4:level9{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%9.";
-mso-level-tab-stop:305.9000pt;
+mso-level-text:"";
+mso-level-tab-stop:324.0000pt;
 mso-level-number-position:left;
-margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 305.9000pt ;font-family:'Times New Roman';font-size:12.0000pt;}
+margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 324.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l5:level1{
 mso-level-number-format:bullet;
@@ -722,76 +722,76 @@ mso-level-number-position:left;
 margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 324.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l6:level1{
-mso-level-number-format:decimal;
+mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"%1.";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:36.0000pt;
 mso-level-number-position:left;
-margin-left:36.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:36.0000pt;text-indent:-18.0000pt;tab-stops:blank 36.0000pt ;font-family:Symbol;font-size:10.0000pt;}
 
 @list l6:level2{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
 mso-level-text:"o";
-mso-level-tab-stop:none;
+mso-level-tab-stop:72.0000pt;
 mso-level-number-position:left;
-margin-left:72.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:72.0000pt;text-indent:-18.0000pt;tab-stops:blank 72.0000pt ;font-family:'Courier New';font-size:10.0000pt;}
 
 @list l6:level3{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"▪";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:108.0000pt;
 mso-level-number-position:left;
-margin-left:108.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:108.0000pt;text-indent:-18.0000pt;tab-stops:blank 108.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l6:level4{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"●";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:144.0000pt;
 mso-level-number-position:left;
-margin-left:144.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:144.0000pt;text-indent:-18.0000pt;tab-stops:blank 144.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l6:level5{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"o";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:180.0000pt;
 mso-level-number-position:left;
-margin-left:180.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:180.0000pt;text-indent:-18.0000pt;tab-stops:blank 180.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l6:level6{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"▪";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:216.0000pt;
 mso-level-number-position:left;
-margin-left:216.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:216.0000pt;text-indent:-18.0000pt;tab-stops:blank 216.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l6:level7{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"●";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:252.0000pt;
 mso-level-number-position:left;
-margin-left:252.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:252.0000pt;text-indent:-18.0000pt;tab-stops:blank 252.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l6:level8{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"o";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:288.0000pt;
 mso-level-number-position:left;
-margin-left:288.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:288.0000pt;text-indent:-18.0000pt;tab-stops:blank 288.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l6:level9{
 mso-level-number-format:bullet;
 mso-level-suffix:tab;
-mso-level-text:"▪";
-mso-level-tab-stop:none;
+mso-level-text:"";
+mso-level-tab-stop:324.0000pt;
 mso-level-number-position:left;
-margin-left:324.0000pt;text-indent:-18.0000pt;font-family:'Times New Roman';}
+margin-left:324.0000pt;text-indent:-18.0000pt;tab-stops:blank 324.0000pt ;font-family:Wingdings;font-size:10.0000pt;}
 
 @list l7:level1{
 mso-level-number-format:bullet;
@@ -1179,11 +1179,11 @@ font-size:7.5000pt;
 }
 
 span.10{
-font-family:SimSun;
+font-family:'Times New Roman';
 }
 
 span.15{
-font-family:'Times New Roman';
+font-family:SimSun;
 }
 
 span.16{
@@ -1191,28 +1191,8 @@ font-family:'Courier New';
 font-size:10.0000pt;
 }
 
-p.17{
-mso-style-name:cover-footer;
-margin-top:80.0000pt;
-text-align:left;
-font-family:Calibri;
-mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';
-font-style:italic;
-font-size:12.0000pt;
-}
-
-p.18{
-mso-style-name:cover-title;
-margin-top:40.0000pt;
-margin-bottom:16.0000pt;
-text-align:left;
-font-family:Calibri;
-mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';
-color:rgb(0,32,96);
-font-weight:bold;
-font-size:20.0000pt;
+span.17{
+font-family:'Times New Roman';
 }
 
 p.pre{
@@ -1240,55 +1220,7 @@ mso-bidi-font-family:'Times New Roman';
 font-size:12.0000pt;
 }
 
-p.21{
-mso-style-name:"HTML Preformatted Char";
-margin-top:0.0000pt;
-margin-right:0.0000pt;
-margin-bottom:0.0000pt;
-margin-left:0.0000pt;
-tab-stops:left blank 45.8000pt left blank 91.6000pt left blank 137.4000pt left blank 183.2000pt left blank 229.0000pt left blank 274.8000pt left blank 320.6000pt left blank 366.4000pt left blank 412.2000pt left blank 458.0000pt left blank 503.8000pt left blank 549.6000pt left blank 595.4000pt left blank 641.2000pt left blank 687.0000pt left blank 732.8000pt ;
-text-align:left;
-font-family:SimSun;
-font-size:12.0000pt;
-}
-
-p.22{
-mso-style-name:cover-subtitle;
-margin-bottom:80.0000pt;
-text-align:left;
-font-family:Calibri;
-mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';
-font-weight:bold;
-font-size:15.0000pt;
-}
-
-p.23{
-mso-style-name:cover-header;
-margin-bottom:60.0000pt;
-text-align:left;
-font-family:Calibri;
-mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';
-font-weight:bold;
-font-size:13.0000pt;
-}
-
-p.24{
-mso-style-name:"Normal \(Web\) Char";
-margin-top:6.0000pt;
-margin-right:0.0000pt;
-margin-bottom:6.0000pt;
-margin-left:0.0000pt;
-text-align:justify;
-text-justify:inter-ideograph;
-font-family:Calibri;
-mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;
-}
-
-p.25{
+p.20{
 mso-style-name:text-bold;
 margin-top:0.0000pt;
 margin-right:0.0000pt;
@@ -1302,7 +1234,21 @@ font-weight:bold;
 font-size:12.0000pt;
 }
 
-p.26{
+p.21{
+mso-style-name:"Normal \(Web\) Char";
+margin-top:6.0000pt;
+margin-right:0.0000pt;
+margin-bottom:6.0000pt;
+margin-left:0.0000pt;
+text-align:justify;
+text-justify:inter-ideograph;
+font-family:Calibri;
+mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';
+font-size:12.0000pt;
+}
+
+p.22{
 mso-style-name:cover-page;
 margin-top:0.0000pt;
 margin-right:0.0000pt;
@@ -1316,7 +1262,7 @@ mso-bidi-font-family:'Times New Roman';
 font-size:12.0000pt;
 }
 
-p.27{
+p.23{
 mso-style-name:text-center;
 margin-top:0.0000pt;
 margin-right:0.0000pt;
@@ -1327,6 +1273,53 @@ font-family:Calibri;
 mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';
 font-size:12.0000pt;
+}
+
+p.24{
+mso-style-name:cover-title;
+margin-top:40.0000pt;
+margin-bottom:16.0000pt;
+text-align:left;
+font-family:Calibri;
+mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';
+color:rgb(0,32,96);
+font-weight:bold;
+font-size:20.0000pt;
+}
+
+p.25{
+mso-style-name:"HTML Preformatted Char";
+margin-top:0.0000pt;
+margin-right:0.0000pt;
+margin-bottom:0.0000pt;
+margin-left:0.0000pt;
+tab-stops:left blank 45.8000pt left blank 91.6000pt left blank 137.4000pt left blank 183.2000pt left blank 229.0000pt left blank 274.8000pt left blank 320.6000pt left blank 366.4000pt left blank 412.2000pt left blank 458.0000pt left blank 503.8000pt left blank 549.6000pt left blank 595.4000pt left blank 641.2000pt left blank 687.0000pt left blank 732.8000pt ;
+text-align:left;
+font-family:SimSun;
+font-size:12.0000pt;
+}
+
+p.26{
+mso-style-name:cover-footer;
+margin-top:80.0000pt;
+text-align:left;
+font-family:Calibri;
+mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';
+font-style:italic;
+font-size:12.0000pt;
+}
+
+p.27{
+mso-style-name:cover-subtitle;
+margin-bottom:80.0000pt;
+text-align:left;
+font-family:Calibri;
+mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';
+font-weight:bold;
+font-size:15.0000pt;
 }
 
 p.28{
@@ -1352,6 +1345,17 @@ font-family:Calibri;
 mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';
 font-size:12.0000pt;
+}
+
+p.30{
+mso-style-name:cover-header;
+margin-bottom:60.0000pt;
+text-align:left;
+font-family:Calibri;
+mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';
+font-weight:bold;
+font-size:13.0000pt;
 }
 
 span.msoIns{
@@ -1391,110 +1395,90 @@ size:595.3000pt 841.9500pt;
 mso-header-margin:42.5500pt;
 mso-footer-margin:49.6000pt;
 }
-div.Section0{page:Section0;}</style></head><body style="tab-interval:21pt;" ><!--StartFragment--><div class="Section0" ><p class=MsoNormal  align=center  style="margin-bottom:0.0000pt;text-align:center;" ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+div.Section0{page:Section0;}</style></head><body style="tab-interval:21pt;" ><!--StartFragment--><div class="Section0" ><p class=MsoNormal  align=center  style="margin-bottom:0.0000pt;mso-pagination:widow-orphan;text-align:center;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:16.0000pt;
 mso-font-kerning:0.0000pt;" >B&#7896; KHOA H&#7884;C V&#192; C&#212;NG NGH&#7878; </span></b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;text-align:center;" ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;mso-pagination:widow-orphan;text-align:center;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:16.0000pt;
 mso-font-kerning:0.0000pt;" >H&#7884;C VI&#7878;N C&#212;NG NGH&#7878; B&#431;U CH&#205;NH VI&#7876;N TH&#212;NG</span></b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;text-align:center;" ><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;mso-pagination:widow-orphan;text-align:center;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:0.0000pt;" >-----------------------------</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;text-align:center;" ><img width="125"  height="125"  src="Bao_Cao_Do_An_Thue_Phong_Tro.files/Bao_Cao_Do_An_Thue_Phong_Tro96.png" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;text-align:center;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:0.0000pt;text-align:center;" ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;mso-pagination:widow-orphan;text-align:center;" ><span><img width="125"  height="125"  src="Bao_Cao_Do_An_Thue_Phong_Tro.files/Bao_Cao_Do_An_Thue_Phong_Tro256.png" ></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:6.0000pt;mso-pagination:widow-orphan;text-align:center;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-bottom:0.0000pt;mso-pagination:widow-orphan;text-align:center;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:36.0000pt;
-mso-font-kerning:0.0000pt;" >B&#193;O C&#193;O </span></b><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" >B&#193;O C&#193;O </span></b><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:36.0000pt;
-mso-font-kerning:0.0000pt;" ><br></span></b><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><br></span></b><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:36.0000pt;
 mso-font-kerning:0.0000pt;" >&#272;&#7890; &#193;N M&#212;N H&#7884;C</span></b><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:36.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  style="margin-bottom:0.0000pt;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  style="margin-bottom:0.0000pt;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  align=center  style="margin-top:6.0000pt;margin-bottom:0.0000pt;text-align:center;" ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  style="margin-bottom:0.0000pt;mso-pagination:widow-orphan;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="margin-bottom:0.0000pt;mso-pagination:widow-orphan;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="margin-top:6.0000pt;margin-bottom:0.0000pt;mso-pagination:widow-orphan;
+text-align:center;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:16.0000pt;
-mso-font-kerning:0.0000pt;" >M&#212;N H&#7884;C: </span></b><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" >M&#212;N H&#7884;C: Ph&#225;t tri&#7875;n c&#225;c h&#7879; th&#7889;ng th&#244;ng minh</span></b><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:16.0000pt;
-mso-font-kerning:0.0000pt;" >Ph&#225;t tri&#7875;n c&#225;c h&#7879; th&#7889;ng th&#244;ng minh</span></b><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  align=center  style="margin-top:6.0000pt;margin-bottom:0.0000pt;mso-pagination:widow-orphan;
+text-align:center;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:16.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  align=center  style="margin-top:6.0000pt;margin-bottom:0.0000pt;text-align:center;" ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:16.0000pt;
-mso-font-kerning:0.0000pt;" >&#272;&#7872; T&#192;I: H&#7878; TH&#7888;NG WEBSITE </span></b><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:16.0000pt;
-mso-font-kerning:0.0000pt;" >M&#212;I GI&#7898;I PH&#210;NG TR&#7884; TH&#212;NG MINH</span></b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;text-align:justify;
-text-justify:inter-ideograph;" ><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;text-align:justify;
+mso-font-kerning:0.0000pt;" >&#272;&#7872; T&#192;I: H&#7878; TH&#7888;NG WEBSITE M&#212;I GI&#7898;I PH&#210;NG TR&#7884; TH&#212;NG MINH</span></b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;mso-pagination:widow-orphan;
+text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span><span style="mso-tab-count:1" > </span></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;mso-pagination:widow-orphan;
+text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;mso-pagination:widow-orphan;
+text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;mso-pagination:widow-orphan;
+text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="margin-bottom:0.0000pt;mso-pagination:widow-orphan;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="mso-tab-count:1" > </span><span style="mso-tab-count:1" > </span><span style="mso-tab-count:1" > </span><span style="mso-tab-count:1" > </span></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;mso-pagination:widow-orphan;text-align:justify;
 text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;text-align:justify;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;mso-pagination:widow-orphan;text-align:justify;
 text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:6.0000pt;margin-bottom:0.0000pt;text-align:justify;
-text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  style="margin-bottom:0.0000pt;" ><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;text-align:justify;text-justify:inter-ideograph;" ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;tab-stops:left blank 89.2500pt ;text-align:justify;
-text-justify:inter-ideograph;" ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;tab-stops:left blank 89.2500pt ;mso-pagination:widow-orphan;
+text-align:justify;text-justify:inter-ideograph;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
 mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span></b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="mso-pagination:widow-orphan;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
-mso-font-kerning:0.0000pt;" >Gi&#7843;ng vi&#234;n h&#432;&#7899;ng d&#7851;n: Nguy&#7877;n </span></b><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" >Gi&#7843;ng vi&#234;n h&#432;&#7899;ng d&#7851;n: Nguy&#7877;n Ng&#7885;c Duy</span></b><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
-mso-font-kerning:0.0000pt;" >Ng&#7885;c Duy</span></b><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal ><b><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  style="mso-pagination:widow-orphan;" ><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
 mso-font-kerning:0.0000pt;" >Th&#7921;c hi&#7879;n b&#7903;i nh&#243;m sinh vi&#234;n, bao g&#7891;m: </span></b><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
 mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;margin-left:36.0000pt;text-indent:-18.0000pt;
-text-align:justify;text-justify:inter-ideograph;mso-list:l6 level1 lfo1;" ><![if !supportLists]><span style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >1.<span>&nbsp;</span></span></span><![endif]><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D&#432;&#417;ng Gia Huy</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >N24DTCN038 &nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D24TXCN01-N</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&lt;Tr&#432;&#7903;ng nh&#243;m&gt;</span><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+tab-stops:blank 0.0000pt ;mso-pagination:widow-orphan;text-align:justify;
+text-justify:inter-ideograph;mso-list:l2 level1 lfo1;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;font-size:12.0000pt;
+mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >1.<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D&#432;&#417;ng Gia Huy<span style="mso-tab-count:1" > </span> &nbsp;&nbsp;&nbsp;N24DTCN038 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D24TXCN01-N &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Tr&#432;&#7903;ng nh&#243;m&gt;</span><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
 mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;margin-left:36.0000pt;text-indent:-18.0000pt;
-text-align:justify;text-justify:inter-ideograph;mso-list:l6 level1 lfo1;" ><![if !supportLists]><span style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >2.<span>&nbsp;</span></span></span><![endif]><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&#272;&#7895;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Ti&#7871;n Ph&#250;c</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >N24DTCN0</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >67</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D24TXCN01-N</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&lt;Th&#224;nh vi&#234;n&gt;</span><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+tab-stops:blank 0.0000pt ;mso-pagination:widow-orphan;text-align:justify;
+text-justify:inter-ideograph;mso-list:l2 level1 lfo1;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;font-size:12.0000pt;
+mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >2.<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&#272;&#7895; Ti&#7871;n Ph&#250;c<span style="mso-tab-count:1" > </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N24DTCN067 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D24TXCN01-N &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Th&#224;nh vi&#234;n&gt;</span><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
 mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=MsoNormal  align=justify  style="margin-bottom:0.0000pt;margin-left:36.0000pt;text-indent:-18.0000pt;
-text-align:justify;text-justify:inter-ideograph;mso-list:l6 level1 lfo1;" ><![if !supportLists]><span style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >3.<span>&nbsp;</span></span></span><![endif]><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D&#432;&#417;ng Trung D&#361;ng &nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >N24DTCN0</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >17</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D24TXCN01-N</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style="mso-tab-count:1" > </span></span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span dir="LTR"  style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&lt;Th&#224;nh vi&#234;n&gt;</span><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+tab-stops:blank 0.0000pt ;mso-pagination:widow-orphan;text-align:justify;
+text-justify:inter-ideograph;mso-list:l2 level1 lfo1;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;font-size:12.0000pt;
+mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >3.<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D&#432;&#417;ng Trung D&#361;ng &nbsp;&nbsp;N24DTCN017 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D24TXCN01-N<span style="mso-tab-count:1" > </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Th&#224;nh vi&#234;n&gt;</span><b><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:12.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=27  style="margin-top:86.0000pt;margin-right:0.0000pt;margin-bottom:6.0000pt;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></p><p class=23  style="margin-top:86.0000pt;margin-right:0.0000pt;margin-bottom:6.0000pt;
 margin-left:0.0000pt;mso-pagination:widow-orphan;line-height:12.0000pt;" ><i><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-style:italic;font-size:12.0000pt;
 mso-font-kerning:0.0000pt;" >Th&#225;ng 07 / 2026</span></i><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
@@ -1502,9 +1486,9 @@ mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.00
 color:rgb(0,0,0);font-weight:bold;text-transform:uppercase;
 font-size:16.0000pt;mso-font-kerning:22.0000pt;" >DANH S&#193;CH TH&#192;NH VI&#202;N V&#192; PH&#194;N C&#212;NG NHI&#7878;M V&#7908;</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;text-transform:uppercase;
-font-size:16.0000pt;mso-font-kerning:22.0000pt;" ><o:p></o:p></span></b></h1><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+font-size:16.0000pt;mso-font-kerning:22.0000pt;" ><o:p></o:p></span></b></h1><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >D&#7921; &#225;n &#273;&#432;&#7907;c chia nh&#7887; th&#224;nh 3 ph&#226;n h&#7879; ch&#7913;c n&#259;ng c&#7889;t l&#245;i, t&#432;&#417;ng &#7913;ng v&#7899;i nhi&#7879;m v&#7909; th&#7921;c hi&#7879;n c&#7911;a 3 th&#224;nh vi&#234;n trong nh&#243;m nh&#7857;m &#273;&#7843;m b&#7843;o t&#237;nh to&#224;n v&#7865;n, chuy&#234;n s&#226;u v&#224; kh&#244;ng tr&#249;ng l&#7863;p c&#244;ng vi&#7879;c:</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><table class=MsoNormalTable  border=0  cellspacing=0  style="border-collapse:collapse;width:100.0000%;margin-left:-9.2000pt;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><table class=MsoNormalTable  border=0  cellspacing=0  style="border-collapse:collapse;width:100.0000%;margin-left:-13.8000pt;
 border:none;mso-padding-alt:0.7500pt 0.7500pt 0.7500pt 0.7500pt ;" ><tr><td width=8.0000%  valign=top  style="width:8.0000%;padding:8.0000pt 10.0000pt 8.0000pt 10.0000pt ;border-left:1.0000pt solid rgb(0,0,0);
 mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);
 border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);
@@ -1569,14 +1553,13 @@ mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,
 line-height:12.0000pt;" ><b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:12.0000pt;mso-font-kerning:0.0000pt;" >&#272;&#7895; Ti&#7871;n Ph&#250;c</span></b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><br></span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >MSSV: </span><span dir="LTR"  style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >N24DTCN0</span><span dir="LTR"  style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >67</span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+font-size:12.0000pt;mso-font-kerning:0.0000pt;" >MSSV: </span><span style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
+font-size:12.0000pt;mso-font-kerning:0.0000pt;" >N24DTCN067</span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p></td><td valign=top  style="padding:8.0000pt 10.0000pt 8.0000pt 10.0000pt ;border-left:none;mso-border-left-alt:none;
 border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;
 mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);" ><p class=MsoNormal  align=center  style="mso-pagination:widow-orphan;text-align:center;vertical-align:top;
-line-height:12.0000pt;" ><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >Th&#224;nh vi&#234;n</span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;" ><b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+font-weight:bold;font-size:12.0000pt;mso-font-kerning:0.0000pt;" >Th&#224;nh vi&#234;n</span></b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p></td><td valign=top  style="padding:8.0000pt 10.0000pt 8.0000pt 10.0000pt ;border-left:none;mso-border-left-alt:none;
 border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;
 mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);" ><p class=MsoNormal  style="mso-pagination:widow-orphan;text-align:left;vertical-align:top;
@@ -1599,14 +1582,13 @@ mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,
 line-height:12.0000pt;" ><b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:12.0000pt;mso-font-kerning:0.0000pt;" >D&#432;&#417;ng Trung D&#361;ng</span></b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><br></span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >MSSV: </span><span dir="LTR"  style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >N24DTCN0</span><span dir="LTR"  style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >17</span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+font-size:12.0000pt;mso-font-kerning:0.0000pt;" >MSSV: </span><span style="font-family:Calibri;mso-fareast-font-family:SimSun;mso-bidi-font-family:'Times New Roman';
+font-size:12.0000pt;mso-font-kerning:0.0000pt;" >N24DTCN017</span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p></td><td valign=top  style="padding:8.0000pt 10.0000pt 8.0000pt 10.0000pt ;border-left:none;mso-border-left-alt:none;
 border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;
 mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);" ><p class=MsoNormal  align=center  style="mso-pagination:widow-orphan;text-align:center;vertical-align:top;
-line-height:12.0000pt;" ><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
-font-size:12.0000pt;mso-font-kerning:0.0000pt;" >Th&#224;nh vi&#234;n</span><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;" ><b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+font-weight:bold;font-size:12.0000pt;mso-font-kerning:0.0000pt;" >Th&#224;nh vi&#234;n</span></b><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p></td><td valign=top  style="padding:8.0000pt 10.0000pt 8.0000pt 10.0000pt ;border-left:none;mso-border-left-alt:none;
 border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;
 mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);" ><p class=MsoNormal  style="mso-pagination:widow-orphan;text-align:left;vertical-align:top;
@@ -1626,12 +1608,12 @@ font-size:16.0000pt;mso-font-kerning:22.0000pt;" ><o:p></o:p></span></b></h1><h2
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >1.1. L&#253; do ch&#7885;n &#273;&#7873; t&#224;i</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Hi&#7879;n nay, vi&#7879;c t&#236;m ki&#7871;m v&#224; cho thu&#234; ph&#242;ng tr&#7885; t&#7841;i c&#225;c th&#224;nh ph&#7889; l&#7899;n &#273;ang g&#7863;p nhi&#7873;u b&#7845;t c&#7853;p v&#224; th&#225;ch th&#7913;c l&#7899;n &#273;&#7889;i v&#7899;i c&#7843; hai b&#234;n:</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l8 level1 lfo2;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l7 level1 lfo2;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >&#272;&#7889;i v&#7899;i Ng&#432;&#7901;i thu&#234; (Kh&#225;ch thu&#234;):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1639,7 +1621,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Kh&#243;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l8 level1 lfo2;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l7 level1 lfo2;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >&#272;&#7889;i v&#7899;i Ng&#432;&#7901;i cho thu&#234; (Ch&#7911; tr&#7885;):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1647,12 +1629,12 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Qu&#7843
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l8 level1 lfo2;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l7 level1 lfo2;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Th&#7921;c tr&#7841;ng &#7913;ng d&#7909;ng hi&#7879;n t&#7841;i:</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;H&#7847;u h&#7871;t c&#225;c website hi&#7879;n nay ch&#7881; d&#7915;ng l&#7841;i &#7903; vi&#7879;c &#273;&#259;ng tin rao v&#7863;t (classifieds) m&#224; thi&#7871;u &#273;i m&#7897;t n&#7873;n t&#7843;ng qu&#7843;n l&#253; kh&#233;p k&#237;n (End-to-End) t&#7915; kh&#226;u t&#236;m ki&#7871;m, &#273;&#7863;t l&#7883;ch h&#7865;n, k&#253; h&#7907;p &#273;&#7891;ng cho &#273;&#7871;n l&#7853;p h&#243;a &#273;&#417;n v&#224; thanh to&#225;n h&#224;ng th&#225;ng.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
-mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Xu&#7845;t ph&#225;t t&#7915; th&#7921;c t&#7871; &#273;&#243;, nh&#243;m quy&#7871;t &#273;&#7883;nh nghi&#234;n c&#7913;u v&#224; ph&#225;t tri&#7875;n </span><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >H&#7879; th&#7889;ng Qu&#7843;n l&#253; v&#224; Cho thu&#234; Ph&#242;ng tr&#7885; Tr&#7921;c tuy&#7871;n</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1661,12 +1643,12 @@ mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.00
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >1.2. M&#7909;c ti&#234;u c&#7911;a d&#7921; &#225;n</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >H&#7879; th&#7889;ng h&#432;&#7899;ng t&#7899;i vi&#7879;c ph&#7909;c v&#7909; 3 nh&#243;m &#273;&#7889;i t&#432;&#7907;ng ng&#432;&#7901;i d&#249;ng ch&#237;nh v&#7899;i c&#225;c m&#7909;c ti&#234;u c&#7909; th&#7875;:</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l0 level1 lfo3;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l6 level1 lfo3;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >&#272;&#7889;i v&#7899;i Kh&#225;ch thu&#234; (Tenant):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1674,7 +1656,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Cung c&#
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l0 level1 lfo3;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l6 level1 lfo3;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >&#272;&#7889;i v&#7899;i Ch&#7911; tr&#7885; (Landlord):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1682,7 +1664,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Cung c&#
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l0 level1 lfo3;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l6 level1 lfo3;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >&#272;&#7889;i v&#7899;i Qu&#7843;n tr&#7883; vi&#234;n (Admin):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1691,7 +1673,7 @@ mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.00
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >1.3. Ph&#7841;m vi &#7913;ng d&#7909;ng</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >H&#7879; th&#7889;ng &#273;&#432;&#7907;c thi&#7871;t k&#7871; d&#432;&#7899;i d&#7841;ng Web Application ph&#7843;n h&#7891;i nhanh (Responsive Web App), ho&#7841;t &#273;&#7897;ng t&#7889;t tr&#234;n c&#7843; m&#225;y t&#237;nh b&#224;n, m&#225;y t&#237;nh b&#7843;ng v&#224; &#273;i&#7879;n tho&#7841;i di &#273;&#7897;ng, ph&#249; h&#7907;p tri&#7875;n khai t&#7841;i c&#225;c khu v&#7921;c t&#7853;p trung &#273;&#244;ng sinh vi&#234;n v&#224; ng&#432;&#7901;i lao &#273;&#7897;ng nh&#432; H&#224; N&#7897;i, TP. H&#7891; Ch&#237; Minh, &#272;&#224; N&#7861;ng.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><h1 style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;text-transform:uppercase;
@@ -1701,12 +1683,12 @@ font-size:16.0000pt;mso-font-kerning:22.0000pt;" ><o:p></o:p></span></b></h1><h2
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >2.1. C&#244;ng ngh&#7879; Frontend (Tech Stack)</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >D&#7921; &#225;n &#225;p d&#7909;ng c&#225;c c&#244;ng ngh&#7879; web hi&#7879;n &#273;&#7841;i nh&#7845;t hi&#7879;n nay &#273;&#7875; &#273;&#7843;m b&#7843;o hi&#7879;u n&#259;ng, t&#237;nh d&#7877; b&#7843;o tr&#236; v&#224; tr&#7843;i nghi&#7879;m ng&#432;&#7901;i d&#249;ng m&#432;&#7907;t m&#224;:</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l3 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l1 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Ng&#244;n ng&#7919; & Th&#432; vi&#7879;n c&#7889;t l&#245;i:</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1720,7 +1702,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;- &#272;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l3 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l1 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >C&#244;ng c&#7909; &#272;&#243;ng g&#243;i (Build Tool):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1731,7 +1713,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;- Mang l
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l3 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l1 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >&#272;i&#7873;u h&#432;&#7899;ng (Routing):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1742,7 +1724,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;- Qu&#78
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l3 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l1 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Qu&#7843;n l&#253; Tr&#7841;ng th&#225;i (State Management):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1761,7 +1743,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >.</span><span 
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l3 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l1 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >T&#432;&#417;ng t&#225;c API & Gi&#7843; l&#7853;p d&#7919; li&#7879;u:</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1775,7 +1757,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;- Gi&#25
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l3 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l1 level1 lfo4;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Giao di&#7879;n & Tr&#7843;i nghi&#7879;m (UI/UX):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1790,7 +1772,7 @@ mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.00
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >2.2. Ki&#7871;n tr&#250;c H&#7879; th&#7889;ng & T&#7893; ch&#7913;c D&#7919; li&#7879;u</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >H&#7879; th&#7889;ng &#273;&#432;&#7907;c ki&#7871;n tr&#250;c theo m&#244; h&#236;nh </span><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Component-Based Architecture</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1798,7 +1780,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;v&#224; 
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l4 level1 lfo5;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l0 level1 lfo5;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >1.<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >L&#7899;p Giao di&#7879;n (Presentation Layer):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1806,7 +1788,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Bao g&#7
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l4 level1 lfo5;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l0 level1 lfo5;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >2.<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >L&#7899;p Tr&#7841;ng th&#225;i (State Layer):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1814,7 +1796,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;C&#225;c
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l4 level1 lfo5;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l0 level1 lfo5;" ><![if !supportLists]><span style="font-family:'Times New Roman';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >3.<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >L&#7899;p D&#7883;ch v&#7909; (Service Layer):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1835,12 +1817,12 @@ font-size:16.0000pt;mso-font-kerning:22.0000pt;" ><o:p></o:p></span></b></h1><h2
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >3.1. Ph&#226;n quy&#7873;n Ng&#432;&#7901;i d&#249;ng (Role-Based Access Control)</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >H&#7879; th&#7889;ng chia l&#224;m 3 vai tr&#242; (Role) chuy&#234;n bi&#7879;t v&#7899;i quy&#7873;n h&#7841;n v&#224; kh&#244;ng gian l&#224;m vi&#7879;c kh&#225;c nhau:</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l5 level1 lfo6;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l10 level1 lfo6;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Qu&#7843;n tr&#7883; vi&#234;n (Admin):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1848,7 +1830,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;C&#7845;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l5 level1 lfo6;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l10 level1 lfo6;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Ch&#7911; tr&#7885; (Landlord):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1856,7 +1838,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Ng&#432;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l5 level1 lfo6;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l10 level1 lfo6;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Kh&#225;ch thu&#234; (Tenant):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1872,7 +1854,7 @@ color:rgb(0,0,0);font-weight:bold;font-style:italic;
 font-size:13.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></i></b></h3><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l7 level1 lfo7;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l4 level1 lfo7;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >X&#225;c th&#7921;c & &#272;&#7883;nh danh danh t&#237;nh (Auth & KYC):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1880,7 +1862,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;X&#226;y
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l7 level1 lfo7;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l4 level1 lfo7;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Trang Qu&#7843;n tr&#7883; vi&#234;n (Admin Dashboard):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1888,7 +1870,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Cung c&#
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l7 level1 lfo7;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l4 level1 lfo7;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >H&#7879; th&#7889;ng Th&#244;ng b&#225;o To&#224;n c&#7909;c (Global Custom Modal):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1906,7 +1888,7 @@ color:rgb(0,0,0);font-weight:bold;font-style:italic;
 font-size:13.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></i></b></h3><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l9 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l5 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Qu&#7843;n l&#253; Ph&#242;ng tr&#7885; (Room Management):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1914,7 +1896,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Ch&#7911
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l9 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l5 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >T&#236;m ki&#7871;m & L&#7885;c ph&#242;ng n&#226;ng cao:</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1922,7 +1904,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Kh&#225;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l9 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l5 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Qu&#7843;n l&#253; Y&#234;u c&#7847;u thu&#234; ph&#242;ng (Rental Requests):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1930,7 +1912,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Kh&#225;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l9 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l5 level1 lfo8;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >L&#7883;ch h&#7865;n xem ph&#242;ng (Room Tour Appointments):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1938,13 +1920,13 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l9 level2 lfo9;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l5 level2 lfo9;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Kh&#225;ch thu&#234; ch&#7885;n ng&#224;y, gi&#7901; v&#224; g&#7917;i l&#7901;i nh&#7855;n &#273;&#7875; h&#7865;n &#273;&#7871;n xem ph&#242;ng tr&#7921;c ti&#7871;p.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l9 level2 lfo9;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l5 level2 lfo9;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Ch&#7911; tr&#7885; qu&#7843;n l&#253; t&#7841;i tab </span><i><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-style:italic;font-size:13.0000pt;
@@ -1959,7 +1941,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;l&#7883;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l9 level2 lfo9;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l5 level2 lfo9;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Kh&#225;ch thu&#234; theo d&#245;i tr&#7841;ng th&#225;i t&#7841;i m&#7909;c </span><i><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-style:italic;font-size:13.0000pt;
@@ -1972,7 +1954,7 @@ color:rgb(0,0,0);font-weight:bold;font-style:italic;
 font-size:13.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></i></b></h3><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l10 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l3 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >H&#7907;p &#273;&#7891;ng thu&#234; ph&#242;ng tr&#7921;c tuy&#7871;n (Contracts):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1980,7 +1962,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Khi y&#2
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l10 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l3 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >L&#7853;p h&#243;a &#273;&#417;n ti&#7879;n &#237;ch h&#224;ng th&#225;ng (Monthly Utility Billing):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -1988,7 +1970,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l10 level2 lfo11;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l3 level2 lfo11;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >V&#224;o &#273;&#7883;nh k&#7923; h&#224;ng th&#225;ng, Ch&#7911; tr&#7885; v&#224;o danh s&#225;ch H&#7907;p &#273;&#7891;ng &#273;ang hi&#7879;u l&#7921;c, nh&#7845;n n&#250;t </span><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
@@ -1997,19 +1979,19 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >.</span><span 
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l10 level2 lfo11;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l3 level2 lfo11;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Modal l&#7853;p h&#243;a &#273;&#417;n cho ph&#233;p ch&#7885;n th&#225;ng, nh&#7853;p ch&#7881; s&#7889;/ti&#7873;n &#273;i&#7879;n, ti&#7873;n n&#432;&#7899;c v&#224; c&#225;c kho&#7843;n ph&#237; d&#7883;ch v&#7909; kh&#225;c (r&#225;c, wifi, g&#7917;i xe...).</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l10 level2 lfo11;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l3 level2 lfo11;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >H&#7879; th&#7889;ng t&#7921; &#273;&#7897;ng c&#7897;ng d&#7891;n v&#7899;i ti&#7873;n thu&#234; ph&#242;ng c&#7889; &#273;&#7883;nh trong h&#7907;p &#273;&#7891;ng &#273;&#7875; xu&#7845;t ra h&#243;a &#273;&#417;n t&#7893;ng m&#7899;i nh&#7845;t.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l10 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l3 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Thanh to&#225;n & L&#7883;ch s&#7917; giao d&#7883;ch:</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -2017,7 +1999,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;Kh&#225;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l10 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l3 level1 lfo10;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >Ch&#7845;m d&#7913;t / Thanh l&#253; h&#7907;p &#273;&#7891;ng (Contract Termination):</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -2035,42 +2017,42 @@ font-size:16.0000pt;mso-font-kerning:22.0000pt;" ><o:p></o:p></span></b></h1><h2
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >4.1. K&#7871;t qu&#7843; &#273;&#7841;t &#273;&#432;&#7907;c</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Sau th&#7901;i gian nghi&#234;n c&#7913;u v&#224; ph&#225;t tri&#7875;n nghi&#234;m t&#250;c, nh&#243;m &#273;&#227; ho&#224;n th&#224;nh &#273;&#250;ng c&#225;c m&#7909;c ti&#234;u &#273;&#7873; ra ban &#273;&#7847;u:</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l1 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l8 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >X&#226;y d&#7921;ng th&#224;nh c&#244;ng h&#7879; th&#7889;ng &#7913;ng d&#7909;ng Web ho&#7841;t &#273;&#7897;ng m&#432;&#7907;t m&#224;, t&#7889;c &#273;&#7897; ph&#7843;n h&#7891;i c&#7921;c nhanh, kh&#244;ng x&#7843;y ra hi&#7879;n t&#432;&#7907;ng t&#7843;i l&#7841;i trang (Single Page Application).</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l1 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l8 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Ho&#224;n thi&#7879;n tr&#7885;n v&#7865;n lu&#7891;ng nghi&#7879;p v&#7909; th&#7921;c t&#7871;: T&#7915; t&#236;m ki&#7871;m ph&#242;ng -&gt; xem ph&#242;ng -&gt; g&#7917;i y&#234;u c&#7847;u -&gt; k&#253; h&#7907;p &#273;&#7891;ng -&gt; t&#237;nh ti&#7873;n &#273;i&#7879;n n&#432;&#7899;c h&#224;ng th&#225;ng -&gt; thanh to&#225;n v&#224; thanh l&#253; tr&#7843; ph&#242;ng.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l1 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l8 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Giao di&#7879;n (UI/UX) &#273;&#432;&#7907;c ch&#259;m ch&#250;t t&#7881; m&#7881;, &#273;&#7891;ng b&#7897;, &#273;&#7865;p m&#7855;t v&#224; hi&#7879;n &#273;&#7841;i; c&#225;c c&#417; ch&#7871; x&#225;c th&#7921;c v&#224; th&#244;ng b&#225;o &#273;&#432;&#7907;c x&#7917; l&#253; t&#7853;p trung, chuy&#234;n nghi&#7879;p.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l1 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l8 level1 lfo12;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >S&#7921; ph&#7889;i h&#7907;p gi&#7919;a 3 th&#224;nh vi&#234;n ch&#7863;t ch&#7869;, c&#225;c kh&#7889;i ch&#7913;c n&#259;ng g&#7855;n k&#7871;t logic v&#224; kh&#244;ng x&#7843;y ra xung &#273;&#7897;t d&#7919; li&#7879;u.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><h2 style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
 mso-font-kerning:0.0000pt;" >4.2. H&#7841;n ch&#7871; v&#224; H&#432;&#7899;ng ph&#225;t tri&#7875;n t&#432;&#417;ng lai</span></b><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:14.0000pt;
-mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=24  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
+mso-font-kerning:0.0000pt;" ><o:p></o:p></span></b></h2><p class=21  style="mso-pagination:widow-orphan;line-height:12.0000pt;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >B&#234;n c&#7841;nh nh&#7919;ng k&#7871;t qu&#7843; &#273;&#7841;t &#273;&#432;&#7907;c, d&#7921; &#225;n v&#7851;n c&#242;n m&#7897;t s&#7889; h&#7841;n ch&#7871; nh&#7845;t &#273;&#7883;nh &#273;&#7875; ti&#7871;p t&#7909;c n&#226;ng c&#7845;p trong t&#432;&#417;ng lai:</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l2 level1 lfo13;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l9 level1 lfo13;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >H&#7841;n ch&#7871; hi&#7879;n t&#7841;i:</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -2078,7 +2060,7 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;H&#7879;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:36.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 36.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l2 level1 lfo13;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l9 level1 lfo13;" ><![if !supportLists]><span style="font-family:Symbol;mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-weight:bold;font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >&#183;<span>&nbsp;</span></span></span><![endif]><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-weight:bold;font-size:13.0000pt;
 mso-font-kerning:0.0000pt;" >H&#432;&#7899;ng ph&#225;t tri&#7875;n t&#432;&#417;ng lai:</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
@@ -2086,25 +2068,25 @@ color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >&nbsp;</span><
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l2 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l9 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >X&#226;y d&#7921;ng Backend th&#7921;c t&#7871; v&#7899;i Node.js/Express ho&#7863;c Spring Boot k&#7871;t h&#7907;p c&#417; s&#7903; d&#7919; li&#7879;u PostgreSQL.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l2 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l9 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >T&#237;ch h&#7907;p c&#225;c c&#7893;ng thanh to&#225;n &#273;i&#7879;n t&#7917; th&#7921;c t&#7871; t&#7841;i Vi&#7879;t Nam (VNPay, MoMo, ZaloPay, VietQR) &#273;&#7875; t&#7921; &#273;&#7897;ng g&#7841;ch n&#7907; h&#243;a &#273;&#417;n khi kh&#225;ch thanh to&#225;n th&#224;nh c&#244;ng.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l2 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l9 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >T&#237;ch h&#7907;p b&#7843;n &#273;&#7891; s&#7889; (Google Maps API ho&#7863;c OpenStreetMap) &#273;&#7875; t&#236;m ki&#7871;m ph&#242;ng theo b&#225;n k&#237;nh ho&#7863;c tr&#432;&#7901;ng h&#7885;c/n&#417;i l&#224;m vi&#7879;c.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=justify  style="margin-top:5.0000pt;margin-bottom:4.0000pt;margin-left:72.0000pt;
 mso-margin-top-alt:auto;text-indent:-18.0000pt;tab-stops:left blank 72.0000pt ;
 mso-pagination:widow-orphan;text-align:justify;text-justify:inter-ideograph;
-line-height:12.0000pt;mso-list:l2 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
+line-height:12.0000pt;mso-list:l9 level2 lfo14;" ><![if !supportLists]><span style="font-family:'Courier New';mso-fareast-font-family:SimSun;color:rgb(0,0,0);
 font-size:10.0000pt;mso-font-kerning:0.0000pt;" ><span style='mso-list:Ignore;' >o<span>&nbsp;</span></span></span><![endif]><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:SimSun;
 color:rgb(0,0,0);font-size:13.0000pt;mso-font-kerning:0.0000pt;" >Ph&#225;t tri&#7875;n h&#7879; th&#7889;ng tr&#242; chuy&#7879;n tr&#7921;c tuy&#7871;n (Real-time Chat) qua WebSocket &#273;&#7875; Kh&#225;ch thu&#234; v&#224; Ch&#7911; tr&#7885; trao &#273;&#7893;i tr&#7921;c ti&#7871;p ngay tr&#234;n n&#7873;n t&#7843;ng.</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:SimSun;
 mso-bidi-font-family:'Times New Roman';font-size:12.0000pt;mso-font-kerning:0.0000pt;" ><o:p></o:p></span></p></div><!--EndFragment--></body></html>

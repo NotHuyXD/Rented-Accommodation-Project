@@ -254,6 +254,10 @@ async function createRoom(req, res, next) {
   try {
     await conn.beginTransaction();
 
+    if (req.user.role === 'landlord' && req.user.kyc_status !== 'approved') {
+      return res.status(403).json({ message: 'Bạn cần được xác thực danh tính (KYC) trước khi đăng phòng' });
+    }
+
     const {
       title, description, roomTypeId, wardId,
       address, latitude, longitude,

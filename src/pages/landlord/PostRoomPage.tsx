@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoomStore } from '../../stores/roomStore';
 import { roomApi, uploadApi } from '../../api/services';
-import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft, PawPrint, Utensils, Home, Clock, CheckCircle } from 'lucide-react';
+import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft, PawPrint, Utensils, Home, Clock, CheckCircle, Shield } from 'lucide-react';
 import './PostRoomPage.css';
 import { alertQuick, confirmAsync } from '../../stores/modalStore';
 
@@ -53,6 +53,23 @@ export default function PostRoomPage() {
       <div style={{ paddingTop: '120px', textAlign: 'center', minHeight: '60vh' }}>
         <h2>Bạn cần đăng nhập với tài khoản Chủ trọ</h2>
         <button className="btn btn-primary" style={{ marginTop: '16px' }} onClick={() => navigate('/login')}>Đăng nhập</button>
+      </div>
+    );
+  }
+
+  if (user.kycStatus !== 'approved') {
+    return (
+      <div style={{ paddingTop: '120px', textAlign: 'center', minHeight: '60vh', padding: '0 20px' }}>
+        <div style={{ maxWidth: '500px', margin: '0 auto', background: 'var(--bg-card)', padding: '40px', borderRadius: '16px', boxShadow: 'var(--shadow-md)' }}>
+          <Shield size={48} color="var(--warning-500)" style={{ margin: '0 auto 16px' }} />
+          <h2 style={{ marginBottom: '16px' }}>Yêu cầu xác thực danh tính (KYC)</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+            Để đảm bảo an toàn cho cộng đồng và tránh tình trạng phòng trọ ảo, hệ thống yêu cầu tất cả Chủ trọ phải tải lên CCCD/GPLX để xác minh danh tính trước khi được phép đăng phòng.
+          </p>
+          <button className="btn btn-primary" onClick={() => navigate('/profile')}>
+            Đến trang Xác thực ngay
+          </button>
+        </div>
       </div>
     );
   }
