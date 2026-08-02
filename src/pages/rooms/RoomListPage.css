@@ -205,6 +205,15 @@
   gap: var(--space-3);
 }
 
+.filter-amenities-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
 .filter-close-mobile {
   display: none;
 }

@@ -28,6 +28,7 @@ export default function RoomListPage() {
   const [searchInput, setSearchInput] = useState('');
   const [localPriceMin, setLocalPriceMin] = useState('');
   const [localPriceMax, setLocalPriceMax] = useState('');
+  const [localAmenities, setLocalAmenities] = useState<string[]>([]);
 
   // Load lookup data on mount
   useEffect(() => {
@@ -45,12 +46,17 @@ export default function RoomListPage() {
     const priceMax = searchParams.get('priceMax');
     const allowPet = searchParams.get('allowPet');
     const page = searchParams.get('page');
+    const urlAmenities = searchParams.get('amenities');
 
     if (search) { params.search = search; setSearchInput(search); }
     if (provinceId) params.provinceId = provinceId;
     if (priceMax) { params.priceMax = parseInt(priceMax); setLocalPriceMax(priceMax); }
     if (allowPet) params.allowPet = allowPet;
     if (page) params.page = parseInt(page);
+    if (urlAmenities) {
+      params.amenities = urlAmenities;
+      setLocalAmenities(urlAmenities.split(','));
+    }
 
     setFilters(params as any);
     fetchRooms(params);
@@ -66,6 +72,11 @@ export default function RoomListPage() {
     const newFilters: Record<string, unknown> = { ...filters, page: 1 };
     if (localPriceMin) newFilters.priceMin = parseInt(localPriceMin);
     if (localPriceMax) newFilters.priceMax = parseInt(localPriceMax);
+    if (localAmenities.length > 0) {
+      newFilters.amenities = localAmenities.join(',');
+    } else {
+      newFilters.amenities = undefined;
+    }
     setFilters(newFilters as any);
     fetchRooms({ ...newFilters, page: 1 });
     setShowFilters(false);
@@ -96,6 +107,7 @@ export default function RoomListPage() {
     setSearchInput('');
     setLocalPriceMin('');
     setLocalPriceMax('');
+    setLocalAmenities([]);
     fetchRooms({ page: 1, limit: 20 });
   };
 
@@ -274,6 +286,29 @@ export default function RoomListPage() {
                   <option value="3">3 người</option>
                   <option value="4">4+ người</option>
                 </select>
+              </div>
+
+              {/* Amenities */}
+              <div className="filter-group">
+                <label className="filter-label">Tiện ích</label>
+                <div className="filter-amenities-grid">
+                  {amenities.map(am => (
+                    <label key={am.id} className="checkbox-custom">
+                      <input
+                        type="checkbox"
+                        checked={localAmenities.includes(am.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setLocalAmenities([...localAmenities, am.id]);
+                          } else {
+                            setLocalAmenities(localAmenities.filter(id => id !== am.id));
+                          }
+                        }}
+                      />
+                      {am.name}
+                    </label>
+                  ))}
+                </div>
               </div>
 
               {/* Rules */}
