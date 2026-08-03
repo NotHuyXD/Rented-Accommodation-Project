@@ -66,14 +66,10 @@ export default function ProfilePage() {
       let backUrl = 'https://picsum.photos/600/400';
       
       try {
-        const formDataFront = new FormData();
-        formDataFront.append('file', kycData.idCardFront);
-        const resFront: any = await uploadApi.upload(formDataFront);
+        const resFront: any = await uploadApi.uploadFile(kycData.idCardFront);
         if (resFront.data?.url) frontUrl = resFront.data.url;
         
-        const formDataBack = new FormData();
-        formDataBack.append('file', kycData.idCardBack);
-        const resBack: any = await uploadApi.upload(formDataBack);
+        const resBack: any = await uploadApi.uploadFile(kycData.idCardBack);
         if (resBack.data?.url) backUrl = resBack.data.url;
       } catch (e) {
         console.warn('Lỗi upload file, dùng ảnh giả lập', e);
