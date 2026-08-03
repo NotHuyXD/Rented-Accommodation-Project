@@ -91,7 +91,8 @@ export default function ContractsPage() {
     try {
       await invoiceApi.create({
         contractId: invoiceContract.id,
-        periodMonth: invoiceForm.periodMonth,
+        periodMonth: `${invoiceForm.periodMonth}-01`,
+        baseRent: Number(invoiceContract.monthly_rent),
         electricUsage: Number(invoiceForm.electricUsage),
         waterUsage: Number(invoiceForm.waterUsage),
         electricFee: Number(invoiceForm.electricFee),

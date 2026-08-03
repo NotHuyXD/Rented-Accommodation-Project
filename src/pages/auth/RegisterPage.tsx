@@ -54,7 +54,7 @@ export default function RegisterPage() {
     if (success) {
       navigate('/');
     } else {
-      setError('Đăng ký thất bại. Vui lòng thử lại.');
+      setError(useAuthStore.getState().error || 'Đăng ký thất bại. Vui lòng thử lại.');
     }
     setLoading(false);
   };
