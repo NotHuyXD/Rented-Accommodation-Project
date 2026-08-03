@@ -4,7 +4,7 @@ import { useRoomStore } from '../../stores/roomStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStore } from '../../stores/appStore';
 import { formatCurrency, formatDate, getStatusLabel, timeAgo, getImageUrl } from '../../utils/helpers';
-import { rentalRequestApi, chatApi, reportApi, reviewApi, appointmentApi } from '../../api/services';
+import { roomApi, rentalRequestApi, chatApi, reportApi, reviewApi, appointmentApi } from '../../api/services';
 import type { Room } from '../../types';
 import {
   MapPin, Star, Heart, Share2, Phone, MessageCircle,
@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import './RoomDetailPage.css';
 import { alertQuick, confirmAsync } from '../../stores/modalStore';
+import { AmenityIcon } from '../../components/common/AmenityIcon';
 
 export default function RoomDetailPage() {
   const { id } = useParams();
@@ -40,13 +41,22 @@ export default function RoomDetailPage() {
   });
   const [appointmentSubmitting, setAppointmentSubmitting] = useState(false);
   const [appointmentSuccess, setAppointmentSuccess] = useState(false);
+  const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(false);
 
   useEffect(() => {
     if (id) {
       fetchRoomById(id);
       if (user) fetchBookmarks();
+
+      // Fetch recommendations
+      setLoadingRecommendations(true);
+      roomApi.getRecommendations(id)
+        .then((res: any) => setRecommendations(res.data || []))
+        .catch(console.error)
+        .finally(() => setLoadingRecommendations(false));
     }
-  }, [id]);
+  }, [id, user]);
 
   const room = currentRoom as Room | null;
 
@@ -380,8 +390,8 @@ export default function RoomDetailPage() {
               <div className="room-detail-amenities">
                 {room.amenities && room.amenities.length > 0 ? room.amenities.map((amenity: any) => (
                   <div key={amenity.id || amenity.name} className="room-amenity-tag">
-                    <CheckCircle2 size={16} />
-                    <span>{amenity.icon} {amenity.name}</span>
+                    <AmenityIcon iconName={amenity.icon || amenity.name} size={16} />
+                    <span>{amenity.name}</span>
                   </div>
                 )) : (
                   <p className="text-muted">Không có thông tin tiện nghi.</p>
@@ -483,6 +493,61 @@ export default function RoomDetailPage() {
                 </div>
               ) : (
                 <p className="text-muted">Chưa có đánh giá nào.</p>
+              )}
+            </div>
+
+            {/* Similar Rooms (Recommendations) */}
+            <div className="room-detail-section">
+              <h2 className="room-detail-section-title">
+                Phòng trọ tương tự (Gợi ý thông minh)
+              </h2>
+              {loadingRecommendations ? (
+                <p className="text-muted">Đang tìm các phòng trọ phù hợp...</p>
+              ) : recommendations.length > 0 ? (
+                <div className="room-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px' }}>
+                  {recommendations.map((recRoom) => (
+                    <div
+                      key={recRoom.id}
+                      className="room-card"
+                      onClick={() => {
+                        navigate(`/rooms/${recRoom.id}`);
+                        window.scrollTo(0, 0);
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <div className="room-card-image" style={{ height: '160px' }}>
+                        <img src={getImageUrl(recRoom.cover_image) || 'https://placehold.co/400x300/e2e8f0/64748b?text=No+Image'} alt={recRoom.title} loading="lazy" />
+                        <div className="room-card-overlay">
+                          <span className="room-card-badge room-card-badge-new" style={{ background: 'var(--primary-600)' }}>
+                            <Star size={12} style={{ marginRight: '4px' }} />
+                            Đề xuất
+                          </span>
+                        </div>
+                        <div className="room-card-price-tag" style={{ fontSize: '0.85rem', padding: '4px 8px' }}>
+                          {formatCurrency(recRoom.price)}<span>/tháng</span>
+                        </div>
+                      </div>
+                      <div className="room-card-body" style={{ padding: '12px' }}>
+                        <h3 className="room-card-title" style={{ fontSize: '1rem', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{recRoom.title}</h3>
+                        <div className="room-card-location" style={{ fontSize: '0.85rem', marginBottom: '8px' }}>
+                          <MapPin size={12} />
+                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{recRoom.ward_name}, {recRoom.district_name}</span>
+                        </div>
+                        <div className="room-card-amenities" style={{ fontSize: '0.8rem', paddingBottom: 0, borderBottom: 'none' }}>
+                          <span className="room-card-area">{recRoom.area}m²</span>
+                          {recRoom.allow_pet ? (
+                            <>
+                              <span className="room-card-dot">•</span>
+                              <PawPrint size={12} className="room-card-amenity-icon" />
+                            </>
+                          ) : null}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted">Chưa có phòng trọ tương tự.</p>
               )}
             </div>
           </div>
@@ -671,20 +736,7 @@ export default function RoomDetailPage() {
                   <button onClick={handleCloseAppointmentModal}>✕</button>
                 </div>
                 <div className="modal-body">
-                  <div style={{
-                    background: 'var(--primary-50, #ede9fe)',
-                    borderRadius: '10px',
-                    padding: '12px 16px',
-                    marginBottom: '20px',
-                    fontSize: '13.5px',
-                    color: 'var(--primary-700, #4f46e5)',
-                    display: 'flex',
-                    gap: '8px',
-                    alignItems: 'flex-start',
-                  }}>
-                    <span style={{ fontSize: '18px' }}>📧</span>
-                    <span>Email xác nhận sẽ được gửi tự động đến bạn và chủ trọ sau khi đặt lịch.</span>
-                  </div>
+
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <div className="input-group">
@@ -748,11 +800,8 @@ export default function RoomDetailPage() {
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '12px', color: 'var(--success-600, #059669)' }}>
                     Đặt lịch thành công!
                   </h3>
-                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '8px' }}>
-                    Email xác nhận đã được gửi đến hộp thư của bạn và chủ trọ.
-                  </p>
-                  <p style={{ fontSize: '13px', color: 'var(--text-tertiary)', marginBottom: '24px' }}>
-                    Vui lòng kiểm tra hộp thư (kể cả thư mục spam)
+                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '24px' }}>
+                    Chủ trọ sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận lịch hẹn.
                   </p>
                   <div style={{
                     background: 'var(--success-50, #d1fae5)',

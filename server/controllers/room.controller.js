@@ -551,6 +551,103 @@ async function getMyRooms(req, res, next) {
   }
 }
 
+/**
+ * GET /rooms/:id/recommendations - Content-based Recommendation System
+ */
+async function getRecommendations(req, res, next) {
+  try {
+    const roomId = req.params.id;
+    // 1. Get target room info
+    const targetRooms = await query(
+      `SELECT r.price, r.area, r.ward_id, r.room_type_id, d.id as district_id
+       FROM rooms r
+       JOIN wards w ON r.ward_id = w.id
+       JOIN districts d ON w.district_id = d.id
+       WHERE r.id = ?`, [roomId]
+    );
+    if (targetRooms.length === 0) return res.json({ data: [] });
+    const target = targetRooms[0];
+
+    // 2. Get target amenities
+    const targetAmenities = await query('SELECT amenity_id FROM room_amenities WHERE room_id = ?', [roomId]);
+    const targetAmenityIds = targetAmenities.map(a => a.amenity_id);
+
+    // 3. Get all other available rooms
+    const otherRooms = await query(
+      `SELECT r.id, r.title, r.slug, r.price, r.area, r.max_occupants, r.allow_pet, r.status,
+              w.name as ward_name, d.name as district_name, p.name as province_name,
+              rt.name as room_type_name,
+              u.full_name as landlord_name,
+              (SELECT url FROM room_images ri WHERE ri.room_id = r.id AND ri.is_cover = 1 LIMIT 1) as cover_image,
+              (SELECT AVG(rating) FROM reviews rv WHERE rv.room_id = r.id) as avgRating,
+              (SELECT COUNT(*) FROM reviews rv WHERE rv.room_id = r.id) as reviewCount
+       FROM rooms r
+       JOIN wards w ON r.ward_id = w.id
+       JOIN districts d ON w.district_id = d.id
+       JOIN provinces p ON d.province_id = p.id
+       JOIN room_types rt ON r.room_type_id = rt.id
+       JOIN users u ON r.landlord_id = u.id
+       WHERE r.id != ? AND r.status = 'available'`, [roomId]
+    );
+
+    if (otherRooms.length === 0) return res.json({ data: [] });
+
+    // Pre-fetch amenities for other rooms for faster calculation
+    const allOtherAmenities = await query('SELECT room_id, amenity_id FROM room_amenities WHERE room_id != ?', [roomId]);
+    const amenityMap = {};
+    for (const row of allOtherAmenities) {
+      if (!amenityMap[row.room_id]) amenityMap[row.room_id] = [];
+      amenityMap[row.room_id].push(row.amenity_id);
+    }
+
+    // 4. Calculate similarity scores
+    for (const room of otherRooms) {
+      let score = 0;
+      
+      // Location score
+      if (room.ward_id === target.ward_id) score += 5;
+      else if (room.district_id === target.district_id) score += 3;
+
+      // Room type score
+      if (room.room_type_id === target.room_type_id) score += 2;
+
+      // Price similarity (max 5 points if exactly same)
+      const priceDiffRatio = Math.abs(parseFloat(room.price) - parseFloat(target.price)) / parseFloat(target.price);
+      if (priceDiffRatio <= 0.1) score += 5;
+      else if (priceDiffRatio <= 0.2) score += 3;
+      else if (priceDiffRatio <= 0.3) score += 1;
+
+      // Area similarity (max 3 points)
+      const areaDiffRatio = Math.abs(parseFloat(room.area) - parseFloat(target.area)) / parseFloat(target.area);
+      if (areaDiffRatio <= 0.1) score += 3;
+      else if (areaDiffRatio <= 0.3) score += 1;
+
+      // Amenities similarity
+      const roomAmenityIds = amenityMap[room.id] || [];
+      let commonAmenities = 0;
+      for (const aid of targetAmenityIds) {
+        if (roomAmenityIds.includes(aid)) commonAmenities++;
+      }
+      score += commonAmenities; // 1 point per common amenity
+
+      room.similarityScore = score;
+      
+      // Format numeric outputs
+      if (room.avgRating) room.avgRating = parseFloat(room.avgRating).toFixed(1);
+      else room.avgRating = 0;
+      room.reviewCount = room.reviewCount || 0;
+    }
+
+    // 5. Sort by score descending and take top 4
+    otherRooms.sort((a, b) => b.similarityScore - a.similarityScore);
+    const topRecommendations = otherRooms.slice(0, 4);
+
+    res.json({ data: topRecommendations });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   listRooms,
   getRoomById,
@@ -559,4 +656,5 @@ module.exports = {
   deleteRoom,
   updateRoomStatus,
   getMyRooms,
+  getRecommendations,
 };

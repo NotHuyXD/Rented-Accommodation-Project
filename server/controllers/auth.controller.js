@@ -20,10 +20,13 @@ async function register(req, res, next) {
       return res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin' });
     }
 
-    // Check email exists
-    const existing = await query('SELECT id FROM users WHERE email = ?', [email]);
+    // Check email and phone exists
+    const existing = await query('SELECT email, phone FROM users WHERE email = ? OR phone = ?', [email, phone]);
     if (existing.length > 0) {
-      return res.status(409).json({ message: 'Email đã được sử dụng' });
+      const isEmailExist = existing.some(u => u.email === email);
+      const isPhoneExist = existing.some(u => u.phone === phone);
+      if (isEmailExist) return res.status(409).json({ message: 'Email đã được sử dụng' });
+      if (isPhoneExist) return res.status(409).json({ message: 'Số điện thoại đã được sử dụng' });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
@@ -201,7 +204,15 @@ async function updateProfile(req, res, next) {
     const params = [];
 
     if (fullName !== undefined) { fields.push('full_name = ?'); params.push(fullName); }
-    if (phone !== undefined) { fields.push('phone = ?'); params.push(phone); }
+    if (phone !== undefined) {
+      // Check if new phone is already used by someone else
+      const existing = await query('SELECT id FROM users WHERE phone = ? AND id != ?', [phone, req.user.id]);
+      if (existing.length > 0) {
+        return res.status(409).json({ message: 'Số điện thoại đã được sử dụng bởi tài khoản khác' });
+      }
+      fields.push('phone = ?');
+      params.push(phone);
+    }
     if (avatarUrl !== undefined) { fields.push('avatar_url = ?'); params.push(avatarUrl); }
 
     if (fields.length === 0) {

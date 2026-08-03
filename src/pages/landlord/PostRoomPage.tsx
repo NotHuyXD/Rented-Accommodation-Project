@@ -6,6 +6,7 @@ import { roomApi, uploadApi } from '../../api/services';
 import { MapPin, DollarSign, Users, Square, Check, Upload, Trash2, ArrowLeft, PawPrint, Utensils, Home, Clock, CheckCircle, Shield } from 'lucide-react';
 import './PostRoomPage.css';
 import { alertQuick, confirmAsync } from '../../stores/modalStore';
+import { AmenityIcon } from '../../components/common/AmenityIcon';
 
 export default function PostRoomPage() {
   const navigate = useNavigate();
@@ -352,7 +353,7 @@ export default function PostRoomPage() {
                     <span className="amenity-checkbox">
                       {formData.selectedAmenities.includes(amenity.id) && <Check size={14} />}
                     </span>
-                    {amenity.icon} {amenity.name}
+                    <AmenityIcon iconName={amenity.icon || amenity.name} size={18} /> {amenity.name}
                   </button>
                 ))}
               </div>

@@ -336,17 +336,6 @@ export default function ProfilePage() {
 
                   <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', margin: 'var(--space-4) 0' }} />
 
-                  <h3 style={{ fontWeight: 700, marginBottom: 'var(--space-3)' }}>Xác thực hai yếu tố</h3>
-                  <label className="checkbox-custom">
-                    <input type="checkbox" />
-                    Bật xác thực OTP qua SMS
-                  </label>
-                  <label className="checkbox-custom">
-                    <input type="checkbox" />
-                    Bật xác thực OTP qua Email
-                  </label>
-
-                  <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', margin: 'var(--space-4) 0' }} />
 
                   <h3 style={{ fontWeight: 700, marginBottom: 'var(--space-3)', color: 'var(--error-500)' }}>Vùng nguy hiểm</h3>
                   <button className="btn btn-danger" style={{ width: 'fit-content' }}>
@@ -392,8 +381,7 @@ export default function ProfilePage() {
                   {[
                     'Hiển thị số điện thoại',
                     'Hiển thị email',
-                    'Hiển thị hồ sơ công khai',
-                    'Cho phép người lạ nhắn tin'
+                    'Hiển thị hồ sơ công khai'
                   ].map((item, i) => (
                     <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--space-3) 0', borderBottom: '1px solid var(--border-color)' }}>
                       <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500 }}>{item}</span>

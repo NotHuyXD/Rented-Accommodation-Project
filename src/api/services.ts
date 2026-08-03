@@ -25,6 +25,7 @@ export const authApi = {
 export const roomApi = {
   list: (params?: Record<string, unknown>) => axiosClient.get('/rooms', { params }),
   getById: (id: string) => axiosClient.get(`/rooms/${id}`),
+  getRecommendations: (id: string) => axiosClient.get(`/rooms/${id}/recommendations`),
   create: (data: Record<string, unknown>) => axiosClient.post('/rooms', data),
   update: (id: string, data: Record<string, unknown>) => axiosClient.put(`/rooms/${id}`, data),
   delete: (id: string) => axiosClient.delete(`/rooms/${id}`),
